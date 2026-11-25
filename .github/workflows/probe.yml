@@ -1,4 +1,4 @@
-name: probe-news
+name: probe-lists
 on:
   push:
     branches: [main]
@@ -14,15 +14,11 @@ jobs:
         run: |
           mkdir -p probe
           UA="Mozilla/5.0 (mahoyo-boxoffice tracker)"
-          curl -sSL -A "$UA" -o probe/gnews.xml -w "%{http_code} gnews\n" "https://news.google.com/rss/search?q=%E9%AD%94%E6%B3%95%E4%BD%BF%E3%81%84%E3%81%AE%E5%A4%9C+%E8%88%88%E8%A1%8C%E5%8F%8E%E5%85%A5&hl=ja&gl=JP&ceid=JP:ja"; sleep 3
-          curl -sSL -A "$UA" -o probe/animatetimes.html -w "%{http_code} at\n" "https://www.animatetimes.com/news/details.php?id=1795505922"; sleep 3
-          curl -sSL -A "$UA" -o probe/oricon.html -w "%{http_code} or\n" "https://www.oricon.co.jp/news/2494865/full/"; sleep 3
-          curl -sSL -A "$UA" -o probe/denfami.html -w "%{http_code} df\n" "https://news.denfaminicogamer.jp/news/2611242p"; sleep 3
-          curl -sSL -A "$UA" -o probe/gamer.html -w "%{http_code} gm\n" "https://www.gamer.ne.jp/news/202611240026/"
-          ls -la probe
+          curl -sSL -A "$UA" -o probe/at_tag.html -w "%{http_code} at\n" "https://www.animatetimes.com/tag/details.php?id=12009"; sleep 3
+          curl -sSL -A "$UA" -o probe/df_feed.xml -w "%{http_code} df\n" "https://news.denfaminicogamer.jp/tag/%e9%ad%94%e6%b3%95%e4%bd%bf%e3%81%84%e3%81%ae%e5%a4%9c/feed"
       - name: push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b probe5
-          git add probe && git commit -qm "probe" && git push -qf origin probe5
+          git checkout -b probe6
+          git add probe && git commit -qm "probe" && git push -qf origin probe6
