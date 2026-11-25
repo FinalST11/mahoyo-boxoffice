@@ -151,7 +151,7 @@ const I18N = {
     films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
     legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 官方节点'],
     lead: (d, g, lo, hi) => `《魔法使いの夜》上映第 <b>${d}</b> 天，估算累计票房 <b>${g}</b> 亿日元；按 HF 三部的走势推算，最终约 <b>${lo}</b>～<b>${hi}</b> 亿日元。`,
-    upd: (date, d) => `数据更新至 ${date}（第 ${d} 天）（每天日本时间上午 10:41 左右自动更新前一天的全天数字）`,
+    upd: (date, d, at) => `数据更新至 ${date}（第 ${d} 天）` + (at ? `，最后更新于日本时间 ${at}` : '') + '。每小时自动检查一次 mimorin 有没有发布前一天的全天数字。',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
     sOff: (a) => `动员 ${a} 万人`, sEst: (a) => `动员约 ${a} 万人`, sFc: (m) => `平均 ${m} 亿日元`,
     kFc: '预测最终票房（按 HF 三部走势）', kFa: '预测最终动员', sFa: '每次加入新的官方节点后自动重算',
@@ -191,7 +191,7 @@ const I18N = {
     films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
     legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 公式発表'],
     lead: (d, g, lo, hi) => `『魔法使いの夜』公開 <b>${d}</b> 日目、推定累計興収 <b>${g}</b> 億円。HF三部作の推移から推計すると、最終は約 <b>${lo}</b>～<b>${hi}</b> 億円。`,
-    upd: (date, d) => `データ更新：${date}（${d}日目）まで（毎日 日本時間 午前10:41頃に前日の全日データを自動更新）`,
+    upd: (date, d, at) => `データ更新：${date}（${d}日目）まで` + (at ? `／最終更新 日本時間 ${at}` : '') + '。前日の全日データが公開されたか、1時間ごとに自動チェックしています。',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
     sOff: (a) => `動員 ${a} 万人`, sEst: (a) => `動員 約 ${a} 万人`, sFc: (m) => `平均 ${m} 億円`,
     kFc: '最終興収予測（HF三部作の推移から）', kFa: '最終動員予測', sFa: '新しい公式発表が加わるたびに自動で再計算',
@@ -231,7 +231,7 @@ const I18N = {
     films: ['HF I (presage flower)', 'HF II (lost butterfly)', 'HF III (spring song)', 'Witch on the Holy Night'],
     legend: ['HF I (2017)', 'HF II (2019)', 'HF III (2020)', 'Witch on the Holy Night (2026)', '○ Official figures'],
     lead: (d, g, lo, hi) => `<i>Witch on the Holy Night</i> (Mahoutsukai no Yoru) is on day <b>${d}</b> of its run, with an estimated cumulative gross of <b>${g} million</b>. Based on how the Heaven's Feel trilogy performed, it is projected to finish at around <b>${lo}</b>–<b>${hi.replace('¥', '')}</b> million.`,
-    upd: (date, d) => `Data through ${date} (day ${d}). Updated automatically every day at about 10:41 a.m. Japan time with the previous day's full-day figures.`,
+    upd: (date, d, at) => `Data through ${date} (day ${d})` + (at ? `, last updated ${at} Japan time` : '') + '. The site checks every hour whether mimorin has posted the previous day\'s full-day figures.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
     sOff: (a) => `${a} admissions`, sEst: (a) => `About ${a} admissions`, sFc: (m) => `Average ${m} million`,
     kFc: 'Projected final gross (from HF trilogy runs)', kFa: 'Projected final admissions', sFa: 'Recalculated whenever a new official figure is added',
@@ -374,7 +374,9 @@ function lineChart(el, series, opts) {
     .on('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; tip.style('display', 'none'); guide.style('display', 'none'); hov.selectAll('*').remove(); });
 }
 
-let SAMPLE = null, MS = null, EST = [], FC = [];
+let SAMPLE = null, MS = null, EST = [], FC = [], STATUS = null;
+// 把 ISO 时间显示成日本时间的「YYYY-MM-DD HH:MM」
+const fmtJst = (iso) => { const t = new Date(iso); if (isNaN(t)) return ''; const j = new Date(t.getTime() + 9 * 3600e3); return j.toISOString().slice(0, 16).replace('T', ' '); };
 const withUnit = (el, value, unit) => { el.replaceChildren(document.createTextNode(value)); if (unit) { const u = document.createElement('span'); u.className = 'u'; u.textContent = ' ' + unit; el.append(u); } };
 
 function renderText() {
@@ -394,7 +396,7 @@ function renderText() {
   if (maho) {
     const loS = FC.length ? L.gross(lo, 1) : '—', hiS = FC.length ? L.gross(hi, 1) : '—';
     $('lead').innerHTML = loS === hiS ? L.lead(maho.day, L.gross(maho.cum_gross / 1e8, 2), loS, '').replace(/(<b>[^<]*<\/b>)[～–]<b><\/b>/, '$1') : L.lead(maho.day, L.gross(maho.cum_gross / 1e8, 2), loS, hiS);
-    $('upd').textContent = L.upd(maho.date, maho.day);
+    $('upd').textContent = L.upd(maho.date, maho.day, STATUS && STATUS.updated_at ? fmtJst(STATUS.updated_at) : '');
     $('k-est').textContent = L.kEst(maho.day);
     withUnit($('v-est'), L.gross(maho.cum_gross / 1e8, 2), L.grossUnit);
     $('s-est').textContent = L.sEst(L.att(maho.cum_att));
@@ -488,8 +490,8 @@ if (!I18N[initial]) { const nav = (navigator.language || 'zh').toLowerCase(); in
 const q = new URLSearchParams(location.search).get('lang'); if (I18N[q]) initial = q;
 setLang(initial);
 
-Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now())]).then(([sample, ms]) => {
-  SAMPLE = sample; MS = ms; EST = estimate(sample, ms); FC = forecast(EST, ms);
+Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null)]).then(([sample, ms, st]) => {
+  SAMPLE = sample; MS = ms; STATUS = st; EST = estimate(sample, ms); FC = forecast(EST, ms);
   renderText(); renderCharts(); renderSources();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 
