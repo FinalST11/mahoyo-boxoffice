@@ -161,7 +161,8 @@ const I18N = {
     films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
     legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 官方节点'],
     lead: (d, g, lo, hi) => `《魔法使いの夜》上映第 <b>${d}</b> 天，估算累计票房 <b>${g}</b> 亿日元；按 HF 三部的走势推算，最终约 <b>${lo}</b>～<b>${hi}</b> 亿日元。`,
-    upd: (date, d, at) => `数据更新至 ${date}（第 ${d} 天）` + (at ? `，最后更新于日本时间 ${at}` : '') + '。每小时自动检查 mimorin 的新数据；「当前估算」在打开页面时按时段实时推算。',
+    upd: (date, d, at, chk) => `全天数据至 ${date}（第 ${d} 天）。` + (at ? `新数据最后写入：日本时间 ${at}。` : '') + (chk ? `爬虫最后检查：${chk}（每小时一次）。` : '') + '「当前估算」在打开页面时按时段实时推算。',
+    chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
@@ -206,7 +207,8 @@ const I18N = {
     films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
     legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 公式発表'],
     lead: (d, g, lo, hi) => `『魔法使いの夜』公開 <b>${d}</b> 日目、推定累計興収 <b>${g}</b> 億円。HF三部作の推移から推計すると、最終は約 <b>${lo}</b>～<b>${hi}</b> 億円。`,
-    upd: (date, d, at) => `データ更新：${date}（${d}日目）まで` + (at ? `／最終更新 日本時間 ${at}` : '') + '。mimorinの新データを1時間ごとに自動チェック。「現在の推定」はページを開いた時点で時間帯から推計しています。',
+    upd: (date, d, at, chk) => `全日データ：${date}（${d}日目）まで。` + (at ? `新データの最終反映：日本時間 ${at}。` : '') + (chk ? `自動取得の最終チェック：${chk}（1時間ごと）。` : '') + '「現在の推定」はページを開いた時点で時間帯から推計しています。',
+    chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
@@ -251,7 +253,8 @@ const I18N = {
     films: ['HF I (presage flower)', 'HF II (lost butterfly)', 'HF III (spring song)', 'Witch on the Holy Night'],
     legend: ['HF I (2017)', 'HF II (2019)', 'HF III (2020)', 'Witch on the Holy Night (2026)', '○ Official figures'],
     lead: (d, g, lo, hi) => `<i>Witch on the Holy Night</i> (Mahoutsukai no Yoru) is on day <b>${d}</b> of its run, with an estimated cumulative gross of <b>${g} million</b>. Based on how the Heaven's Feel trilogy performed, it is projected to finish at around <b>${lo}</b>–<b>${hi.replace('¥', '')}</b> million.`,
-    upd: (date, d, at) => `Data through ${date} (day ${d})` + (at ? `, last updated ${at} Japan time` : '') + '. The site checks mimorin for new data every hour; the "right now" figure is estimated from the time of day whenever the page is opened.',
+    upd: (date, d, at, chk) => `Full-day data through ${date} (day ${d}). ` + (at ? `New data last added ${at} Japan time. ` : '') + (chk ? `Scraper last checked: ${chk} (hourly). ` : '') + 'The "right now" figure is estimated from the time of day whenever the page is opened.',
+    chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
@@ -438,7 +441,9 @@ function lineChart(el, series, opts) {
     .on('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; tip.style('display', 'none'); guide.style('display', 'none'); hov.selectAll('*').remove(); });
 }
 
-let SAMPLE = null, MS = null, EST = [], FC = [], STATUS = null, INTERIM = [];
+let SAMPLE = null, MS = null, EST = [], FC = [], STATUS = null, INTERIM = [], RUN = null;
+// 爬虫最后一次运行：读 GitHub 公开的运行记录（不需要登录；每个访客每小时最多 60 次，这里每 5 分钟一次）
+const loadRun = () => fetch('https://api.github.com/repos/FinalST11/mahoyo-boxoffice/actions/workflows/update.yml/runs?per_page=1', {cache: 'no-store'}).then((r) => (r.ok ? r.json() : null)).then((j) => { RUN = j && j.workflow_runs && j.workflow_runs[0] ? j.workflow_runs[0] : null; if (SAMPLE) renderText(); }).catch(() => {});
 // 把 ISO 时间显示成日本时间的「YYYY-MM-DD HH:MM」
 const fmtJst = (iso) => { const t = new Date(iso); if (isNaN(t)) return ''; const j = new Date(t.getTime() + 9 * 3600e3); return j.toISOString().slice(0, 16).replace('T', ' '); };
 const withUnit = (el, value, unit) => { el.replaceChildren(document.createTextNode(value)); if (unit) { const u = document.createElement('span'); u.className = 'u'; u.textContent = ' ' + unit; el.append(u); } };
@@ -515,7 +520,7 @@ function renderText() {
     const loS = FC.length ? L.gross(lo, 1) : '—', hiS = FC.length ? L.gross(hi, 1) : '—';
     const nc = nowcast(), cur = nc ? {day: nc.today.day, cum_gross: nc.cum_gross} : maho;
     $('lead').innerHTML = loS === hiS ? L.lead(cur.day, L.gross(cur.cum_gross / 1e8, 2), loS, '').replace(/(<b>[^<]*<\/b>)[～–]<b><\/b>/, '$1') : L.lead(cur.day, L.gross(cur.cum_gross / 1e8, 2), loS, hiS);
-    $('upd').textContent = L.upd(maho.date, maho.day, STATUS && STATUS.updated_at ? fmtJst(STATUS.updated_at) : '');
+    $('upd').textContent = L.upd(maho.date, maho.day, STATUS && STATUS.updated_at ? fmtJst(STATUS.updated_at) : '', RUN ? (RUN.status !== 'completed' ? L.chkRun : RUN.conclusion === 'success' ? L.chkOk(fmtJst(RUN.updated_at)) : L.chkFail(fmtJst(RUN.updated_at))) : '');
     $('k-est').textContent = maho.date === addDays(jstNow().date, -1) ? L.kEstY(maho.day) : L.kEst(maho.day);
     withUnit($('v-est'), L.gross(maho.cum_gross / 1e8, 2), L.grossUnit);
     $('s-est').textContent = L.sEst(L.att(maho.cum_att));
@@ -649,12 +654,13 @@ const loadAll = () => Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3
   renderText(); renderCharts(); renderSources(); renderCalib();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 loadAll();
+loadRun();
 
 document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
 $('crange').addEventListener('change', (e) => { state.crange = Number(e.target.value); renderCharts(); });
 $('range').addEventListener('change', (e) => { state.range = Number(e.target.value); renderCharts(); });
 $('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
-setInterval(() => { if (SAMPLE) loadAll(); }, 5 * 60e3);
+setInterval(() => { if (SAMPLE) loadAll(); loadRun(); }, 5 * 60e3);
 let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderCharts, 150); });
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
 </script>
