@@ -214,10 +214,10 @@ const I18N = {
     title: "HF Trilogy & Witch on the Holy Night Box Office Tracker",
     films: ['HF I (presage flower)', 'HF II (lost butterfly)', 'HF III (spring song)', 'Witch on the Holy Night'],
     legend: ['HF I (2017)', 'HF II (2019)', 'HF III (2020)', 'Witch on the Holy Night (2026)', '○ Official figures'],
-    lead: (d, g, lo, hi) => `<i>Witch on the Holy Night</i> (Mahoutsukai no Yoru) is on day <b>${d}</b> of its run, with an estimated cumulative gross of <b>${g}</b>. Based on how the Heaven's Feel trilogy performed, it is projected to finish at around <b>${lo}</b>–<b>${hi}</b>.`,
+    lead: (d, g, lo, hi) => `<i>Witch on the Holy Night</i> (Mahoutsukai no Yoru) is on day <b>${d}</b> of its run, with an estimated cumulative gross of <b>${g} million</b>. Based on how the Heaven's Feel trilogy performed, it is projected to finish at around <b>${lo}</b>–<b>${hi.replace('¥', '')}</b> million.`,
     upd: (date, d) => `Data through ${date} (day ${d}). Updated automatically every day at about 10:41 a.m. Japan time with the previous day's full-day figures.`,
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
-    sOff: (a) => `${a} admissions`, sEst: (a) => `About ${a} admissions`, sFc: (m) => `Average ${m}`,
+    sOff: (a) => `${a} admissions`, sEst: (a) => `About ${a} admissions`, sFc: (m) => `Average ${m} million`,
     kFc: 'Projected final gross (from HF trilogy runs)', kFa: 'Projected final admissions', sFa: 'Recalculated whenever a new official figure is added',
     hCum: 'Estimated cumulative gross, aligned by day of release', nCum: 'Daily samples are converted to gross using each film\'s official figures; each curve passes through its official figures (circles).',
     hDaily: 'Daily ticket sales: mimorin2014 combined samples',
@@ -225,26 +225,26 @@ const I18N = {
     range: 'Range', ranges: ['First 14 days', 'First 30 days', 'First 57 days', 'All'], log: 'Log scale',
     hFc: 'Final gross projection using the HF trilogy multipliers',
     nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. Where a film has no final figure, its latest official figure is used and the result is a lower bound. The aligned day is the latest official Witch on the Holy Night figure that falls within that film\'s data.',
-    thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross',
+    thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
     basisFinal: 'Final result', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
     method: 'Method and caveats',
     methodList: [
       'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day Daily Combined Ranking (デイリー合算ランキング); HF I only has the 7 p.m. interim count (19時中間集計).',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
-      'The date of HF I\'s day-18 figure (over 650,000 admissions and over ¥1 billion) was inferred from "HF III passed ¥1 billion 7 days sooner than HF I".',
+      'The date of HF I\'s day-18 figure (over 650,000 admissions and over ¥1,000 million) was inferred from "HF III passed ¥1,000 million 7 days sooner than HF I".',
       'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
       'HF III opened under pandemic seating limits, and mimorin2014 tracked more theaters for it than for the first two films.',
       'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
       'Raw data: <a href="data/sample.csv">sample.csv</a> (daily samples), <a href="data/milestones.csv">milestones.csv</a> (official figures and sources).'],
     footer: 'Unofficial personal tracker. Figures are estimates, for reference only.',
     day: (d) => `Day ${d}`, dayLong: (d) => `Day ${d}`,
-    gross: (oku, d) => '¥' + fmt(oku / 10, d + 1) + 'bn', grossUnit: '', att: (n) => fmt(n / 1e3) + 'k', attUnit: '',
-    axisGross: (v) => '¥' + (v / 10) + 'bn', tipGross: (oku) => '¥' + fmt(oku / 10, 3) + 'bn',
+    gross: (oku, d) => '¥' + (d >= 2 ? fmt(oku * 100) : fmt(Math.round(oku * 10) * 10)), grossUnit: 'million', att: (n) => fmt(n / 1e3) + 'k', attUnit: '',
+    axisGross: (v) => '¥' + fmt(v * 100) + 'M', tipGross: (oku) => '¥' + fmt(oku * 100) + ' million',
     axisSales: (v) => (v >= 1000 ? v / 1000 + 'k' : v), tipSales: (v) => fmt(v) + ' tickets',
-    estGrossCell: (yen) => '¥' + fmt(yen / 1e6, 1) + 'M', cumCell: (oku) => '¥' + fmt(oku / 10, 3) + 'bn',
+    estGrossCell: (yen) => '¥' + fmt(yen / 1e6, 1) + 'M', cumCell: (oku) => '¥' + fmt(oku * 100, 1) + 'M',
     approx: ' (both figures reported as "over"; date inferred)',
-    offNote: (a, g) => 'Official: ' + [a !== null ? fmt(a) + ' admissions' : null, g !== null ? '¥' + fmt(g / 1e9, 3) + 'bn' : null].filter(Boolean).join(' · '),
+    offNote: (a, g) => 'Official: ' + [a !== null ? fmt(a) + ' admissions' : null, g !== null ? '¥' + fmt(g / 1e6, 1) + ' million' : null].filter(Boolean).join(' · '),
     labelCum: 'Estimated cumulative gross by day of release for the four films', labelDaily: 'Daily sampled ticket sales for the four films', loadErr: 'The data could not be loaded.'
   }
 };
@@ -383,7 +383,7 @@ function renderText() {
     $('s-off').textContent = L.sOff(L.att(num(off.attendance)));
   }
   if (FC.length) {
-    withUnit($('v-fc'), L.gross(lo, 1) === L.gross(hi, 1) ? L.gross(lo, 1) : en ? '¥' + fmt(lo / 10, 2) + '–' + fmt(hi / 10, 2) + 'bn' : L.gross(lo, 1) + '～' + L.gross(hi, 1), L.grossUnit);
+    withUnit($('v-fc'), L.gross(lo, 1) === L.gross(hi, 1) ? L.gross(lo, 1) : en ? L.gross(lo, 1) + '–' + L.gross(hi, 1).slice(1) : L.gross(lo, 1) + '～' + L.gross(hi, 1), L.grossUnit);
     $('s-fc').textContent = L.sFc(L.gross(mid, 1));
     withUnit($('v-fa'), L.att(Math.min(...a)) === L.att(Math.max(...a)) ? L.att(Math.min(...a)) : L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
   }
