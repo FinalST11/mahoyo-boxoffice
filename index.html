@@ -132,9 +132,6 @@ a{color:#9fc0ff}
 <h2 data-i18n="hCal">—</h2>
 <p class="note" data-i18n="nCal">—</p>
 <div class="tw"><table><thead><tr><th data-i18n="thCalDay">—</th><th data-i18n="thCalOff">—</th><th data-i18n="thCalEst">—</th><th data-i18n="thCalErr">—</th><th data-i18n="thSrc">—</th></tr></thead><tbody id="ctable"></tbody></table></div>
-<h3 class="srcfilm" data-i18n="hNc">—</h3>
-<p class="note" data-i18n="nNc">—</p>
-<div class="tw"><table><thead><tr><th data-i18n="thNcDay">—</th><th data-i18n="thNc14">—</th><th data-i18n="thNc19">—</th><th data-i18n="thNcAct">—</th></tr></thead><tbody id="nctable"></tbody></table></div>
 </section>
 
 <section>
@@ -167,8 +164,7 @@ const I18N = {
     upd: (date, d, at, chk) => `全天数据至 ${date}（第 ${d} 天）。` + (at ? `新数据最后写入：${at}。` : '') + (chk ? `爬虫最后检查：${chk}（每小时一次）。` : '') + '「当前估算」在打开页面时按时段实时推算。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `第 ${it.day} 天 ${it.cut} 时集计` : it.kind === 'full' ? `第 ${it.day} 天全天数字` : `第 ${it.day} 天官方数字`) + `（日本时间 ${t}）` : `日本时间 ${t}`),
     chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
-    imputedTag: '（推算）', errNote: (p, n) => `（过去 ${n} 天同一时点推算的误差中位数 ±${p}%）`,
-    hNc: '当天推算的检验', nNc: '每晚全天数字出来后，回头检验：当天只用之前的数据，从 14 时、19 时集计推算的全天，和实际差多少。之后推算用的比例也会随这些数据自动更新。标「—」的是同类日子之前还没有数据、只能用初始值的情况，不计入误差。', thNcDay: '日期', thNc14: '从 14 时推算', thNc19: '从 19 时推算', thNcAct: '实际全天', dayTypes: {wk: '平日', fri: '周五型', sat: '周六型', sun: '周日型'},
+    imputedTag: '（推算）',
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
@@ -190,7 +186,7 @@ const I18N = {
       '样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。',
       '掉出榜单之后：mimorin 的全天合算榜只列前 25 名。魔法使いの夜掉出榜的日子，按它最近两周的周环比往下推算张数（后期衰减会变慢，所以只取周环比的四次方根），并且不超过当天第 25 名的张数；这些天在每日明细里标「推算」。用 HF 三部回测，推算期间的张数误差约 ±15%；但推算的张数照常参与官方节点之间的分配，每次官方公布都会把它们一起校正，而且这时每天的票房已经很少，对累计影响通常不到 1%。',
       '优惠日：每周三（TOHO「TOHOウェンズデイ」）、每月 1 日（ファーストデイ）票价较低，12 月 1 日「映画の日」更低。估算魔法使いの夜每天的票房时，这几天每张样本按 0.9、0.88、0.8 倍的平均票价折算（动员不受影响）。这些比例是按 TOHO 公开票价温和设定的假设；因为每次官方公布都会把累计拉回官方数字，它主要影响每日明细，对累计和预测影响很小。',
-      '当前估算：用本片自己的数据算出 14 时、19 时中间集计约占全天的比例（分四类：平日、周五型〔明天休息〕、周六型〔今天明天都休息〕、周日型〔明天上班〕，因为第二天休息的晚上晚场特别多），再按当前日本时间在开场前、14 时、19 时、末场之间插值，推算今天到现在的样本售票，然后用最近一天的换算比例折成票房。14 时以前没有当天数据，先按上周同日（或最近一天）推算。每次打开页面实时计算，每 5 分钟刷新；爬虫每小时补入新的 14/19 时集计。这只是参考，第二天早上的全天数字公布后会替换。',
+      '当前估算：用本片自己的数据算出 14 时、19 时中间集计约占全天的比例（分四类：平日、周五型〔明天休息〕、周六型〔今天明天都休息〕、周日型〔明天上班〕；每类的比例是本类自己的数据和所有日子的整体比例的加权平均，本类数据少时主要靠整体，多了就看本类；首日有首映效应不计入；每晚全天数字进来后自动重新校准），再按当前日本时间在开场前、14 时、19 时、末场之间插值，推算今天到现在的样本售票，然后用最近一天的换算比例折成票房。14 时以前没有当天数据，先按上周同日（或最近一天）推算。每次打开页面实时计算，每 5 分钟刷新；爬虫每小时补入新的 14/19 时集计。这只是参考，第二天早上的全天数字公布后会替换。',
       '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
       'HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。',
       'HF 第三章的最终成绩只有映连公布的票房（2020 年底首轮约 19.5 亿日元，含 2021 年春特别上映为 20.2 亿日元），没有动员人数。为了让动员和票房对得上号、并且只比首轮，预测改用 9/29 最后一次动员和票房都公布的节点（18.24 亿日元、112.7 万人），所以这一项是下限。',
@@ -217,8 +213,7 @@ const I18N = {
     upd: (date, d, at, chk) => `全日データ：${date}（${d}日目）まで。` + (at ? `新データの最終反映：${at}。` : '') + (chk ? `自動取得の最終チェック：${chk}（1時間ごと）。` : '') + '「現在の推定」はページを開いた時点で時間帯から推計しています。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `${it.day}日目の${it.cut}時中間集計` : it.kind === 'full' ? `${it.day}日目の全日データ` : `${it.day}日目の公式発表`) + `（日本時間 ${t}）` : `日本時間 ${t}`),
     chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
-    imputedTag: '（推計）', errNote: (p, n) => `（過去${n}日の同時点推計の誤差中央値 ±${p}%）`,
-    hNc: '当日推計の検証', nNc: '毎晩、全日データが出たあとに検証します：その日より前のデータだけで14時・19時中間集計から推計した全日販売数と、実際の差。推計に使う割合もこのデータで自動更新されます。「—」は同じ区分の日のデータがまだなく初期値を使った場合で、誤差には含めません。', thNcDay: '日付', thNc14: '14時から推計', thNc19: '19時から推計', thNcAct: '実際の全日', dayTypes: {wk: '平日', fri: '金曜型', sat: '土曜型', sun: '日曜型'},
+    imputedTag: '（推計）',
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
@@ -240,7 +235,7 @@ const I18N = {
       'サンプル：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> の合算ランキング（独立系を含まない）。主要シネコンの販売枚数で、金額ではありません。HF第二章・第三章と魔法使いの夜は「デイリー合算ランキング」（全日）、HF第一章は「19時中間集計」のみ。',
       'ランキング圏外になった後：mimorinの全日合算ランキングは上位25位まで。魔法使いの夜が圏外になった日は、直近2週間の前週比から販売数を推計し（終盤は落ち方が緩やかになるため前週比の4乗根を使用）、その日の25位の販売数を上限とします。日別データでは「推計」と表示。HF三部作でのバックテストでは推計期間の販売数の誤差は約±15%ですが、推計値も公式発表の間の配分に使われ公式発表のたびに補正されるうえ、この時期の日別興収は小さいため、累計への影響は通常1%未満です。',
       'サービスデー：毎週水曜（TOHO「TOHOウェンズデイ」）と毎月1日（ファーストデイ）は単価が低く、12月1日「映画の日」はさらに低くなります。魔法使いの夜の日別興収の推計では、これらの日のサンプル1枚あたりの平均単価をそれぞれ0.9・0.88・0.8倍として換算（動員には影響しません）。TOHOの公表料金をもとに控えめに置いた仮定で、累計は公式発表のたびに公式値へ補正されるため、主に日別の内訳に効き、累計や予測への影響はごく小さいものです。',
-      '現在の推定：本作のデータから14時・19時中間集計が全日に占める割合を4区分（平日・金曜型〔翌日休み〕・土曜型〔当日も翌日も休み〕・日曜型〔翌日出勤〕）で求め（翌日が休みの夜はレイトショーが多いため）、現在の日本時間に応じて開場前・14時・19時・最終回の間で補間し、本日ここまでのサンプル販売数を推計。直近の日の換算率で興収に換算しています。14時より前は当日データがないため、先週同曜日（または直近の日）から推計。ページを開くたびに計算し、5分ごとに更新。14時・19時の集計は1時間ごとに自動取得。翌朝の全日データで置き換わる参考値です。',
+      '現在の推定：本作のデータから14時・19時中間集計が全日に占める割合を4区分（平日・金曜型〔翌日休み〕・土曜型〔当日も翌日も休み〕・日曜型〔翌日出勤〕）で求め（各区分の割合は、その区分のデータと全日程の全体の割合の加重平均。区分のデータが少ないうちは全体寄り、増えるほど区分寄り。初日は除外。毎晩全日データが入ると自動で再補正）、現在の日本時間に応じて開場前・14時・19時・最終回の間で補間し、本日ここまでのサンプル販売数を推計。直近の日の換算率で興収に換算しています。14時より前は当日データがないため、先週同曜日（または直近の日）から推計。ページを開くたびに計算し、5分ごとに更新。14時・19時の集計は1時間ごとに自動取得。翌朝の全日データで置き換わる参考値です。',
       '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
       'HF第二章：2/22は全日ランキング25位圏外。2/24も圏外のため、当日の19時集計と2月の日曜の全日/19時の平均比率から推計。3/1以降は圏外。',
       'HF第三章の最終成績は映連発表の興収のみ（2020年末の初回上映で約19.5億円、2021年春の特別上映込みで20.2億円）で、動員は公表されていません。動員と興収が揃い、初回上映だけで比べられるよう、予測には両方が発表された最後の公式発表（9/29：18.24億円・112.7万人）を使っており、この項目は下限です。',
@@ -267,8 +262,7 @@ const I18N = {
     upd: (date, d, at, chk) => `Full-day data through ${date} (day ${d}). ` + (at ? `Last new data: ${at}. ` : '') + (chk ? `Scraper last checked: ${chk} (hourly). ` : '') + 'The "right now" figure is estimated from the time of day whenever the page is opened.',
     item: (it, t) => (it ? (it.kind === 'interim' ? `day ${it.day} ${it.cut}:00 interim count` : it.kind === 'full' ? `day ${it.day} full-day figures` : `day ${it.day} official figure`) + ` (${t} JST)` : `${t} JST`),
     chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
-    imputedTag: ' (est.)', errNote: (p, n) => ` (median error of past estimates at this time: ±${p}%, ${n} day${n > 1 ? 's' : ''})`,
-    hNc: 'How good are the same-day estimates?', nNc: 'Each night, once the full-day figure is in, the site checks how far the full-day estimate made from that day\'s 2 p.m. and 7 p.m. counts (using only earlier data) was from the actual figure. The shares used for estimating are updated from this data automatically. "—" means there was no earlier day of the same type yet, so only the starting value could be used; those are left out of the error.', thNcDay: 'Date', thNc14: 'From 2 p.m. count', thNc19: 'From 7 p.m. count', thNcAct: 'Actual full day', dayTypes: {wk: 'weekday', fri: 'Friday-type', sat: 'Saturday-type', sun: 'Sunday-type'},
+    imputedTag: ' (est.)',
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
@@ -290,7 +284,7 @@ const I18N = {
       'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day Daily Combined Ranking (デイリー合算ランキング); HF I only has the 7 p.m. interim count (19時中間集計).',
       'After it drops out of the chart: mimorin\'s full-day combined chart only lists the top 25. On days when Witch on the Holy Night is outside it, its tickets are estimated from its week-on-week trend over the last two weeks (softened to the fourth root, since late-run declines slow down), capped at that day\'s 25th-place figure, and marked "est." in the daily table. Back-tested on the HF films, the estimated tickets are off by about ±15%, but they are still allocated between official figures and corrected by every announcement, and daily grosses are small by then, so the effect on the total is usually under 1%.',
       'Discount days: Wednesdays (TOHO\'s "TOHO Wednesday") and the 1st of each month ("First Day") have lower ticket prices, and December 1 ("Movie Day") lower still. When estimating Witch on the Holy Night\'s daily gross, each sampled ticket on those days is valued at 0.9×, 0.88× and 0.8× the usual average price (admissions are unaffected). These factors are cautious assumptions based on TOHO\'s published prices. Because the running total is pulled back to every official figure, they mainly affect the daily breakdown and have very little effect on the total or the projection.',
-      'Right-now estimate: from this film\'s own data, the share of the full day sold by the 2 p.m. and 7 p.m. interim counts is worked out for four day types (weekdays, Friday-type with a day off next, Saturday-type with today and tomorrow off, and Sunday-type with work tomorrow), because evenings before a day off have many more late shows. The current Japan time is then interpolated between opening, 2 p.m., 7 p.m. and the last show to estimate today\'s sampled tickets so far, converted to gross at the latest day\'s rate. Before 2 p.m. there is no same-day data, so the same day last week (or the latest day) is used. Recalculated whenever the page is opened and every 5 minutes; interim counts are fetched hourly. It is only a guide and is replaced by the full-day figure the next morning.',
+      'Right-now estimate: from this film\'s own data, the share of the full day sold by the 2 p.m. and 7 p.m. interim counts is worked out for four day types (weekdays, Friday-type with a day off next, Saturday-type with today and tomorrow off, and Sunday-type with work tomorrow); each type\'s share is a weighted blend of its own data and the overall share across all days, leaning on the overall share while a type has little data; opening day is excluded; everything is recalibrated each night when the full-day figure arrives. The current Japan time is then interpolated between opening, 2 p.m., 7 p.m. and the last show to estimate today\'s sampled tickets so far, converted to gross at the latest day\'s rate. Before 2 p.m. there is no same-day data, so the same day last week (or the latest day) is used. Recalculated whenever the page is opened and every 5 minutes; interim counts are fetched hourly. It is only a guide and is replaced by the full-day figure the next morning.',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
       'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
       'HF III\'s final result is only a gross figure from the Motion Picture Producers Association of Japan (about ¥1,950 million for the original 2020 run, ¥2,020 million including the spring 2021 special screenings); no admissions figure was released. So that admissions and gross match and only the original run is compared, the projection uses the last official figure with both numbers (Sept 29: ¥1,824 million, 1,127,233 admissions), which makes this row a lower bound.',
@@ -496,45 +490,26 @@ const addDays = (iso, n) => new Date(Date.parse(iso + 'T00:00:00Z') + n * 864e5)
 const jstNow = () => { const j = new Date(Date.now() + 9 * 3600e3); return {date: j.toISOString().slice(0, 10), min: j.getUTCHours() * 60 + j.getUTCMinutes(), hhmm: j.toISOString().slice(11, 16)}; };
 const median = (x) => { const v = x.slice().sort((a, b) => a - b); return v.length ? (v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2) : null; };
 
-// 14 时 / 19 时集计占全天的比例。before：只用这一天之前的数据（回测时用，避免偷看答案）。
-// 首日有首映效应，不计入。周五型在有普通周五的数据之前，先用平日的比例。
+// 14 时 / 19 时集计占全天的比例，用本片已有的全部数据校准（每晚全天数字进来后自动更新）。
+// 每类日子（平日 / 周五型 / 周六型 / 周日型）的比例 = 本类自己的中位数 和 所有日子的整体中位数 的加权平均：
+//   比例 = (本类天数 × 本类中位数 + 2 × 整体中位数) ÷ (本类天数 + 2)
+// 本类数据少时主要靠整体，多了就越来越看本类。首日有首映效应，不计入。
 const OPENING = '2026-11-20';
-function cutShares(before) {
+function cutShares() {
   const full = new Map(SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales)).map((r) => [r.date, num(r.sales)]));
-  const sh = {wk: {14: 0.41, 19: 0.79}, fri: {14: 0.41, 19: 0.79}, sat: {14: 0.49, 19: 0.83}, sun: {14: 0.53, 19: 0.89}};
-  const n = {};
-  for (const t of ['wk', 'fri', 'sat', 'sun']) for (const c of ['14', '19']) {
-    const v = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && r.date !== OPENING && (!before || r.date < before) && dayType(r.date) === t).map((r) => num(r.sales) / full.get(r.date));
-    if (v.length) sh[t][c] = median(v);
-    n[t + c] = v.length;
+  const init = {14: 0.47, 19: 0.83};
+  const sh = {wk: {}, fri: {}, sat: {}, sun: {}};
+  for (const c of ['14', '19']) {
+    const all = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && r.date !== OPENING).map((r) => ({t: dayType(r.date), v: num(r.sales) / full.get(r.date)}));
+    const pooled = all.length ? median(all.map((x) => x.v)) : init[c];
+    for (const t of Object.keys(sh)) {
+      const own = all.filter((x) => x.t === t).map((x) => x.v);
+      sh[t][c] = own.length ? (own.length * median(own) + 2 * pooled) / (own.length + 2) : pooled;
+    }
   }
-  sh.n = n;
   return sh;
 }
 
-// 推算能力的回测：每个已有全天数字的日子，只用它之前的数据推全天，再和实际比
-function nowcastBacktest() {
-  const full = new Map(SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales)).map((r) => [r.date, {day: num(r.day), sales: num(r.sales)}]));
-  const out = [];
-  for (const [date, f] of full) {
-    if (date === OPENING) continue;
-    const sh = cutShares(date), t = dayType(date), row = {date, day: f.day, type: t, full: f.sales};
-    for (const c of ['14', '19']) {
-      const im = INTERIM.find((r) => r.date === date && r.cut === c && num(r.sales));
-      if (!im) continue;
-      const prior = sh.n[t + c] > 0;  // 同类日子之前有没有数据；没有的话只能用初始值，不算进准确度
-      const pred = num(im.sales) / sh[t][c];
-      row['p' + c] = pred; row['e' + c] = pred / f.sales - 1; row['ok' + c] = prior;
-    }
-    if (row.p14 || row.p19) out.push(row);
-  }
-  return out.sort((a, b) => b.day - a.day);
-}
-// 用回测误差给「当前估算」标范围：同一时点（14 或 19 时）过去推算误差的中位数
-function nowcastErr(cut) {
-  const e = nowcastBacktest().filter((r) => r['ok' + cut]).map((r) => Math.abs(r['e' + cut]));
-  return e.length ? {err: median(e), n: e.length} : null;
-}
 function shareAt(type, min, sh) {
   const rest = type === 'sat' || type === 'sun', late = type === 'fri' || type === 'sat';
   const pts = [[rest ? 480 : 510, 0], [840, sh[type][14]], [1140, sh[type][19]], [late ? 1320 : 1290, 1]];
@@ -597,8 +572,7 @@ function renderText() {
     if (nc) {
       $('k-now').textContent = L.kNow(nc.hhmm);
       withUnit($('v-now'), L.gross(nc.cum_gross / 1e8, 2), L.grossUnit);
-      const ne = (nc.today.basis === '14' || nc.today.basis === '19') ? nowcastErr(nc.today.basis) : null;
-      $('s-now').textContent = L.sNow(fmt(Math.round(nc.today.sold / 10) * 10), L.basis[nc.today.basis]) + (ne ? L.errNote(Math.round(ne.err * 100), ne.n) : '');
+      $('s-now').textContent = L.sNow(fmt(Math.round(nc.today.sold / 10) * 10), L.basis[nc.today.basis]);
     }
   }
   if (off) {
@@ -652,16 +626,6 @@ function renderCalib() {
   });
 }
 
-function renderNcTable() {
-  if (!SAMPLE) return;
-  const tb = $('nctable'); tb.replaceChildren();
-  const cell = (row, c) => (row['p' + c] ? (row['ok' + c] ? '≈' + fmt(Math.round(row['p' + c] / 10) * 10) + (state.lang === 'en' ? ' (' : '（') + (row['e' + c] >= 0 ? '+' : '') + (row['e' + c] * 100).toFixed(1) + (state.lang === 'en' ? '%)' : '%）') : '—') : '');
-  nowcastBacktest().forEach((row) => {
-    const tr = tb.insertRow();
-    [row.date + ' · ' + L.dayLong(row.day) + ' · ' + L.dayTypes[row.type], cell(row, '14'), cell(row, '19'), fmt(row.full)].forEach((v) => (tr.insertCell().textContent = v));
-  });
-}
-
 function renderSources() {
   if (!MS) return;
   const box = $('sources'); box.replaceChildren();
@@ -708,7 +672,7 @@ function renderCharts() {
 function setLang(lang) {
   state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
   try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
-  renderText(); renderCharts(); renderSources(); renderCalib(); renderNcTable(); renderVisits();
+  renderText(); renderCharts(); renderSources(); renderCalib(); renderVisits();
 }
 
 // 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
@@ -733,7 +697,7 @@ setLang(initial);
 // 读取全部数据；页面开着时每 5 分钟重新读一次，爬虫推送的新数字（14/19 时集计、全天数字）会自动反映出来
 const loadAll = () => Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null), d3.csv('data/interim.csv?v=' + Date.now()).catch(() => [])]).then(([sample, ms, st, im]) => {
   SAMPLE = sample; MS = ms; STATUS = st; INTERIM = im || []; EST = estimate(sample, ms); FC = forecast(EST, ms);
-  renderText(); renderCharts(); renderSources(); renderCalib(); renderNcTable();
+  renderText(); renderCharts(); renderSources(); renderCalib();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 loadAll();
 loadRun();
