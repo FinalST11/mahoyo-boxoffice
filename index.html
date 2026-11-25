@@ -127,6 +127,12 @@ a{color:#9fc0ff}
 <div class="tw"><table><thead><tr><th data-i18n="thDate">—</th><th data-i18n="thN">—</th><th data-i18n="thRank">—</th><th data-i18n="thSales">—</th><th data-i18n="thEstAtt">—</th><th id="th-egross">—</th><th id="th-ecum">—</th></tr></thead><tbody id="mtable"></tbody></table></div>
 </section>
 
+<section>
+<h2 data-i18n="hSrc">—</h2>
+<p class="note" data-i18n="nSrc">—</p>
+<div class="tw"><table><thead><tr><th data-i18n="thFilm">—</th><th data-i18n="thN">—</th><th data-i18n="thDate">—</th><th data-i18n="thOffAtt">—</th><th data-i18n="thOffGross">—</th><th data-i18n="thSrc">—</th></tr></thead><tbody id="stable"></tbody></table></div>
+</section>
+
 <details>
 <summary data-i18n="method">—</summary>
 <ul id="method-list"></ul>
@@ -156,11 +162,11 @@ const I18N = {
     thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
     basisFinal: '最终成绩', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
     hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
+    hSrc: '官方节点与出处', nSrc: '图上圆点对应的官方数字。出处为发行方公告，或全文转载公告、引用官方数字的媒体报道（官方 X 帖子无法稳定链接）。', thFilm: '作品', thOffAtt: '官方动员', thOffGross: '官方票房', thSrc: '出处', finalRow: '最终成绩', src: (h) => `出处：${h}`,
     method: '方法与注意事项',
     methodList: [
       '样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。',
       '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
-      'HF 第一章第 18 天的节点（65 万人、10 亿日元）日期是按"第三章破 10 亿比第一章早 7 天"推算的。',
       'HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。',
       'HF 第三章上映时有防疫限座，网站覆盖的影院数也比前两部多。',
       '预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。',
@@ -195,11 +201,11 @@ const I18N = {
     thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
     basisFinal: '最終成績', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
     hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
+    hSrc: '公式発表と出典', nSrc: 'グラフの丸印に対応する公式発表の数字です。出典は配給元の発表、または発表を全文掲載・引用したメディア記事です（公式Xの投稿は安定してリンクできないため）。', thFilm: '作品', thOffAtt: '公式動員', thOffGross: '公式興収', thSrc: '出典', finalRow: '最終成績', src: (h) => `出典：${h}`,
     method: '手法と注意点',
     methodList: [
       'サンプル：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> の合算ランキング（独立系を含まない）。主要シネコンの販売枚数で、金額ではありません。HF第二章・第三章と魔法使いの夜は「デイリー合算ランキング」（全日）、HF第一章は「19時中間集計」のみ。',
       '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
-      'HF第一章18日目の発表（動員65万人突破・興収10億円突破）の日付は、「第三章は第一章より7日早く10億円突破」から逆算したものです。',
       'HF第二章：2/22は全日ランキング25位圏外。2/24も圏外のため、当日の19時集計と2月の日曜の全日/19時の平均比率から推計。3/1以降は圏外。',
       'HF第三章の公開時は感染対策の座席制限があり、集計対象の劇場数も前2作より多くなっています。',
       '予測はHF三部作の推移を当てはめただけです。魔法使いの夜は347館の拡大公開で、11/27からラージフォーマット上映も始まるため、推移はHFと異なる可能性があります。',
@@ -234,11 +240,11 @@ const I18N = {
     thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
     basisFinal: 'Final result', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
+    hSrc: 'Official figures and sources', nSrc: 'The official figures behind the circles on the chart. Sources are the distributor\'s announcements, or news reports that reprint or quote them (official X posts can\'t be linked reliably).', thFilm: 'Film', thOffAtt: 'Official admissions', thOffGross: 'Official gross', thSrc: 'Source', finalRow: 'Final result', src: (h) => `Source: ${h}`,
     method: 'Method and caveats',
     methodList: [
       'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day Daily Combined Ranking (デイリー合算ランキング); HF I only has the 7 p.m. interim count (19時中間集計).',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
-      'The date of HF I\'s day-18 figure (over 650,000 admissions and over ¥1,000 million) was inferred from "HF III passed ¥1,000 million 7 days sooner than HF I".',
       'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
       'HF III opened under pandemic seating limits, and mimorin2014 tracked more theaters for it than for the first two films.',
       'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
@@ -347,7 +353,7 @@ function lineChart(el, series, opts) {
         row.append('span').text(s.name + (L === I18N.en ? ': ' : '：') + opts.tipfmt(p.y));
         const note = opts.note ? opts.note(s.film, dx) : null;
         if (note) {
-          tip.append('div').style('padding-left', '16px').style('color', css('--muted')).text(note);
+          tip.append('div').style('padding-left', '16px').style('white-space', 'pre').style('color', css('--muted')).text(note);
           if (note.dot) hov.append('circle').attr('cx', x(dx)).attr('cy', y(note.dot)).attr('r', 8).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2);
         }
         hov.append('circle').attr('cx', x(dx)).attr('cy', y(p.y)).attr('r', 4).attr('fill', s.color).attr('stroke', css('--bg')).attr('stroke-width', 2);
@@ -404,6 +410,22 @@ function renderText() {
 const mahoDay = () => (SAMPLE ? Math.max(0, ...SAMPLE.filter((r) => r.film === 'MAHO').map((r) => num(r.day) || 0)) : 0);
 const rangeOf = (v, maxDay) => (v === -1 ? Math.max(2, mahoDay()) : v || maxDay);
 
+function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; } }
+
+function renderSources() {
+  if (!MS) return;
+  const order = {HF1: 0, HF2: 1, HF3: 2, MAHO: 3};
+  const rows = MS.slice().sort((a, b) => order[a.film] - order[b.film] || (a.kind === 'final') - (b.kind === 'final') || num(a.day) - num(b.day));
+  $('stable').replaceChildren();
+  rows.forEach((m) => {
+    const tr = $('stable').insertRow();
+    const g = num(m.gross), a = num(m.attendance);
+    [L.films[order[m.film]], m.kind === 'final' ? L.finalRow : L.dayLong(num(m.day)), m.date || '—', a === null ? '—' : fmt(a), g === null ? '—' : L.tipGross(g / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
+    const c = tr.insertCell();
+    if (m.source_url) { const el = document.createElement('a'); el.href = m.source_url; el.target = '_blank'; el.rel = 'noopener'; el.textContent = hostOf(m.source_url); c.append(el); } else c.textContent = '—';
+  });
+}
+
 function renderCharts() {
   if (!SAMPLE) return;
   const maxDay = Math.max(57, ...SAMPLE.map((r) => num(r.day) || 0));
@@ -414,7 +436,7 @@ function renderCharts() {
     note: (f, d) => {
       const m = MS.find((r) => r.film === f && r.kind === 'point' && num(r.day) === d);
       if (!m) return null;
-      const t = new String(L.offNote(num(m.attendance), num(m.gross)) + ((m.source_note || '').includes('推算') ? L.approx : ''));
+      const t = new String(L.offNote(num(m.attendance), num(m.gross)) + (m.source_url ? '\n' + L.src(hostOf(m.source_url)) : ''));
       t.dot = num(m.gross) !== null ? num(m.gross) / 1e8 : null;
       return t;
     },
@@ -427,7 +449,7 @@ function renderCharts() {
 function setLang(lang) {
   state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
   try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
-  renderText(); renderCharts(); renderVisits();
+  renderText(); renderCharts(); renderSources(); renderVisits();
 }
 
 // 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
@@ -451,7 +473,7 @@ setLang(initial);
 
 Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now())]).then(([sample, ms]) => {
   SAMPLE = sample; MS = ms; EST = estimate(sample, ms); FC = forecast(EST, ms);
-  renderText(); renderCharts();
+  renderText(); renderCharts(); renderSources();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 
 document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
