@@ -47,19 +47,19 @@ a{color:var(--c0)}
 <header>
 <h1>HF三部曲 &amp; 魔法使いの夜 票房追踪</h1>
 <p class="lead">《魔法使いの夜》上映第 <b id="m-day">—</b> 天，估算累计票房 <b id="m-gross">—</b> 亿日元；按 HF 三部的走势推算，最终约 <b id="f-low">—</b>～<b id="f-high">—</b> 亿日元。</p>
-<p class="upd">数据更新至 <span id="upd">—</span>（每天日本时间 21:41 左右自动更新）</p>
+<p class="upd">数据更新至 <span id="upd">—</span>（每天日本时间 21:41 左右自动更新前一天的全天数字）</p>
 </header>
 
 <section class="tiles">
 <div class="card"><p class="k">魔法使いの夜 · 最新官方节点（第 <span id="t-offday">—</span> 天）</p><p class="v"><span id="t-offgross">—</span> <span class="u">亿日元</span></p><p class="s">动员 <span id="t-offatt">—</span> 万人</p></div>
-<div class="card"><p class="k">估算累计（至第 <span id="t-estday">—</span> 天 19 时样本）</p><p class="v"><span id="t-estgross">—</span> <span class="u">亿日元</span></p><p class="s">动员约 <span id="t-estatt">—</span> 万人</p></div>
+<div class="card"><p class="k">估算累计（至第 <span id="t-estday">—</span> 天）</p><p class="v"><span id="t-estgross">—</span> <span class="u">亿日元</span></p><p class="s">动员约 <span id="t-estatt">—</span> 万人</p></div>
 <div class="card"><p class="k">预测最终票房（按 HF 三部走势）</p><p class="v"><span id="t-flow">—</span>～<span id="t-fhigh">—</span> <span class="u">亿日元</span></p><p class="s">中值 <span id="t-fmid">—</span> 亿日元</p></div>
 <div class="card"><p class="k">预测最终动员</p><p class="v"><span id="t-falow">—</span>～<span id="t-fahigh">—</span> <span class="u">万人</span></p><p class="s">每次加入新的官方节点后自动重算</p></div>
 </section>
 
 <section>
 <h2>估算累计票房：四部按上映天数对齐</h2>
-<p class="note">19 时样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。</p>
+<p class="note">每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。</p>
 <div class="legend">
 <span><i class="sw" style="background:var(--c0)"></i>HF 第一章（2017）</span>
 <span><i class="sw" style="background:var(--c1)"></i>HF 第二章（2019）</span>
@@ -71,8 +71,8 @@ a{color:var(--c0)}
 </section>
 
 <section>
-<h2>每日售票：mimorin2014 19 时合算样本</h2>
-<p class="note">各年份统计的影院数不同（约 105～250 家），张数只适合看走势，不宜直接比大小。</p>
+<h2>每日售票：mimorin2014 合算样本</h2>
+<p class="note">HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。</p>
 <div class="ctrl">
 <label>范围 <select id="range"><option value="14">前 14 天</option><option value="30" selected>前 30 天</option><option value="57">前 57 天</option></select></label>
 <label><input type="checkbox" id="log"> 对数刻度</label>
@@ -88,16 +88,16 @@ a{color:var(--c0)}
 
 <section>
 <h2>魔法使いの夜 每日明细</h2>
-<div class="tw"><table><thead><tr><th>日期</th><th>第 N 天</th><th>19 时排名</th><th>样本售票</th><th>估算动员</th><th>估算票房（万日元）</th><th>估算累计（亿日元）</th></tr></thead><tbody id="mtable"></tbody></table></div>
+<div class="tw"><table><thead><tr><th>日期</th><th>第 N 天</th><th>排名</th><th>样本售票</th><th>估算动员</th><th>估算票房（万日元）</th><th>估算累计（亿日元）</th></tr></thead><tbody id="mtable"></tbody></table></div>
 </section>
 
 <details>
 <summary>方法与注意事项</summary>
 <ul>
-<li>样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a>「デイリー合算ランキング（19時中間集計）」，不含独立系，只统计主要院线到 19 点为止的售票张数，不是全天，也不是金额。</li>
+<li>样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。</li>
 <li>换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。</li>
 <li>HF 第一章第 18 天的节点（65 万人、10 亿日元）日期是按"第三章破 10 亿比第一章早 7 天"推算的。</li>
-<li>HF 第二章 1/16 原帖漏发，按 1/23 环比反推；2/12、2/22 缺数据；3/1 起跌出前 25 名。</li>
+<li>HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。</li>
 <li>HF 第三章上映时有防疫限座，网站覆盖的影院数也比前两部多。</li>
 <li>预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。</li>
 <li>原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。</li>
@@ -197,7 +197,7 @@ function render() {
     dots: MS.filter((m) => m.kind === 'point' && num(m.gross) !== null && num(m.day) !== null).map((m) => ({x: num(m.day), y: num(m.gross) / 1e8, color: css(FILMS.find((f) => f[0] === m.film)[2])}))});
   const R = state.range;
   lineChart($('daily'), series((f) => SAMPLE.filter((r) => r.film === f && num(r.day) <= R).map((r) => ({x: num(r.day), y: num(r.sales)})).sort((a, b) => a.x - b.x)), {
-    maxX: R, log: state.log, label: '四部作品每日 19 时样本售票数', yfmt: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipfmt: (v) => v.toLocaleString('zh-CN') + ' 张'});
+    maxX: R, log: state.log, label: '四部作品每日样本售票数', yfmt: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipfmt: (v) => v.toLocaleString('zh-CN') + ' 张'});
 }
 
 Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now())]).then(([sample, ms]) => {
