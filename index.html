@@ -194,7 +194,7 @@ const I18N = {
       '预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。',
       '原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。'],
     footer: '非官方的个人统计页面，数字为估算，仅供参考。',
-    visits: (u, v) => `访问人数 <b>${u}</b> · 浏览次数 <b>${v}</b>`, online: (n) => `当前在线约 <b>${n}</b> 人`,
+    visits: (u, v) => `访问人数 <b>${u}</b> · 浏览次数 <b>${v}</b>`,
     day: (d) => `第${d}天`, dayLong: (d) => `第 ${d} 天`,
     gross: (oku, d) => fmt(oku, d), grossUnit: '亿日元', att: (n) => fmt(n / 1e4, 1), attUnit: '万人',
     axisGross: (v) => v + '亿', tipGross: (oku) => fmt(oku, 2) + ' 亿日元',
@@ -243,7 +243,7 @@ const I18N = {
       '予測はHF三部作の推移を当てはめただけです。魔法使いの夜は347館の拡大公開で、11/27からラージフォーマット上映も始まるため、推移はHFと異なる可能性があります。',
       '元データ：<a href="data/sample.csv">sample.csv</a>（日別サンプル）、<a href="data/milestones.csv">milestones.csv</a>（公式発表と出典）。'],
     footer: '非公式の個人集計ページです。数字は推計値で、参考程度にご覧ください。',
-    visits: (u, v) => `訪問者数 <b>${u}</b> · 閲覧数 <b>${v}</b>`, online: (n) => `現在の閲覧者 約 <b>${n}</b> 人`,
+    visits: (u, v) => `訪問者数 <b>${u}</b> · 閲覧数 <b>${v}</b>`,
     day: (d) => `${d}日目`, dayLong: (d) => `${d}日目`,
     gross: (oku, d) => fmt(oku, d), grossUnit: '億円', att: (n) => fmt(n / 1e4, 1), attUnit: '万人',
     axisGross: (v) => v + '億', tipGross: (oku) => fmt(oku, 2) + ' 億円',
@@ -292,7 +292,7 @@ const I18N = {
       'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
       'Raw data: <a href="data/sample.csv">sample.csv</a> (daily samples), <a href="data/milestones.csv">milestones.csv</a> (official figures and sources).'],
     footer: 'Unofficial personal tracker. Figures are estimates, for reference only.',
-    visits: (u, v) => `Visitors <b>${u}</b> · Page views <b>${v}</b>`, online: (n) => `About <b>${n}</b> online now`,
+    visits: (u, v) => `Visitors <b>${u}</b> · Page views <b>${v}</b>`,
     day: (d) => `Day ${d}`, dayLong: (d) => `Day ${d}`,
     gross: (oku, d) => '¥' + (d >= 2 ? fmt(oku * 100) : fmt(Math.round(oku * 10) * 10)), grossUnit: 'million', att: (n) => fmt(n / 1e3) + 'k', attUnit: '',
     axisGross: (v) => '¥' + fmt(v * 100) + 'M', tipGross: (oku) => '¥' + fmt(oku * 100) + ' million',
@@ -662,8 +662,8 @@ function setLang(lang) {
 }
 
 // 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
-const visits = {u: null, v: null, on: null};
-function renderVisits() { const el = $('visits'); if (visits.u === null || visits.v === null) { el.hidden = true; return; } el.innerHTML = L.visits(fmt(visits.u), fmt(visits.v)) + (visits.on ? ' · ' + L.online(fmt(visits.on)) : ''); el.hidden = false; }
+const visits = {u: null, v: null};
+function renderVisits() { const el = $('visits'); if (visits.u === null || visits.v === null) { el.hidden = true; return; } el.innerHTML = L.visits(fmt(visits.u), fmt(visits.v)); el.hidden = false; }
 (async () => {
   if (!/github\.io$/.test(location.hostname)) return;
   const api = 'https://abacus.jasoncameron.dev', ns = 'finalst11-mahoyo-boxoffice';
@@ -672,23 +672,6 @@ function renderVisits() { const el = $('visits'); if (visits.u === null || visit
   const [u, v] = await Promise.all([call(seen ? 'get' : 'hit', 'visitors'), call('hit', 'views')]);
   if (!seen && u !== null) { try { localStorage.setItem('hf-visited', '1'); } catch (e) {} }
   visits.u = u; visits.v = v; renderVisits();
-  // 当前在线（近似）：时间切成 5 分钟一格，页面在前台的访客每格报到一次；显示本格和上一格中较大的数，约等于最近 5～10 分钟在看的人数
-  const SLOT = 5 * 60e3;
-  const ping = async () => {
-    const slot = Math.floor(Date.now() / SLOT);
-    let done = null; try { done = sessionStorage.getItem('hf-online-slot'); } catch (e) {}
-    const visible = document.visibilityState === 'visible';
-    const [cur, prev] = await Promise.all([
-      visible && done !== String(slot) ? call('hit', 'online-' + slot) : call('get', 'online-' + slot),
-      call('get', 'online-' + (slot - 1)),
-    ]);
-    if (visible && done !== String(slot) && cur !== null) { try { sessionStorage.setItem('hf-online-slot', String(slot)); } catch (e) {} }
-    const n = Math.max(cur || 0, prev || 0);
-    visits.on = n > 0 ? n : null; renderVisits();
-  };
-  ping();
-  setInterval(ping, 60e3);
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') ping(); });
 })();
 
 let initial = 'zh';
