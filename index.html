@@ -130,6 +130,13 @@ a{color:#9fc0ff}
 </section>
 
 <section>
+<h2 data-i18n="hRetro">—</h2>
+<p class="note" data-i18n="nRetro">—</p>
+<div class="tw"><table><thead><tr><th data-i18n="thDate">—</th><th data-i18n="thRetroAct">—</th><th data-i18n="thRetroP1">—</th><th data-i18n="thRetroErr">—</th><th data-i18n="thRetroP7">—</th><th data-i18n="thRetroErr">—</th></tr></thead><tbody id="rtable"></tbody></table></div>
+<div class="pager" id="rpager" hidden><button type="button" id="rprev"></button><span id="rpage-info"></span><button type="button" id="rnext"></button></div>
+</section>
+
+<section>
 <h2 data-i18n="hCal">—</h2>
 <p class="note" data-i18n="nCal">—</p>
 <div class="tw"><table><thead><tr><th data-i18n="thCalDay">—</th><th data-i18n="thCalOff">—</th><th data-i18n="thCalEst">—</th><th data-i18n="thCalErr">—</th><th data-i18n="thSrc">—</th></tr></thead><tbody id="ctable"></tbody></table></div>
@@ -166,7 +173,8 @@ const I18N = {
     upd: (date, d, at, chk) => `全天数据至 ${date}（第 ${d} 天）。` + (at ? `新数据最后写入：${at}。` : '') + (chk ? `爬虫最后检查：${chk}（每小时一次）。` : '') + '「当前估算」在打开页面时按时段实时推算。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `第 ${it.day} 天 ${it.cut} 时集计` : it.kind === 'full' ? `第 ${it.day} 天全天数字` : `第 ${it.day} 天官方数字`) + `（日本时间 ${t}）` : `日本时间 ${t}`),
     chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
-    imputedTag: '（推算）', prevPage: '← 较新', nextPage: '较早 →', pageInfo: (a, b) => `第 ${a} / ${b} 页`,
+    imputedTag: '（推算）', projName: '魔法使いの夜（预计）', projEnd: (g) => `→ 最终约 ${g}`, projLegend: '预计（虚线：按 HF 三部走势的平均；浅色带：最低～最高）',
+    hRetro: '预计与实际的偏差', nRetro: '每一天的「实际」是现在的估算累计（会经过官方数字）；「预计」是只用那之前的数据重跑模型、当时会给出的预计曲线在这一天的值。偏差为正说明预计偏高。', thRetroAct: '实际（估算累计）', thRetroP1: '前一天的预计', thRetroP7: '一周前的预计', thRetroErr: '偏差', retroNone: '至少需要两天带官方数字的数据才能比较。', prevPage: '← 较新', nextPage: '较早 →', pageInfo: (a, b) => `第 ${a} / ${b} 页`,
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
@@ -215,7 +223,8 @@ const I18N = {
     upd: (date, d, at, chk) => `全日データ：${date}（${d}日目）まで。` + (at ? `新データの最終反映：${at}。` : '') + (chk ? `自動取得の最終チェック：${chk}（1時間ごと）。` : '') + '「現在の推定」はページを開いた時点で時間帯から推計しています。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `${it.day}日目の${it.cut}時中間集計` : it.kind === 'full' ? `${it.day}日目の全日データ` : `${it.day}日目の公式発表`) + `（日本時間 ${t}）` : `日本時間 ${t}`),
     chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
-    imputedTag: '（推計）', prevPage: '← 新しい日', nextPage: '古い日 →', pageInfo: (a, b) => `${a} / ${b} ページ`,
+    imputedTag: '（推計）', projName: '魔法使いの夜（予測）', projEnd: (g) => `→ 最終 約${g}`, projLegend: '予測（破線：HF三部作の推移の平均、帯：最低～最高）',
+    hRetro: '予測と実績のずれ', nRetro: '各日の「実績」は現在の推定累計（公式発表の値を通る）。「予測」は、その日より前のデータだけでモデルを再計算したときの予測曲線のその日の値。ずれがプラスなら予測が高めだったことを示します。', thRetroAct: '実績（推定累計）', thRetroP1: '前日時点の予測', thRetroP7: '1週間前の予測', thRetroErr: 'ずれ', retroNone: '比較には公式発表を含む2日分以上のデータが必要です。', prevPage: '← 新しい日', nextPage: '古い日 →', pageInfo: (a, b) => `${a} / ${b} ページ`,
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
@@ -264,7 +273,8 @@ const I18N = {
     upd: (date, d, at, chk) => `Full-day data through ${date} (day ${d}). ` + (at ? `Last new data: ${at}. ` : '') + (chk ? `Scraper last checked: ${chk} (hourly). ` : '') + 'The "right now" figure is estimated from the time of day whenever the page is opened.',
     item: (it, t) => (it ? (it.kind === 'interim' ? `day ${it.day} ${it.cut}:00 interim count` : it.kind === 'full' ? `day ${it.day} full-day figures` : `day ${it.day} official figure`) + ` (${t} JST)` : `${t} JST`),
     chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
-    imputedTag: ' (est.)', prevPage: '← Newer', nextPage: 'Older →', pageInfo: (a, b) => `Page ${a} of ${b}`,
+    imputedTag: ' (est.)', projName: 'Witch on the Holy Night (projected)', projEnd: (g) => `→ final ≈ ${g}`, projLegend: 'Projection (dashed: average of the HF trajectories; band: lowest to highest)',
+    hRetro: 'Projected vs actual', nRetro: 'For each day, "actual" is today\'s estimated running total (which passes through the official figures); "projected" is what the model would have projected for that day using only the data available before it. A positive gap means the projection was too high.', thRetroAct: 'Actual (estimated total)', thRetroP1: 'Projected the day before', thRetroP7: 'Projected a week before', thRetroErr: 'Gap', retroNone: 'At least two days of data with official figures are needed for a comparison.', prevPage: '← Newer', nextPage: 'Older →', pageInfo: (a, b) => `Page ${a} of ${b}`,
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
@@ -385,7 +395,7 @@ function forecast(est, milestones) {
   const ms = est.filter((r) => r.film === 'MAHO' && r.sales !== null && r.cum_att).sort((a, b) => a.day - b.day);
   if (!ms.length) return [];
   const mm = milestones.filter((m) => m.film === 'MAHO' && m.kind === 'point' && num(m.gross) !== null && num(m.attendance) !== null).sort((a, b) => num(b.day) - num(a.day));
-  const sales = (f) => new Map(SAMPLE.filter((r) => r.film === f && num(r.sales) !== null).map((r) => [num(r.day), num(r.sales)]));
+  const sales = (f) => new Map(est.filter((r) => r.film === f && r.sales !== null).map((r) => [r.day, r.sales]));
   const sm = sales('MAHO');
   const rows = [];
   FILMS.slice(0, 3).forEach(([f], i) => {
@@ -428,9 +438,57 @@ function forecast(est, milestones) {
     let floored = false;
     const top = mm[0];
     if (top && (projGross < num(top.gross) || projAtt < num(top.attendance))) { projGross = Math.max(projGross, num(top.gross)); projAtt = Math.max(projAtt, num(top.attendance)); floored = true; }
-    rows.push({idx: i, final: !!fin, floored, day: d, mult, adj, att: projAtt, gross: projGross});
+    rows.push({idx: i, final: !!fin, floored, day: d, mult, adj, att: projAtt, gross: projGross, baseG: base.cum_gross, hfBase: e.cum_gross, endG: num(end.gross)});
   });
   return rows;
+}
+
+// 预计曲线：从最新一天起，按 HF 各部之后的累计走势，把魔法使いの夜推到各自的预测终点；取三部的平均和最低/最高
+function projPath(est, fc) {
+  const per = fc.map((row) => {
+    const hf = new Map(est.filter((r) => r.film === FILMS[row.idx][0] && r.cum_gross).map((r) => [r.day, r.cum_gross]));
+    const span = row.endG - row.hfBase;
+    const pts = new Map();
+    for (const [t, g] of hf) if (t >= row.day) pts.set(t, row.baseG + (row.gross - row.baseG) * (span > 0 ? Math.min(1, Math.max(0, (g - row.hfBase) / span)) : 1));
+    return pts;
+  });
+  if (!per.length) return [];
+  const last = Math.min(...per.map((m) => Math.max(...m.keys())));
+  const out = [];
+  for (let t = fc[0].day; t <= last; t++) {
+    const v = per.map((m) => m.get(t)).filter((x) => x !== undefined);
+    if (v.length === per.length) out.push({x: t, mean: v.reduce((a, b) => a + b, 0) / v.length, lo: Math.min(...v), hi: Math.max(...v)});
+  }
+  return out;
+}
+// 回放：只用第 k 天及以前的数据（样本和官方数字），重跑估算和预测，得到「当时会预计的」曲线
+function replayPath(k) {
+  const S = SAMPLE.filter((r) => r.film !== 'MAHO' || num(r.day) <= k);
+  const M = MS.filter((m) => m.film !== 'MAHO' || (m.kind === 'point' && num(m.day) <= k));
+  const E = estimate(S, M);
+  return new Map(projPath(E, forecast(E, M)).map((p) => [p.x, p.mean]));
+}
+function renderRetro() {
+  if (!SAMPLE || !EST.length) return;
+  const act = EST.filter((r) => r.film === 'MAHO' && r.cum_gross).sort((a, b) => b.day - a.day);
+  const cache = new Map(), path = (k) => { if (!cache.has(k)) cache.set(k, replayPath(k)); return cache.get(k); };
+  const pct = (p, a) => (p ? ((p / a - 1) * 100 >= 0 ? '+' : '') + ((p / a - 1) * 100).toFixed(1) + '%' : '—');
+  const rows = [];
+  act.forEach((a) => {
+    if (a.day < 4) return;
+    const p1 = a.day - 1 >= 3 ? path(a.day - 1).get(a.day) : null;
+    const p7 = a.day - 7 >= 3 ? path(a.day - 7).get(a.day) : null;
+    rows.push([a.date + ' · ' + L.dayLong(a.day), L.tipGross(a.cum_gross / 1e8), p1 ? L.tipGross(p1 / 1e8) : '—', pct(p1, a.cum_gross), p7 ? L.tipGross(p7 / 1e8) : '—', pct(p7, a.cum_gross)]);
+  });
+  const PER = 7, pages = Math.max(1, Math.ceil(rows.length / PER));
+  state.rpage = Math.min(Math.max(0, state.rpage || 0), pages - 1);
+  const tb = $('rtable'); tb.replaceChildren();
+  if (!rows.length) { const td = tb.insertRow().insertCell(); td.colSpan = 6; td.textContent = L.retroNone; }
+  rows.slice(state.rpage * PER, state.rpage * PER + PER).forEach((c) => { const tr = tb.insertRow(); c.forEach((v) => (tr.insertCell().textContent = v)); });
+  $('rpager').hidden = pages <= 1;
+  $('rpage-info').textContent = L.pageInfo(state.rpage + 1, pages);
+  $('rprev').disabled = state.rpage === 0; $('rnext').disabled = state.rpage >= pages - 1;
+  $('rprev').textContent = L.prevPage; $('rnext').textContent = L.nextPage;
 }
 
 function lineChart(el, series, opts) {
@@ -438,12 +496,14 @@ function lineChart(el, series, opts) {
   const W = Math.max(280, el.clientWidth), H = 320, m = {t: 10, r: 34, b: 28, l: 60};
   const svg = d3.select(el).append('svg').attr('width', W).attr('height', H).attr('role', 'img').attr('aria-label', opts.label);
   const x = d3.scaleLinear().domain([1, opts.maxX]).range([m.l, W - m.r]);
-  const vals = series.flatMap((s) => s.pts.map((p) => p.y)).concat((opts.dots || []).map((p) => p.y)).filter((v) => v !== null && v > 0);
+  const vals = series.flatMap((s) => s.pts.map((p) => p.y)).concat((opts.dots || []).map((p) => p.y), (opts.band ? opts.band.pts.map((p) => p.hi) : [])).filter((v) => v !== null && v > 0);
   const y = (opts.log ? d3.scaleLog().domain([Math.max(1, d3.min(vals)), d3.max(vals)]) : d3.scaleLinear().domain([0, d3.max(vals) || 1])).nice().range([H - m.b, m.t]);
   svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickValues(x.ticks(Math.min(8, Math.floor(W / 70), opts.maxX - 1)).filter(Number.isInteger)).tickFormat((d) => L.day(d))).call((g) => g.selectAll('.domain,line').style('stroke', css('--axis')));
   svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(opts.yfmt)).call((g) => g.select('.domain').remove()).call((g) => g.selectAll('line').style('stroke', css('--grid')));
   const line = d3.line().defined((p) => p.y !== null && (!opts.log || p.y > 0)).x((p) => x(p.x)).y((p) => y(p.y));
-  series.forEach((s) => svg.append('path').attr('d', line(s.pts)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', s.w).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round'));
+  if (opts.band && opts.band.pts.length > 1) svg.append('path').attr('d', d3.area().x((p) => x(p.x)).y0((p) => y(p.lo)).y1((p) => y(p.hi))(opts.band.pts)).attr('fill', opts.band.color).attr('fill-opacity', 0.22).attr('stroke', 'none');
+  series.forEach((s) => svg.append('path').attr('d', line(s.pts)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', s.w).attr('stroke-dasharray', s.dash ? '7 5' : null).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round'));
+  if (opts.endLabel) { const e = opts.endLabel; svg.append('text').attr('x', Math.min(x(e.x) + 6, W - m.r - 4)).attr('y', y(e.y) - 8).attr('text-anchor', x(e.x) + 6 > W - 150 ? 'end' : 'start').attr('fill', e.color).style('font-size', '12px').text(e.text); }
   (opts.dots || []).forEach((p) => svg.append('circle').attr('cx', x(p.x)).attr('cy', y(p.y)).attr('r', 4).attr('fill', css('--bg')).attr('stroke', p.color).attr('stroke-width', 2));
   const tip = d3.select(el).append('div').attr('class', 'tip').style('display', 'none');
   const guide = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).attr('stroke', css('--axis')).style('display', 'none');
@@ -558,7 +618,7 @@ function renderText() {
   document.querySelectorAll('[data-i18n]').forEach((el) => { const v = L[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
   document.querySelectorAll('.langs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
   ['range', 'crange'].forEach((id) => [...$(id).options].forEach((o, i) => { o.textContent = i === 0 ? L.nowRange(mahoDay() || '—') : L.ranges[i - 1]; }));
-  $('legend').replaceChildren(...L.legend.map((t, i) => { const s = document.createElement('span'); if (i < 4) { const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = `var(${FILMS[i][1]})`; s.append(sw); } s.append(t); return s; }));
+  $('legend').replaceChildren(...L.legend.map((t, i) => { const s = document.createElement('span'); if (i < 4) { const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = `var(${FILMS[i][1]})`; s.append(sw); } s.append(t); return s; }), (() => { const s = document.createElement('span'); const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = 'repeating-linear-gradient(90deg,var(--c3) 0 5px,transparent 5px 8px)'; s.append(sw, L.projLegend); return s; })());
   $('method-list').innerHTML = L.methodList.map((h) => `<li>${h}</li>`).join('');
   const en = L === I18N.en;
   $('th-att').textContent = L.thAtt; $('th-gross').textContent = L.thGross; $('th-egross').textContent = L.thEGross; $('th-ecum').textContent = L.thECum;
@@ -669,8 +729,13 @@ function renderCharts() {
   const maxDay = Math.max(57, ...SAMPLE.map((r) => num(r.day) || 0));
   const series = (key) => FILMS.map(([f, c], i) => ({film: f, name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
   const CR = rangeOf(state.crange, maxDay);
-  lineChart($('cum'), series((f) => EST.filter((r) => r.film === f && r.day <= CR).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null}))), {
+  const proj = projPath(EST, FC).filter((p) => p.x <= CR);
+  const cumSeries = series((f) => EST.filter((r) => r.film === f && r.day <= CR).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null})));
+  if (proj.length > 1) cumSeries.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: proj.slice(1).map((p) => ({x: p.x, y: p.mean / 1e8}))});
+  lineChart($('cum'), cumSeries, {
     maxX: CR, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
+    endLabel: proj.length > 1 && FC.length ? {x: proj[proj.length - 1].x, y: proj[proj.length - 1].mean / 1e8, color: css('--c3'), text: L.projEnd(L.gross(FC.reduce((t, f) => t + f.gross, 0) / FC.length / 1e8, 1) + (state.lang === 'en' ? ' ' : '') + L.grossUnit)} : null,
+    band: proj.length > 1 ? {color: css('--c3'), pts: proj.map((p) => ({x: p.x, lo: p.lo / 1e8, hi: p.hi / 1e8}))} : null,
     note: (f, d) => {
       const m = MS.find((r) => r.film === f && r.kind === 'point' && num(r.day) === d);
       if (!m) return null;
@@ -687,7 +752,7 @@ function renderCharts() {
 function setLang(lang) {
   state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
   try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
-  renderText(); renderCharts(); renderSources(); renderCalib(); renderVisits();
+  renderText(); renderCharts(); renderSources(); renderCalib(); renderRetro(); renderVisits();
 }
 
 // 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
@@ -712,7 +777,7 @@ setLang(initial);
 // 读取全部数据；页面开着时每 5 分钟重新读一次，爬虫推送的新数字（14/19 时集计、全天数字）会自动反映出来
 const loadAll = () => Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null), d3.csv('data/interim.csv?v=' + Date.now()).catch(() => [])]).then(([sample, ms, st, im]) => {
   SAMPLE = sample; MS = ms; STATUS = st; INTERIM = im || []; EST = estimate(sample, ms); FC = forecast(EST, ms);
-  renderText(); renderCharts(); renderSources(); renderCalib();
+  renderText(); renderCharts(); renderSources(); renderCalib(); renderRetro();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 loadAll();
 loadRun();
@@ -722,6 +787,8 @@ $('crange').addEventListener('change', (e) => { state.crange = Number(e.target.v
 $('range').addEventListener('change', (e) => { state.range = Number(e.target.value); renderCharts(); });
 $('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
 $('mprev').addEventListener('click', () => { state.mpage--; renderText(); });
+$('rprev').addEventListener('click', () => { state.rpage--; renderRetro(); });
+$('rnext').addEventListener('click', () => { state.rpage++; renderRetro(); });
 $('mnext').addEventListener('click', () => { state.mpage++; renderText(); });
 setInterval(() => { if (SAMPLE) loadAll(); loadRun(); }, 5 * 60e3);
 let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderCharts, 150); });
