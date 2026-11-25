@@ -131,8 +131,12 @@ a{color:#9fc0ff}
 
 <section>
 <h2 data-i18n="hRetro">—</h2>
+<h3 class="srcfilm" data-i18n="hTraj">—</h3>
+<p class="note" data-i18n="nTraj">—</p>
+<div class="chart" id="fctraj" style="min-height:320px"></div>
+<h3 class="srcfilm" data-i18n="hWeek">—</h3>
 <p class="note" data-i18n="nRetro">—</p>
-<div class="tw"><table><thead><tr><th data-i18n="thDate">—</th><th data-i18n="thRetroAct">—</th><th data-i18n="thRetroP1">—</th><th data-i18n="thRetroErr">—</th><th data-i18n="thRetroP7">—</th><th data-i18n="thRetroErr">—</th></tr></thead><tbody id="rtable"></tbody></table></div>
+<div class="tw"><table><thead><tr><th data-i18n="thWeek">—</th><th data-i18n="thWeekPred">—</th><th data-i18n="thWeekAct">—</th><th data-i18n="thRetroErr">—</th></tr></thead><tbody id="rtable"></tbody></table></div>
 <div class="pager" id="rpager" hidden><button type="button" id="rprev"></button><span id="rpage-info"></span><button type="button" id="rnext"></button></div>
 </section>
 
@@ -174,7 +178,7 @@ const I18N = {
     item: (it, t) => (it ? (it.kind === 'interim' ? `第 ${it.day} 天 ${it.cut} 时集计` : it.kind === 'full' ? `第 ${it.day} 天全天数字` : `第 ${it.day} 天官方数字`) + `（日本时间 ${t}）` : `日本时间 ${t}`),
     chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
     imputedTag: '（推算）', projName: '魔法使いの夜（预计）', projEnd: (g) => `→ 最终约 ${g}`, projLegend: '预计（虚线：按 HF 三部走势的平均；浅色带：最低～最高）',
-    hRetro: '预计与实际的偏差', nRetro: '每一天的「实际」是现在的估算累计（会经过官方数字）；「预计」是只用那之前的数据重跑模型、当时会给出的预计曲线在这一天的值。偏差为正说明预计偏高。', thRetroAct: '实际（估算累计）', thRetroP1: '前一天的预计', thRetroP7: '一周前的预计', thRetroErr: '偏差', retroNone: '至少需要两天带官方数字的数据才能比较。', prevPage: '← 较新', nextPage: '较早 →', pageInfo: (a, b) => `第 ${a} / ${b} 页`,
+    hRetro: '预计与实际', hTraj: '最终预测的变化', nTraj: '每一天都只用当时已有的数据重跑模型，看最终票房预测是怎么变的（线为三项平均，浅色带为最低～最高）。模型靠谱的话，它会越来越稳定；如果一直往同一个方向移动，说明模型系统性地偏高或偏低。', trajName: '当时的最终预测', hWeek: '按周比较新增票房', nRetro: '一周前的模型预计「之后 7 天会新增多少票房」，和实际新增多少对比。按整周比较，周末和平日的差别会互相抵消。偏差为正说明预计偏高。「实际」在两次官方公布之间也是估算，标「官方」的那一行终点是官方公布的真实数字。', thWeek: '这一周', thWeekPred: '一周前预计新增', thWeekAct: '实际新增', thRetroErr: '偏差', retroNone: '上映第 10 天（11/29）起才有第一行：需要一周前（第 3 天起）有官方数字的预计。', weekSpan: (a, b, d1, d2) => `第 ${d1}～${d2} 天（${a.slice(5)}～${b.slice(5)}）`, offMark: ' · 官方', prevPage: '← 较新', nextPage: '较早 →', pageInfo: (a, b) => `第 ${a} / ${b} 页`,
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
@@ -224,7 +228,7 @@ const I18N = {
     item: (it, t) => (it ? (it.kind === 'interim' ? `${it.day}日目の${it.cut}時中間集計` : it.kind === 'full' ? `${it.day}日目の全日データ` : `${it.day}日目の公式発表`) + `（日本時間 ${t}）` : `日本時間 ${t}`),
     chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
     imputedTag: '（推計）', projName: '魔法使いの夜（予測）', projEnd: (g) => `→ 最終 約${g}`, projLegend: '予測（破線：HF三部作の推移の平均、帯：最低～最高）',
-    hRetro: '予測と実績のずれ', nRetro: '各日の「実績」は現在の推定累計（公式発表の値を通る）。「予測」は、その日より前のデータだけでモデルを再計算したときの予測曲線のその日の値。ずれがプラスなら予測が高めだったことを示します。', thRetroAct: '実績（推定累計）', thRetroP1: '前日時点の予測', thRetroP7: '1週間前の予測', thRetroErr: 'ずれ', retroNone: '比較には公式発表を含む2日分以上のデータが必要です。', prevPage: '← 新しい日', nextPage: '古い日 →', pageInfo: (a, b) => `${a} / ${b} ページ`,
+    hRetro: '予測と実績', hTraj: '最終予測の推移', nTraj: '各日、その時点で手に入ったデータだけでモデルを再計算し、最終興収の予測がどう変わったかを示します（線は3作品の平均、帯は最低～最高）。モデルが妥当なら次第に安定し、同じ方向に動き続けるなら系統的に高すぎ／低すぎることを意味します。', trajName: 'その時点の最終予測', hWeek: '週ごとの増加分の比較', nRetro: '1週間前のモデルが予測した「その後7日間の興収の増加分」と実際の増加分の比較。週単位なので平日と週末の差は相殺されます。プラスなら予測が高め。公式発表の間の「実績」も推計で、「公式」の行は終点が公式発表の値です。', thWeek: 'この1週間', thWeekPred: '1週間前の予測増加分', thWeekAct: '実際の増加分', thRetroErr: 'ずれ', retroNone: '最初の行は10日目（11/29）から：3日目以降の公式発表をもとにした1週間前の予測が必要です。', weekSpan: (a, b, d1, d2) => `${d1}～${d2}日目（${a.slice(5)}～${b.slice(5)}）`, offMark: '・公式', prevPage: '← 新しい日', nextPage: '古い日 →', pageInfo: (a, b) => `${a} / ${b} ページ`,
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
@@ -274,7 +278,7 @@ const I18N = {
     item: (it, t) => (it ? (it.kind === 'interim' ? `day ${it.day} ${it.cut}:00 interim count` : it.kind === 'full' ? `day ${it.day} full-day figures` : `day ${it.day} official figure`) + ` (${t} JST)` : `${t} JST`),
     chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
     imputedTag: ' (est.)', projName: 'Witch on the Holy Night (projected)', projEnd: (g) => `→ final ≈ ${g}`, projLegend: 'Projection (dashed: average of the HF trajectories; band: lowest to highest)',
-    hRetro: 'Projected vs actual', nRetro: 'For each day, "actual" is today\'s estimated running total (which passes through the official figures); "projected" is what the model would have projected for that day using only the data available before it. A positive gap means the projection was too high.', thRetroAct: 'Actual (estimated total)', thRetroP1: 'Projected the day before', thRetroP7: 'Projected a week before', thRetroErr: 'Gap', retroNone: 'At least two days of data with official figures are needed for a comparison.', prevPage: '← Newer', nextPage: 'Older →', pageInfo: (a, b) => `Page ${a} of ${b}`,
+    hRetro: 'Projected vs actual', hTraj: 'How the final projection has moved', nTraj: 'For each day, the model is rerun with only the data available then, showing how the final-gross projection changed (line: average of the three; band: lowest to highest). If the model is sound it should settle down; if it keeps moving one way, it is systematically too high or too low.', trajName: 'Final projection at the time', hWeek: 'Weekly gain: projected vs actual', nRetro: 'What the model projected a week earlier for the gross added over the following 7 days, against what was actually added. Whole weeks are compared, so weekday/weekend differences cancel out. A positive gap means the projection was too high. Between official announcements the "actual" figure is also an estimate; rows marked "official" end on an official figure.', thWeek: 'Week', thWeekPred: 'Projected gain (a week before)', thWeekAct: 'Actual gain', thRetroErr: 'Gap', retroNone: 'The first row appears on day 10 (Nov 29): it needs a projection made a week earlier, from day 3 on.', weekSpan: (a, b, d1, d2) => `Days ${d1}–${d2} (${a.slice(5)}–${b.slice(5)})`, offMark: ' · official', prevPage: '← Newer', nextPage: 'Older →', pageInfo: (a, b) => `Page ${a} of ${b}`,
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
@@ -461,29 +465,45 @@ function projPath(est, fc) {
   }
   return out;
 }
-// 回放：只用第 k 天及以前的数据（样本和官方数字），重跑估算和预测，得到「当时会预计的」曲线
-function replayPath(k) {
+// 回放：只用第 k 天及以前的数据（样本和官方数字），重跑估算和预测，得到「当时会给出的」预计曲线和最终预测
+const REPLAY = new Map();
+function replay(k) {
+  const key = k + '|' + SAMPLE.length + '|' + MS.length;
+  if (REPLAY.has(key)) return REPLAY.get(key);
   const S = SAMPLE.filter((r) => r.film !== 'MAHO' || num(r.day) <= k);
   const M = MS.filter((m) => m.film !== 'MAHO' || (m.kind === 'point' && num(m.day) <= k));
-  const E = estimate(S, M);
-  return new Map(projPath(E, forecast(E, M)).map((p) => [p.x, p.mean]));
+  const E = estimate(S, M), F = forecast(E, M);
+  const out = {path: new Map(projPath(E, F).map((p) => [p.x, p.mean])), fc: F.length ? {mean: F.reduce((t, f) => t + f.gross, 0) / F.length, lo: Math.min(...F.map((f) => f.gross)), hi: Math.max(...F.map((f) => f.gross))} : null};
+  REPLAY.set(key, out);
+  return out;
 }
 function renderRetro() {
   if (!SAMPLE || !EST.length) return;
-  const act = EST.filter((r) => r.film === 'MAHO' && r.cum_gross).sort((a, b) => b.day - a.day);
-  const cache = new Map(), path = (k) => { if (!cache.has(k)) cache.set(k, replayPath(k)); return cache.get(k); };
-  const pct = (p, a) => (p ? ((p / a - 1) * 100 >= 0 ? '+' : '') + ((p / a - 1) * 100).toFixed(1) + '%' : '—');
+  const act = new Map(EST.filter((r) => r.film === 'MAHO' && r.cum_gross).map((r) => [r.day, r]));
+  const days = [...act.keys()].sort((a, b) => a - b);
+  const official = new Set(MS.filter((m) => m.film === 'MAHO' && m.kind === 'point').map((m) => num(m.day)));
+  // 1) 最终预测的变化轨迹（每一天只用当时的数据）
+  const traj = days.filter((k) => k >= 3).map((k) => ({k, f: replay(k).fc})).filter((x) => x.f);
+  if (traj.length) {
+    lineChart($('fctraj'), [{film: 'MAHO', name: L.trajName, color: css('--c3'), w: 2.5, pts: traj.map((x) => ({x: x.k, y: x.f.mean / 1e8}))}], {
+      maxX: Math.max(14, days[days.length - 1] + 2), tight: true, label: L.trajName, yfmt: L.axisGross, tipfmt: L.tipGross,
+      band: {color: css('--c3'), pts: traj.map((x) => ({x: x.k, lo: x.f.lo / 1e8, hi: x.f.hi / 1e8}))}});
+  }
+  // 2) 按周比较新增票房：一周前预计的「这 7 天新增」对比实际新增
   const rows = [];
-  act.forEach((a) => {
-    if (a.day < 4) return;
-    const p1 = a.day - 1 >= 3 ? path(a.day - 1).get(a.day) : null;
-    const p7 = a.day - 7 >= 3 ? path(a.day - 7).get(a.day) : null;
-    rows.push([a.date + ' · ' + L.dayLong(a.day), L.tipGross(a.cum_gross / 1e8), p1 ? L.tipGross(p1 / 1e8) : '—', pct(p1, a.cum_gross), p7 ? L.tipGross(p7 / 1e8) : '—', pct(p7, a.cum_gross)]);
+  days.slice().reverse().forEach((d) => {
+    const k = d - 7;
+    if (k < 3 || !act.has(k)) return;
+    const rp = replay(k), p0 = rp.path.get(k), p1 = rp.path.get(d);
+    if (p0 === undefined || p1 === undefined) return;
+    const pred = p1 - p0, real = act.get(d).cum_gross - act.get(k).cum_gross;
+    const e = (pred / real - 1) * 100;
+    rows.push([L.weekSpan(act.get(k + 1) ? act.get(k + 1).date : '', act.get(d).date, k + 1, d) + (official.has(d) ? L.offMark : ''), L.tipGross(pred / 1e8), L.tipGross(real / 1e8), (e >= 0 ? '+' : '') + e.toFixed(1) + '%']);
   });
   const PER = 7, pages = Math.max(1, Math.ceil(rows.length / PER));
   state.rpage = Math.min(Math.max(0, state.rpage || 0), pages - 1);
   const tb = $('rtable'); tb.replaceChildren();
-  if (!rows.length) { const td = tb.insertRow().insertCell(); td.colSpan = 6; td.textContent = L.retroNone; }
+  if (!rows.length) { const td = tb.insertRow().insertCell(); td.colSpan = 4; td.textContent = L.retroNone; }
   rows.slice(state.rpage * PER, state.rpage * PER + PER).forEach((c) => { const tr = tb.insertRow(); c.forEach((v) => (tr.insertCell().textContent = v)); });
   $('rpager').hidden = pages <= 1;
   $('rpage-info').textContent = L.pageInfo(state.rpage + 1, pages);
@@ -496,8 +516,8 @@ function lineChart(el, series, opts) {
   const W = Math.max(280, el.clientWidth), H = 320, m = {t: 10, r: 34, b: 28, l: 60};
   const svg = d3.select(el).append('svg').attr('width', W).attr('height', H).attr('role', 'img').attr('aria-label', opts.label);
   const x = d3.scaleLinear().domain([1, opts.maxX]).range([m.l, W - m.r]);
-  const vals = series.flatMap((s) => s.pts.map((p) => p.y)).concat((opts.dots || []).map((p) => p.y), (opts.band ? opts.band.pts.map((p) => p.hi) : [])).filter((v) => v !== null && v > 0);
-  const y = (opts.log ? d3.scaleLog().domain([Math.max(1, d3.min(vals)), d3.max(vals)]) : d3.scaleLinear().domain([0, d3.max(vals) || 1])).nice().range([H - m.b, m.t]);
+  const vals = series.flatMap((s) => s.pts.map((p) => p.y)).concat((opts.dots || []).map((p) => p.y), (opts.band ? opts.band.pts.flatMap((p) => [p.lo, p.hi]) : [])).filter((v) => v !== null && v > 0);
+  const y = (opts.log ? d3.scaleLog().domain([Math.max(1, d3.min(vals)), d3.max(vals)]) : d3.scaleLinear().domain([opts.tight ? Math.max(0, d3.min(vals) * 0.85) : 0, (d3.max(vals) || 1) * (opts.tight ? 1.08 : 1)])).nice().range([H - m.b, m.t]);
   svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickValues(x.ticks(Math.min(8, Math.floor(W / 70), opts.maxX - 1)).filter(Number.isInteger)).tickFormat((d) => L.day(d))).call((g) => g.selectAll('.domain,line').style('stroke', css('--axis')));
   svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(opts.yfmt)).call((g) => g.select('.domain').remove()).call((g) => g.selectAll('line').style('stroke', css('--grid')));
   const line = d3.line().defined((p) => p.y !== null && (!opts.log || p.y > 0)).x((p) => x(p.x)).y((p) => y(p.y));
