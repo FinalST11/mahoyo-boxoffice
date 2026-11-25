@@ -186,7 +186,7 @@ const I18N = {
       '样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。',
       '掉出榜单之后：mimorin 的全天合算榜只列前 25 名。魔法使いの夜掉出榜的日子，按它最近两周的周环比往下推算张数（后期衰减会变慢，所以只取周环比的四次方根），并且不超过当天第 25 名的张数；这些天在每日明细里标「推算」。用 HF 三部回测，推算期间的张数误差约 ±15%；但推算的张数照常参与官方节点之间的分配，每次官方公布都会把它们一起校正，而且这时每天的票房已经很少，对累计影响通常不到 1%。',
       '优惠日：每周三（TOHO「TOHOウェンズデイ」）、每月 1 日（ファーストデイ）票价较低，12 月 1 日「映画の日」更低。估算魔法使いの夜每天的票房时，这几天每张样本按 0.9、0.88、0.8 倍的平均票价折算（动员不受影响）。这些比例是按 TOHO 公开票价温和设定的假设；因为每次官方公布都会把累计拉回官方数字，它主要影响每日明细，对累计和预测影响很小。',
-      '当前估算：用本片自己的数据算出 14 时、19 时中间集计约占全天的比例（平日和周末假日分开），再按当前日本时间在开场前、14 时、19 时、末场之间插值，推算今天到现在的样本售票，然后用最近一天的换算比例折成票房。14 时以前没有当天数据，先按上周同日（或最近一天）推算。每次打开页面实时计算，每 5 分钟刷新；爬虫每小时补入新的 14/19 时集计。这只是参考，第二天早上的全天数字公布后会替换。',
+      '当前估算：用本片自己的数据算出 14 时、19 时中间集计约占全天的比例（分四类：平日、周五型〔明天休息〕、周六型〔今天明天都休息〕、周日型〔明天上班〕，因为第二天休息的晚上晚场特别多），再按当前日本时间在开场前、14 时、19 时、末场之间插值，推算今天到现在的样本售票，然后用最近一天的换算比例折成票房。14 时以前没有当天数据，先按上周同日（或最近一天）推算。每次打开页面实时计算，每 5 分钟刷新；爬虫每小时补入新的 14/19 时集计。这只是参考，第二天早上的全天数字公布后会替换。',
       '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
       'HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。',
       'HF 第三章的最终成绩只有映连公布的票房（2020 年底首轮约 19.5 亿日元，含 2021 年春特别上映为 20.2 亿日元），没有动员人数。为了让动员和票房对得上号、并且只比首轮，预测改用 9/29 最后一次动员和票房都公布的节点（18.24 亿日元、112.7 万人），所以这一项是下限。',
@@ -235,7 +235,7 @@ const I18N = {
       'サンプル：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> の合算ランキング（独立系を含まない）。主要シネコンの販売枚数で、金額ではありません。HF第二章・第三章と魔法使いの夜は「デイリー合算ランキング」（全日）、HF第一章は「19時中間集計」のみ。',
       'ランキング圏外になった後：mimorinの全日合算ランキングは上位25位まで。魔法使いの夜が圏外になった日は、直近2週間の前週比から販売数を推計し（終盤は落ち方が緩やかになるため前週比の4乗根を使用）、その日の25位の販売数を上限とします。日別データでは「推計」と表示。HF三部作でのバックテストでは推計期間の販売数の誤差は約±15%ですが、推計値も公式発表の間の配分に使われ公式発表のたびに補正されるうえ、この時期の日別興収は小さいため、累計への影響は通常1%未満です。',
       'サービスデー：毎週水曜（TOHO「TOHOウェンズデイ」）と毎月1日（ファーストデイ）は単価が低く、12月1日「映画の日」はさらに低くなります。魔法使いの夜の日別興収の推計では、これらの日のサンプル1枚あたりの平均単価をそれぞれ0.9・0.88・0.8倍として換算（動員には影響しません）。TOHOの公表料金をもとに控えめに置いた仮定で、累計は公式発表のたびに公式値へ補正されるため、主に日別の内訳に効き、累計や予測への影響はごく小さいものです。',
-      '現在の推定：本作のデータから14時・19時中間集計が全日に占める割合（平日と土日祝で別）を求め、現在の日本時間に応じて開場前・14時・19時・最終回の間で補間し、本日ここまでのサンプル販売数を推計。直近の日の換算率で興収に換算しています。14時より前は当日データがないため、先週同曜日（または直近の日）から推計。ページを開くたびに計算し、5分ごとに更新。14時・19時の集計は1時間ごとに自動取得。翌朝の全日データで置き換わる参考値です。',
+      '現在の推定：本作のデータから14時・19時中間集計が全日に占める割合を4区分（平日・金曜型〔翌日休み〕・土曜型〔当日も翌日も休み〕・日曜型〔翌日出勤〕）で求め（翌日が休みの夜はレイトショーが多いため）、現在の日本時間に応じて開場前・14時・19時・最終回の間で補間し、本日ここまでのサンプル販売数を推計。直近の日の換算率で興収に換算しています。14時より前は当日データがないため、先週同曜日（または直近の日）から推計。ページを開くたびに計算し、5分ごとに更新。14時・19時の集計は1時間ごとに自動取得。翌朝の全日データで置き換わる参考値です。',
       '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
       'HF第二章：2/22は全日ランキング25位圏外。2/24も圏外のため、当日の19時集計と2月の日曜の全日/19時の平均比率から推計。3/1以降は圏外。',
       'HF第三章の最終成績は映連発表の興収のみ（2020年末の初回上映で約19.5億円、2021年春の特別上映込みで20.2億円）で、動員は公表されていません。動員と興収が揃い、初回上映だけで比べられるよう、予測には両方が発表された最後の公式発表（9/29：18.24億円・112.7万人）を使っており、この項目は下限です。',
@@ -284,7 +284,7 @@ const I18N = {
       'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day Daily Combined Ranking (デイリー合算ランキング); HF I only has the 7 p.m. interim count (19時中間集計).',
       'After it drops out of the chart: mimorin\'s full-day combined chart only lists the top 25. On days when Witch on the Holy Night is outside it, its tickets are estimated from its week-on-week trend over the last two weeks (softened to the fourth root, since late-run declines slow down), capped at that day\'s 25th-place figure, and marked "est." in the daily table. Back-tested on the HF films, the estimated tickets are off by about ±15%, but they are still allocated between official figures and corrected by every announcement, and daily grosses are small by then, so the effect on the total is usually under 1%.',
       'Discount days: Wednesdays (TOHO\'s "TOHO Wednesday") and the 1st of each month ("First Day") have lower ticket prices, and December 1 ("Movie Day") lower still. When estimating Witch on the Holy Night\'s daily gross, each sampled ticket on those days is valued at 0.9×, 0.88× and 0.8× the usual average price (admissions are unaffected). These factors are cautious assumptions based on TOHO\'s published prices. Because the running total is pulled back to every official figure, they mainly affect the daily breakdown and have very little effect on the total or the projection.',
-      'Right-now estimate: from this film\'s own data, the share of the full day sold by the 2 p.m. and 7 p.m. interim counts is worked out (weekdays and weekends/holidays separately). The current Japan time is then interpolated between opening, 2 p.m., 7 p.m. and the last show to estimate today\'s sampled tickets so far, converted to gross at the latest day\'s rate. Before 2 p.m. there is no same-day data, so the same day last week (or the latest day) is used. Recalculated whenever the page is opened and every 5 minutes; interim counts are fetched hourly. It is only a guide and is replaced by the full-day figure the next morning.',
+      'Right-now estimate: from this film\'s own data, the share of the full day sold by the 2 p.m. and 7 p.m. interim counts is worked out for four day types (weekdays, Friday-type with a day off next, Saturday-type with today and tomorrow off, and Sunday-type with work tomorrow), because evenings before a day off have many more late shows. The current Japan time is then interpolated between opening, 2 p.m., 7 p.m. and the last show to estimate today\'s sampled tickets so far, converted to gross at the latest day\'s rate. Before 2 p.m. there is no same-day data, so the same day last week (or the latest day) is used. Recalculated whenever the page is opened and every 5 minutes; interim counts are fetched hourly. It is only a guide and is replaced by the full-day figure the next morning.',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
       'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
       'HF III\'s final result is only a gross figure from the Motion Picture Producers Association of Japan (about ¥1,950 million for the original 2020 run, ¥2,020 million including the spring 2021 special screenings); no admissions figure was released. So that admissions and gross match and only the original run is compared, the projection uses the last official figure with both numbers (Sept 29: ¥1,824 million, 1,127,233 admissions), which makes this row a lower bound.',
@@ -483,22 +483,26 @@ const withUnit = (el, value, unit) => { el.replaceChildren(document.createTextNo
 // 用这部电影自己的历史算出「14 时 / 19 时售出全天的比例」（平日、周末假日分开），
 // 再按当前日本时间在 开场前→14 时→19 时→末场 之间线性插值，推算今天到现在为止的样本售票。
 const REST_DAYS = new Set(['2026-11-23', '2026-12-29', '2026-12-30', '2026-12-31', '2027-01-01', '2027-01-02', '2027-01-03', '2027-01-11', '2027-02-11', '2027-02-23']);
-const dayType = (iso) => { const w = new Date(iso + 'T00:00:00Z').getUTCDay(); return w === 0 || w === 6 || REST_DAYS.has(iso) ? 'rest' : 'wk'; };
+const isRest = (iso) => { const w = new Date(iso + 'T00:00:00Z').getUTCDay(); return w === 0 || w === 6 || REST_DAYS.has(iso); };
+// 四类：平日（第二天上班）、周五型（今天上班、明天休息）、周六型（今天、明天都休息）、周日型（今天休息、明天上班）
+const dayType = (iso) => { const nx = isRest(addDays(iso, 1)); return isRest(iso) ? (nx ? 'sat' : 'sun') : (nx ? 'fri' : 'wk'); };
 const addDays = (iso, n) => new Date(Date.parse(iso + 'T00:00:00Z') + n * 864e5).toISOString().slice(0, 10);
 const jstNow = () => { const j = new Date(Date.now() + 9 * 3600e3); return {date: j.toISOString().slice(0, 10), min: j.getUTCHours() * 60 + j.getUTCMinutes(), hhmm: j.toISOString().slice(11, 16)}; };
 const median = (x) => { const v = x.slice().sort((a, b) => a - b); return v.length ? (v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2) : null; };
 
 function cutShares() {
   const full = new Map(SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales)).map((r) => [r.date, num(r.sales)]));
-  const sh = {wk: {14: 0.41, 19: 0.79}, rest: {14: 0.49, 19: 0.84}};
-  for (const t of ['wk', 'rest']) for (const c of ['14', '19']) {
+  // 没有数据时的初始值（来自上映第一周）；有数据就用本片同类日子的中位数
+  const sh = {wk: {14: 0.41, 19: 0.79}, fri: {14: 0.38, 19: 0.70}, sat: {14: 0.49, 19: 0.83}, sun: {14: 0.53, 19: 0.89}};
+  for (const t of ['wk', 'fri', 'sat', 'sun']) for (const c of ['14', '19']) {
     const v = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && dayType(r.date) === t).map((r) => num(r.sales) / full.get(r.date));
     if (v.length) sh[t][c] = median(v);
   }
   return sh;
 }
 function shareAt(type, min, sh) {
-  const pts = [[type === 'rest' ? 480 : 510, 0], [840, sh[type][14]], [1140, sh[type][19]], [1290, 1]];
+  const rest = type === 'sat' || type === 'sun', late = type === 'fri' || type === 'sat';
+  const pts = [[rest ? 480 : 510, 0], [840, sh[type][14]], [1140, sh[type][19]], [late ? 1320 : 1290, 1]];
   if (min <= pts[0][0]) return 0;
   for (let i = 1; i < pts.length; i++) if (min <= pts[i][0]) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; return y0 + (y1 - y0) * (min - x0) / (x1 - x0); }
   return 1;
