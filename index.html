@@ -59,6 +59,7 @@ details{background:rgba(14,20,40,.4);border:1px solid var(--line);border-radius:
 details summary{cursor:pointer;font-family:var(--serif);font-size:17px}
 details li{font-size:13px;color:var(--muted);margin:6px 0}
 footer{font-size:12px;color:var(--muted);text-align:center;letter-spacing:.04em}
+.visits{margin-top:6px;color:var(--gold);opacity:.85}.visits b{font-weight:600}
 footer::before{content:"✦";display:block;color:var(--gold);margin-bottom:8px;font-size:12px}
 a{color:#9fc0ff}
 .err{color:#ff8a8a;font-size:13px}
@@ -127,7 +128,7 @@ a{color:#9fc0ff}
 <summary data-i18n="method">—</summary>
 <ul id="method-list"></ul>
 </details>
-<footer data-i18n="footer">—</footer>
+<footer><div data-i18n="footer">—</div><div class="visits" id="visits" hidden></div></footer>
 </main>
 
 <script src="d3.min.js"></script>
@@ -162,6 +163,7 @@ const I18N = {
       '预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。',
       '原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。'],
     footer: '非官方的个人统计页面，数字为估算，仅供参考。',
+    visits: (u, v) => `访问人数 <b>${u}</b> · 浏览次数 <b>${v}</b>`,
     day: (d) => `第${d}天`, dayLong: (d) => `第 ${d} 天`,
     gross: (oku, d) => fmt(oku, d), grossUnit: '亿日元', att: (n) => fmt(n / 1e4, 1), attUnit: '万人',
     axisGross: (v) => v + '亿', tipGross: (oku) => fmt(oku, 2) + ' 亿日元',
@@ -200,6 +202,7 @@ const I18N = {
       '予測はHF三部作の推移を当てはめただけです。魔法使いの夜は347館の拡大公開で、11/27からラージフォーマット上映も始まるため、推移はHFと異なる可能性があります。',
       '元データ：<a href="data/sample.csv">sample.csv</a>（日別サンプル）、<a href="data/milestones.csv">milestones.csv</a>（公式発表と出典）。'],
     footer: '非公式の個人集計ページです。数字は推計値で、参考程度にご覧ください。',
+    visits: (u, v) => `訪問者数 <b>${u}</b> · 閲覧数 <b>${v}</b>`,
     day: (d) => `${d}日目`, dayLong: (d) => `${d}日目`,
     gross: (oku, d) => fmt(oku, d), grossUnit: '億円', att: (n) => fmt(n / 1e4, 1), attUnit: '万人',
     axisGross: (v) => v + '億', tipGross: (oku) => fmt(oku, 2) + ' 億円',
@@ -238,6 +241,7 @@ const I18N = {
       'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
       'Raw data: <a href="data/sample.csv">sample.csv</a> (daily samples), <a href="data/milestones.csv">milestones.csv</a> (official figures and sources).'],
     footer: 'Unofficial personal tracker. Figures are estimates, for reference only.',
+    visits: (u, v) => `Visitors <b>${u}</b> · Page views <b>${v}</b>`,
     day: (d) => `Day ${d}`, dayLong: (d) => `Day ${d}`,
     gross: (oku, d) => '¥' + (d >= 2 ? fmt(oku * 100) : fmt(Math.round(oku * 10) * 10)), grossUnit: 'million', att: (n) => fmt(n / 1e3) + 'k', attUnit: '',
     axisGross: (v) => '¥' + fmt(v * 100) + 'M', tipGross: (oku) => '¥' + fmt(oku * 100) + ' million',
@@ -416,8 +420,21 @@ function renderCharts() {
 function setLang(lang) {
   state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
   try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
-  renderText(); renderCharts();
+  renderText(); renderCharts(); renderVisits();
 }
+
+// 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
+const visits = {u: null, v: null};
+function renderVisits() { const el = $('visits'); if (visits.u === null || visits.v === null) { el.hidden = true; return; } el.innerHTML = L.visits(fmt(visits.u), fmt(visits.v)); el.hidden = false; }
+(async () => {
+  if (!/github\.io$/.test(location.hostname)) return;
+  const api = 'https://abacus.jasoncameron.dev', ns = 'finalst11-mahoyo-boxoffice';
+  let seen = false; try { seen = localStorage.getItem('hf-visited') === '1'; } catch (e) {}
+  const call = async (op, key) => { try { const r = await fetch(`${api}/${op}/${ns}/${key}`); if (!r.ok) return null; const j = await r.json(); return typeof j.value === 'number' ? j.value : null; } catch (e) { return null; } };
+  const [u, v] = await Promise.all([call(seen ? 'get' : 'hit', 'visitors'), call('hit', 'views')]);
+  if (!seen && u !== null) { try { localStorage.setItem('hf-visited', '1'); } catch (e) {} }
+  visits.u = u; visits.v = v; renderVisits();
+})();
 
 let initial = 'zh';
 try { initial = localStorage.getItem('hf-lang') || ''; } catch (e) { initial = ''; }
