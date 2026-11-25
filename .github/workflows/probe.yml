@@ -1,0 +1,25 @@
+name: probe-interim
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/probe.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fetch
+        run: |
+          mkdir -p probe
+          for d in 20261120 20261121 20261122 20261123 20261124; do
+            curl -sSL -A "Mozilla/5.0 (mahoyo-boxoffice tracker)" "https://mimorin2014.com/blog-date-$d.html" -o "probe/date-$d.html" || true
+            sleep 3
+          done
+      - name: push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b probe3
+          git add probe && git commit -qm "probe" && git push -qf origin probe3
