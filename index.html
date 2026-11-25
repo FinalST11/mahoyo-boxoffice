@@ -572,16 +572,18 @@ if (!I18N[initial]) { const nav = (navigator.language || 'zh').toLowerCase(); in
 const q = new URLSearchParams(location.search).get('lang'); if (I18N[q]) initial = q;
 setLang(initial);
 
-Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null), d3.csv('data/interim.csv?v=' + Date.now()).catch(() => [])]).then(([sample, ms, st, im]) => {
+// 读取全部数据；页面开着时每 5 分钟重新读一次，爬虫推送的新数字（14/19 时集计、全天数字）会自动反映出来
+const loadAll = () => Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null), d3.csv('data/interim.csv?v=' + Date.now()).catch(() => [])]).then(([sample, ms, st, im]) => {
   SAMPLE = sample; MS = ms; STATUS = st; INTERIM = im || []; EST = estimate(sample, ms); FC = forecast(EST, ms);
   renderText(); renderCharts(); renderSources();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
+loadAll();
 
 document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
 $('crange').addEventListener('change', (e) => { state.crange = Number(e.target.value); renderCharts(); });
 $('range').addEventListener('change', (e) => { state.range = Number(e.target.value); renderCharts(); });
 $('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
-setInterval(() => { if (SAMPLE) renderText(); }, 5 * 60e3);
+setInterval(() => { if (SAMPLE) loadAll(); }, 5 * 60e3);
 let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderCharts, 150); });
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
 </script>
