@@ -1,4 +1,4 @@
-# HF三部曲 & 魔法使いの夜 票房追踪 / 興行収入トラッカー / Box Office Tracker
+# 《魔法使いの夜》票房追踪 / 興行収入トラッカー / Box Office Tracker
 
 **中文**：用 [mimorin2014.com](https://mimorin2014.com/) 的每日合算售票样本，按官方公布的动员/票房节点换算，估算并追踪 Fate/stay night [Heaven's Feel] 三部曲与《魔法使いの夜》的票房，并按 HF 三部的走势预测《魔法使いの夜》的最终票房。每天自动更新。
 
