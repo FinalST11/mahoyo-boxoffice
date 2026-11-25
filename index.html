@@ -26,6 +26,7 @@ h2{font-family:var(--serif);font-size:21px;font-weight:500;margin:0 0 6px;letter
 .srcfilm{font-family:var(--serif);font-size:17px;font-weight:500;margin:22px 0 8px;display:flex;align-items:center;gap:8px}.srcfilm i{width:12px;height:3px;border-radius:2px;display:inline-block}
 #sources table{table-layout:fixed;min-width:600px}#sources th:nth-child(1){width:14%}#sources th:nth-child(2){width:18%}#sources th:nth-child(3){width:18%}#sources th:nth-child(4){width:20%}
 tr.live td{color:var(--gold);font-style:italic}
+.pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px;font-size:13px;color:var(--muted)}.pager button{background:transparent;color:var(--gold);border:1px solid rgba(217,192,138,.45);border-radius:6px;padding:5px 14px;font:inherit;cursor:pointer}.pager button:disabled{opacity:.35;cursor:default}.pager button:not(:disabled):hover{background:rgba(217,192,138,.12)}.pager[hidden]{display:none}
 .card.now{border-color:rgba(217,192,138,.55);box-shadow:0 0 0 1px rgba(217,192,138,.15) inset}
 .card.now .v{color:var(--gold)}
 h2::after{content:"";display:block;margin-top:8px;height:1px;width:120px;background:linear-gradient(90deg,var(--gold),rgba(217,192,138,0))}
@@ -137,6 +138,7 @@ a{color:#9fc0ff}
 <section>
 <h2 data-i18n="hMaho">—</h2>
 <div class="tw"><table><thead><tr><th data-i18n="thDate">—</th><th data-i18n="thN">—</th><th data-i18n="thRank">—</th><th data-i18n="thSales">—</th><th data-i18n="thEstAtt">—</th><th id="th-egross">—</th><th id="th-ecum">—</th></tr></thead><tbody id="mtable"></tbody></table></div>
+<div class="pager" id="mpager" hidden><button type="button" id="mprev"></button><span id="mpage-info"></span><button type="button" id="mnext"></button></div>
 </section>
 
 <section>
@@ -164,7 +166,7 @@ const I18N = {
     upd: (date, d, at, chk) => `全天数据至 ${date}（第 ${d} 天）。` + (at ? `新数据最后写入：${at}。` : '') + (chk ? `爬虫最后检查：${chk}（每小时一次）。` : '') + '「当前估算」在打开页面时按时段实时推算。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `第 ${it.day} 天 ${it.cut} 时集计` : it.kind === 'full' ? `第 ${it.day} 天全天数字` : `第 ${it.day} 天官方数字`) + `（日本时间 ${t}）` : `日本时间 ${t}`),
     chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
-    imputedTag: '（推算）',
+    imputedTag: '（推算）', prevPage: '← 较新', nextPage: '较早 →', pageInfo: (a, b) => `第 ${a} / ${b} 页`,
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
@@ -213,7 +215,7 @@ const I18N = {
     upd: (date, d, at, chk) => `全日データ：${date}（${d}日目）まで。` + (at ? `新データの最終反映：${at}。` : '') + (chk ? `自動取得の最終チェック：${chk}（1時間ごと）。` : '') + '「現在の推定」はページを開いた時点で時間帯から推計しています。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `${it.day}日目の${it.cut}時中間集計` : it.kind === 'full' ? `${it.day}日目の全日データ` : `${it.day}日目の公式発表`) + `（日本時間 ${t}）` : `日本時間 ${t}`),
     chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
-    imputedTag: '（推計）',
+    imputedTag: '（推計）', prevPage: '← 新しい日', nextPage: '古い日 →', pageInfo: (a, b) => `${a} / ${b} ページ`,
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
@@ -262,7 +264,7 @@ const I18N = {
     upd: (date, d, at, chk) => `Full-day data through ${date} (day ${d}). ` + (at ? `Last new data: ${at}. ` : '') + (chk ? `Scraper last checked: ${chk} (hourly). ` : '') + 'The "right now" figure is estimated from the time of day whenever the page is opened.',
     item: (it, t) => (it ? (it.kind === 'interim' ? `day ${it.day} ${it.cut}:00 interim count` : it.kind === 'full' ? `day ${it.day} full-day figures` : `day ${it.day} official figure`) + ` (${t} JST)` : `${t} JST`),
     chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
-    imputedTag: ' (est.)',
+    imputedTag: ' (est.)', prevPage: '← Newer', nextPage: 'Older →', pageInfo: (a, b) => `Page ${a} of ${b}`,
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
@@ -586,20 +588,29 @@ function renderText() {
     withUnit($('v-fa'), L.att(Math.min(...a)) === L.att(Math.max(...a)) ? L.att(Math.min(...a)) : L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
   }
   $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], (r.final ? (r.grossOnly ? L.basisFinalGross : L.basisFinal) : L.basisLatest) + (r.floored ? L.floored : ''), L.dayLong(r.day), '×' + r.mult.toFixed(2), r.adj ? '×' + r.adj.f.toFixed(2) : '—', L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
-  $('mtable').replaceChildren();
+  // 每日明细：先把所有行（含当天推算行）按新到旧排好，再按每页 7 行分页
+  const mrows = [];
   const ncT = nowcast();
   if (ncT) {
     let cg = ncT.base.cum_gross;
-    const rowsNc = ncT.days.map((x) => { cg += x.est_gross; return {...x, cum: cg}; }).reverse();
-    rowsNc.forEach((x) => {
-      const tr = $('mtable').insertRow(); tr.className = 'live';
-      [x.date + ' · ' + (x.partial ? L.nowTag(ncT.hhmm) : L.fullTag), x.day, '—', '≈' + fmt(Math.round(x.sold / 10) * 10), fmt(Math.round(x.est_att)), L.estGrossCell(x.est_gross), L.cumCell(x.cum / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
+    ncT.days.map((x) => { cg += x.est_gross; return {...x, cum: cg}; }).reverse().forEach((x) => {
+      mrows.push({live: true, cells: [x.date + ' · ' + (x.partial ? L.nowTag(ncT.hhmm) : L.fullTag), x.day, '—', '≈' + fmt(Math.round(x.sold / 10) * 10), fmt(Math.round(x.est_att)), L.estGrossCell(x.est_gross), L.cumCell(x.cum / 1e8)]});
     });
   }
   EST.filter((r) => r.film === 'MAHO').sort((x1, x2) => x2.day - x1.day).forEach((r) => {
-    const tr = $('mtable').insertRow();
-    [r.date, r.day, r.rank === null ? '—' : r.rank, r.imputed ? '≈' + fmt(r.sales) + L.imputedTag : fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
+    mrows.push({live: false, cells: [r.date, r.day, r.rank === null ? '—' : r.rank, r.imputed ? '≈' + fmt(r.sales) + L.imputedTag : fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)]});
   });
+  const PER = 7, pages = Math.max(1, Math.ceil(mrows.length / PER));
+  state.mpage = Math.min(Math.max(0, state.mpage || 0), pages - 1);
+  $('mtable').replaceChildren();
+  mrows.slice(state.mpage * PER, state.mpage * PER + PER).forEach((x) => {
+    const tr = $('mtable').insertRow(); if (x.live) tr.className = 'live';
+    x.cells.forEach((v) => (tr.insertCell().textContent = v));
+  });
+  $('mpager').hidden = pages <= 1;
+  $('mpage-info').textContent = L.pageInfo(state.mpage + 1, pages);
+  $('mprev').disabled = state.mpage === 0; $('mnext').disabled = state.mpage >= pages - 1;
+  $('mprev').textContent = L.prevPage; $('mnext').textContent = L.nextPage;
 }
 
 const mahoDay = () => (SAMPLE ? Math.max(0, ...SAMPLE.filter((r) => r.film === 'MAHO').map((r) => num(r.day) || 0)) : 0);
@@ -706,6 +717,8 @@ document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('cl
 $('crange').addEventListener('change', (e) => { state.crange = Number(e.target.value); renderCharts(); });
 $('range').addEventListener('change', (e) => { state.range = Number(e.target.value); renderCharts(); });
 $('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
+$('mprev').addEventListener('click', () => { state.mpage--; renderText(); });
+$('mnext').addEventListener('click', () => { state.mpage++; renderText(); });
 setInterval(() => { if (SAMPLE) loadAll(); loadRun(); }, 5 * 60e3);
 let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderCharts, 150); });
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
