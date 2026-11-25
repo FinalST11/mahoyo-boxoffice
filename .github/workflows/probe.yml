@@ -1,0 +1,29 @@
+name: probe-sources
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/probe.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fetch
+        run: |
+          mkdir -p probe
+          UA="Mozilla/5.0 (mahoyo-boxoffice tracker)"
+          curl -sSL -A "$UA" https://ranma.jp/rankinglist11.html -o probe/ranma11.html || true; sleep 3
+          curl -sSL -A "$UA" https://ranma.jp/rankinglist91.html -o probe/ranma91.html || true; sleep 3
+          curl -sSL -A "$UA" https://ranma.jp/ -o probe/ranma_top.html || true; sleep 3
+          curl -sSL -A "$UA" https://mimorin2014.com/ -o probe/mimorin_top.html || true; sleep 3
+          curl -sSL -A "$UA" https://mimorin2014.com/blog-entry-53218.html -o probe/entry53218.html || true
+          date -u > probe/fetched_at.txt
+          ls -la probe
+      - name: push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b probe2
+          git add probe && git commit -qm "probe" && git push -qf origin probe2
