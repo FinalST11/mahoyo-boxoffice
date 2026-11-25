@@ -125,7 +125,7 @@ a{color:#9fc0ff}
 <section>
 <h2 data-i18n="hFc">—</h2>
 <p class="note" data-i18n="nFc">—</p>
-<div class="tw"><table><thead><tr><th data-i18n="thRef">—</th><th data-i18n="thBasis">—</th><th data-i18n="thDay">—</th><th data-i18n="thMult">—</th><th id="th-att">—</th><th id="th-gross">—</th></tr></thead><tbody id="ftable"></tbody></table></div>
+<div class="tw"><table><thead><tr><th data-i18n="thRef">—</th><th data-i18n="thBasis">—</th><th data-i18n="thDay">—</th><th data-i18n="thMult">—</th><th data-i18n="thAdj">—</th><th id="th-att">—</th><th id="th-gross">—</th></tr></thead><tbody id="ftable"></tbody></table></div>
 </section>
 
 <section>
@@ -166,8 +166,8 @@ const I18N = {
     nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
     range: '范围', nowRange: (d) => `截至今天（第 ${d} 天）`, ranges: ['前 7 天', '前 14 天', '前 21 天', '前 28 天', '全部'], log: '对数刻度',
     hFc: '最终票房预测：套用 HF 三部的倍数',
-    nFc: '倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。没有最终成绩的作品用最后公布的节点，结果是下限。对齐天数取魔法使いの夜在该作品数据范围内的最新官方节点。',
-    thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
+    nFc: '基准是魔法使いの夜最新一天的估算累计（每天更新，官方公布时会被拉回官方数字）。倍数 = 1 + HF 从同一天到最终还涨了多少 × 走势校正；票价按 HF 从同一天到最终的平均票价变化折算。走势校正从第 8 天起生效：比较两部最近一到两周的售票占累计比例和周环比，魔法使いの夜跌得比 HF 慢就放大剩余部分，跌得快就缩小；为了不被假日、特别场次带偏，只取四分之一幅度并限制在 0.85～1.15 倍（用 HF 三部互相回测，这样误差最小）。没有动员和票房都齐的最终成绩的作品用最后公布的节点，结果是下限；预测不会低于最新官方数字。',
+    thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAdj: '走势校正', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
     basisFinal: '最终成绩', basisFinalGross: '最终票房（动员按均价推算）', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
     hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
     hSrc: '官方节点与出处', nSrc: '图上圆点对应的官方数字。出处为发行方公告，或全文转载公告、引用官方数字的媒体报道（官方 X 帖子无法稳定链接）。', thFilm: '作品', thOffAtt: '官方动员', thOffGross: '官方票房', thSrc: '出处', finalRow: '最终成绩', src: (h) => `出处：${h}`,
@@ -209,8 +209,8 @@ const I18N = {
     nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数値は低めに出ます。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
     range: '期間', nowRange: (d) => `現在まで（${d}日目）`, ranges: ['公開7日目まで', '公開14日目まで', '公開21日目まで', '公開28日目まで', '全期間'], log: '対数目盛',
     hFc: '最終興収予測：HF三部作の倍率を適用',
-    nFc: '倍率 = HFの最終動員 ÷ 同じ公開日数時点の推定累計動員。単価はHFの同時点から最終までの平均単価の変化で補正。最終成績がない作品は最後の公式発表を使うため下限値です。基準日は、各作品のデータ範囲内にある魔法使いの夜の最新の公式発表です。',
-    thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
+    nFc: '基準は魔法使いの夜の直近日の推定累計（毎日更新、公式発表時に公式値へ補正）。倍率 = 1 + HFの同日から最終までの伸び × 推移補正。単価はHFの同時点から最終までの平均単価の変化で補正。推移補正は8日目から：直近1～2週間の販売数が累計に占める割合と前週比を両作品で比べ、魔法使いの夜の落ち方がHFより緩ければ残りを大きく、速ければ小さくします。祝日や特別上映に振り回されないよう、補正幅は4分の1にとどめ0.85～1.15倍に制限（HF三部作どうしのバックテストで誤差が最小）。動員・興収が揃った最終成績がない作品は最後の公式発表を使うため下限値。予測は最新の公式値を下回りません。',
+    thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAdj: '推移補正', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
     basisFinal: '最終成績', basisFinalGross: '最終興収（動員は平均単価から推計）', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
     hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
     hSrc: '公式発表と出典', nSrc: 'グラフの丸印に対応する公式発表の数字です。出典は配給元の発表、または発表を全文掲載・引用したメディア記事です（公式Xの投稿は安定してリンクできないため）。', thFilm: '作品', thOffAtt: '公式動員', thOffGross: '公式興収', thSrc: '出典', finalRow: '最終成績', src: (h) => `出典：${h}`,
@@ -252,8 +252,8 @@ const I18N = {
     nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and runs lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends rather than absolute numbers.',
     range: 'Range', nowRange: (d) => `To date (day ${d})`, ranges: ['First 7 days', 'First 14 days', 'First 21 days', 'First 28 days', 'All'], log: 'Log scale',
     hFc: 'Final gross projection using the HF trilogy multipliers',
-    nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. Where a film has no final figure, its latest official figure is used and the result is a lower bound. The aligned day is the latest official Witch on the Holy Night figure that falls within that film\'s data.',
-    thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
+    nFc: 'The base is Witch on the Holy Night\'s estimated total on its latest day (updated daily and pulled back to official figures whenever they are announced). Multiplier = 1 + how much the HF film still grew from that day to the end × trend adjustment; ticket prices are adjusted by how that film\'s average price changed over the same period. From day 8, the trend adjustment compares both films\' last one to two weeks (as a share of the running total, and against the period before): if Witch on the Holy Night is falling more slowly than the HF film the remaining part is scaled up, if faster it is scaled down. To keep holidays and special screenings from swinging it, only a quarter of the adjustment is applied and it is limited to 0.85–1.15× (the setting with the smallest error when the HF films were back-tested against each other). Where a film has no final result with both admissions and gross, its latest official figure is used and the result is a lower bound. The projection never falls below the latest official figure.',
+    thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAdj: 'Trend adj.', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
     basisFinal: 'Final result', basisFinalGross: 'Final gross (admissions estimated from average ticket price)', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
     hSrc: 'Official figures and sources', nSrc: 'The official figures behind the circles on the chart. Sources are the distributor\'s announcements, or news reports that reprint or quote them (official X posts can\'t be linked reliably).', thFilm: 'Film', thOffAtt: 'Official admissions', thOffGross: 'Official gross', thSrc: 'Source', finalRow: 'Final result', src: (h) => `Source: ${h}`,
@@ -318,31 +318,58 @@ function estimate(sample, milestones) {
   return out;
 }
 
+// 最终票房预测
+// 基准：魔法使いの夜最新一天的估算累计（每天更新；每次官方公布都会把估算拉回官方数字）。
+// 剩余部分：HF 从同一天到最终还涨了多少（剩余倍数），再按两部的近期走势校正：
+//   走势校正 = [(近期售票占累计的比例之比) × (按周保留率推算的尾部长度之比)] 的 1/4 次方，第 8 天起生效，限制在 0.85～1.15 倍。
 function forecast(est, milestones) {
+  const ms = est.filter((r) => r.film === 'MAHO' && r.sales !== null && r.cum_att).sort((a, b) => a.day - b.day);
+  if (!ms.length) return [];
   const mm = milestones.filter((m) => m.film === 'MAHO' && m.kind === 'point' && num(m.gross) !== null && num(m.attendance) !== null).sort((a, b) => num(b.day) - num(a.day));
-  if (!mm.length) return [];
+  const sales = (f) => new Map(SAMPLE.filter((r) => r.film === f && num(r.sales) !== null).map((r) => [num(r.day), num(r.sales)]));
+  const sm = sales('MAHO');
   const rows = [];
   FILMS.slice(0, 3).forEach(([f], i) => {
-    const maxDay = Math.max(0, ...est.filter((r) => r.film === f && r.sales !== null).map((r) => r.day));
-    const base = mm.find((m) => num(m.day) <= maxDay);
+    const sh = sales(f);
+    const maxDay = Math.max(0, ...sh.keys());
+    const base = ms.filter((r) => r.day <= maxDay).pop();
     if (!base) return;
-    const d = num(base.day), A = num(base.attendance), G = num(base.gross);
+    const d = base.day;
     // 只用动员和票房都公布了的最终成绩；只有票房的（如 HF 第三章映连数字，含次年重映）不用，改用最后一个动员、票房都齐的官方节点（下限）
     const fin = milestones.find((m) => m.film === f && m.kind === 'final' && num(m.attendance) !== null && num(m.gross) !== null);
-    const pts = milestones.filter((m) => m.film === f && m.kind === 'point' && num(m.gross) !== null).sort((a, b) => num(b.day) - num(a.day));
+    const pts = milestones.filter((m) => m.film === f && m.kind === 'point' && num(m.gross) !== null && num(m.attendance) !== null).sort((a, b) => num(b.day) - num(a.day));
     const end = fin || pts[0];
     const e = est.find((r) => r.film === f && r.day === d);
     if (!end || !e || !e.cum_att || !e.cum_gross) return;
-    // 最终成绩只公布了票房时，动员按最后一个官方节点的平均票价推算
-    const grossOnly = num(end.attendance) === null;
-    const endA = grossOnly ? (pts[0] ? num(end.gross) * num(pts[0].attendance) / num(pts[0].gross) : null) : num(end.attendance);
-    if (!endA) return;
-    const mult = endA / e.cum_att;
+    const endA = num(end.attendance);
+    const remH = Math.max(0, endA / e.cum_att - 1);
+    // 走势校正（第 8 天起）：窗口最长两周；幅度只取四分之一、限制在 0.85～1.15 倍，避免假日、特别场次造成大起大落
+    let adj = null;
+    if (d >= 8 && !window.NO_ADJ) {
+      const lag = d >= 28 ? 14 : 7, k = d >= 28 ? 14 : Math.min(7, d - 7);
+      const recent = [...Array(k)].map((_, j) => d - j), prev = recent.map((x) => x - lag);
+      const ok = (m, days) => days.every((x) => m.has(x));
+      if (ok(sm, recent) && ok(sm, prev) && ok(sh, recent) && ok(sh, prev)) {
+        const sum = (m, days) => days.reduce((t, x) => t + m.get(x), 0);
+        const cumS = (m) => [...m].filter(([x]) => x <= d).reduce((t, [, v]) => t + v, 0);
+        const weekly = (m) => Math.min(0.95, Math.max(0.05, Math.pow(sum(m, recent) / sum(m, prev), 7 / lag)));
+        const rM = weekly(sm), rH = weekly(sh);
+        const wM = sum(sm, recent) / cumS(sm), wH = sum(sh, recent) / cumS(sh);
+        const tail = (r) => r / (1 - r);
+        const raw = (wM / wH) * (tail(rM) / tail(rH));
+        // 回测（拿 HF 三部互相当作「魔法使いの夜」）：全额校正误差变大，只取四分之一幅度、限制在 0.85～1.15 时误差最小
+        adj = {f: Math.min(1.15, Math.max(0.85, Math.pow(raw, 0.25))), rM, rH};
+      }
+    }
+    const remM = remH * (adj ? adj.f : 1);
+    const mult = 1 + remM;
     const priceRatio = (num(end.gross) / endA) / (e.cum_gross / e.cum_att);
-    let projAtt = A * mult, projGross = projAtt * (G / A) * priceRatio, floored = false;
-    const top = mm[0], topA = num(top.attendance), topG = num(top.gross);
-    if (projGross < topG || projAtt < topA) { projGross = Math.max(projGross, topG); projAtt = Math.max(projAtt, topA); floored = true; }
-    rows.push({idx: i, final: !!fin, grossOnly, floored, day: d, mult, att: projAtt, gross: projGross});
+    let projAtt = base.cum_att * mult;
+    let projGross = base.cum_att * remM * (base.cum_gross / base.cum_att) * priceRatio + base.cum_gross;
+    let floored = false;
+    const top = mm[0];
+    if (top && (projGross < num(top.gross) || projAtt < num(top.attendance))) { projGross = Math.max(projGross, num(top.gross)); projAtt = Math.max(projAtt, num(top.attendance)); floored = true; }
+    rows.push({idx: i, final: !!fin, floored, day: d, mult, adj, att: projAtt, gross: projGross});
   });
   return rows;
 }
@@ -484,7 +511,7 @@ function renderText() {
     $('s-fc').textContent = L.sFc(L.gross(mid, 1));
     withUnit($('v-fa'), L.att(Math.min(...a)) === L.att(Math.max(...a)) ? L.att(Math.min(...a)) : L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
   }
-  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], (r.final ? (r.grossOnly ? L.basisFinalGross : L.basisFinal) : L.basisLatest) + (r.floored ? L.floored : ''), L.dayLong(r.day), '×' + r.mult.toFixed(2), L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
+  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], (r.final ? (r.grossOnly ? L.basisFinalGross : L.basisFinal) : L.basisLatest) + (r.floored ? L.floored : ''), L.dayLong(r.day), '×' + r.mult.toFixed(2), r.adj ? '×' + r.adj.f.toFixed(2) : '—', L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
   $('mtable').replaceChildren();
   const ncT = nowcast();
   if (ncT) {
