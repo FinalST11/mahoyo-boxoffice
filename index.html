@@ -178,15 +178,26 @@ function lineChart(el, series, opts) {
   (opts.dots || []).forEach((p) => svg.append('circle').attr('cx', x(p.x)).attr('cy', y(p.y)).attr('r', 4).attr('fill', css('--bg')).attr('stroke', p.color).attr('stroke-width', 2));
   const tip = d3.select(el).append('div').attr('class', 'tip').style('display', 'none');
   const guide = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).attr('stroke', css('--axis')).style('display', 'none');
+  const hov = svg.append('g').style('pointer-events', 'none');
   svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill', 'transparent')
-    .on('pointermove', (ev) => {
+    .on('pointermove pointerdown', (ev) => {
       const [px] = d3.pointer(ev); const dx = Math.max(1, Math.min(opts.maxX, Math.round(x.invert(px))));
       guide.attr('x1', x(dx)).attr('x2', x(dx)).style('display', null);
-      tip.replaceChildren(); tip.append('div').style('font-weight', '600').text('第 ' + dx + ' 天');
-      series.forEach((s) => { const p = s.pts.find((q) => q.x === dx); if (p && p.y !== null) tip.append('div').text(s.name + '：' + opts.tipfmt(p.y)); });
-      tip.style('display', null).style('left', Math.min(x(dx) + 12, W - 200) + 'px').style('top', m.t + 'px');
+      tip.selectAll('*').remove(); tip.append('div').style('font-weight', '600').text('第 ' + dx + ' 天');
+      hov.selectAll('*').remove();
+      series.forEach((s) => {
+        const p = s.pts.find((q) => q.x === dx);
+        if (!p || p.y === null || (opts.log && p.y <= 0)) return;
+        const row = tip.append('div').style('display', 'flex').style('align-items', 'center').style('gap', '6px');
+        row.append('span').style('width', '10px').style('height', '10px').style('border-radius', '2px').style('background', s.color).style('flex', 'none');
+        row.append('span').text(s.name + '：' + opts.tipfmt(p.y));
+        hov.append('circle').attr('cx', x(dx)).attr('cy', y(p.y)).attr('r', 4).attr('fill', s.color).attr('stroke', css('--bg')).attr('stroke-width', 2);
+      });
+      const tw = tip.node().offsetWidth || 190;
+      const left = x(dx) + 12 + tw > W ? x(dx) - 12 - tw : x(dx) + 12;
+      tip.style('display', null).style('left', left + 'px').style('top', m.t + 'px');
     })
-    .on('pointerleave', () => { tip.style('display', 'none'); guide.style('display', 'none'); });
+    .on('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; tip.style('display', 'none'); guide.style('display', 'none'); hov.selectAll('*').remove(); });
 }
 
 let SAMPLE = [], MS = [], EST = [];
