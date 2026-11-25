@@ -177,7 +177,7 @@ const I18N = {
     upd: (date, d, at, chk) => `全天数据至 ${date}（第 ${d} 天）。` + (at ? `新数据最后写入：${at}。` : '') + (chk ? `爬虫最后检查：${chk}（每小时一次）。` : '') + '「当前估算」在打开页面时按时段实时推算。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `第 ${it.day} 天 ${it.cut} 时集计` : it.kind === 'full' ? `第 ${it.day} 天全天数字` : `第 ${it.day} 天官方数字`) + `（日本时间 ${t}）` : `日本时间 ${t}`),
     chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
-    imputedTag: '（推算）', projName: '魔法使いの夜（预计）', projEnd: (g) => `→ 最终约 ${g}`, projLegend: '预计（虚线：按 HF 三部走势的平均；浅色带：最低～最高）',
+    imputedTag: '（推算）', offChart: '未进前 25', projName: '魔法使いの夜（预计）', projEnd: (g) => `→ 最终约 ${g}`, projLegend: '预计（虚线：按 HF 三部走势的平均；浅色带：最低～最高）',
     hRetro: '预计与实际', hTraj: '最终预测的变化', nTraj: '每一天都只用当时已有的数据重跑模型，看最终票房预测是怎么变的（线为三项平均，浅色带为最低～最高）。模型靠谱的话，它会越来越稳定；如果一直往同一个方向移动，说明模型系统性地偏高或偏低。', trajName: '当时的最终预测', hWeek: '按周比较新增票房', nRetro: '一周前的模型预计「之后 7 天会新增多少票房」，和实际新增多少对比。按整周比较，周末和平日的差别会互相抵消。偏差为正说明预计偏高。「实际」在两次官方公布之间也是估算，标「官方」的那一行终点是官方公布的真实数字。', thWeek: '这一周', thWeekPred: '一周前预计新增', thWeekAct: '实际新增', thRetroErr: '偏差', retroNone: '上映第 10 天（11/29）起才有第一行：需要一周前（第 3 天起）有官方数字的预计。', weekSpan: (a, b, d1, d2) => `第 ${d1}～${d2} 天（${a.slice(5)}～${b.slice(5)}）`, offMark: ' · 官方', prevPage: '← 较新', nextPage: '较早 →', pageInfo: (a, b) => `第 ${a} / ${b} 页`,
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, sNowFull: (d, n, b) => `第 ${d} 天全天样本约 ${n} 张（全天数字公布前的推算）· ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
@@ -198,7 +198,7 @@ const I18N = {
     method: '方法与注意事项',
     methodList: [
       '样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。',
-      '掉出榜单之后：mimorin 的全天合算榜只列前 25 名。魔法使いの夜掉出榜的日子，按它最近两周的周环比往下推算张数（后期衰减会变慢，所以只取周环比的四次方根），并且不超过当天第 25 名的张数；这些天在每日明细里标「推算」。用 HF 三部回测，推算期间的张数误差约 ±15%；但推算的张数照常参与官方节点之间的分配，每次官方公布都会把它们一起校正，而且这时每天的票房已经很少，对累计影响通常不到 1%。',
+      '掉出榜单之后：mimorin 的全天合算榜只列前 25 名。魔法使いの夜掉出前 25 的日子，不计入票房，累计停在原地，每日明细里显示「未进前 25」。之后发行方如果公布官方累计，会在图上以圆点显示，但曲线不会为这些天补上票房。',
       '优惠日：每周三（TOHO「TOHOウェンズデイ」）、每月 1 日（ファーストデイ）票价较低，12 月 1 日「映画の日」更低。估算魔法使いの夜每天的票房时，这几天每张样本按 0.9、0.88、0.8 倍的平均票价折算（动员不受影响）。这些比例是按 TOHO 公开票价温和设定的假设；因为每次官方公布都会把累计拉回官方数字，它主要影响每日明细，对累计和预测影响很小。',
       '当前估算：用本片自己的数据算出 14 时、19 时中间集计约占全天的比例（分四类：平日、周五型〔明天休息〕、周六型〔今天明天都休息〕、周日型〔明天上班〕；每类的比例是本类自己的数据和所有日子的整体比例的加权平均，本类数据少时主要靠整体，多了就看本类；首日有首映效应不计入；每晚全天数字进来后自动重新校准），再按当前日本时间在开场前、14 时、19 时、末场之间插值，推算今天到现在的样本售票，然后用最近一天的换算比例折成票房。14 时以前没有当天数据，先按上周同日（或最近一天）推算。每次打开页面实时计算，每 5 分钟刷新；爬虫每小时补入新的 14/19 时集计。这只是参考，第二天早上的全天数字公布后会替换。',
       '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
@@ -227,7 +227,7 @@ const I18N = {
     upd: (date, d, at, chk) => `全日データ：${date}（${d}日目）まで。` + (at ? `新データの最終反映：${at}。` : '') + (chk ? `自動取得の最終チェック：${chk}（1時間ごと）。` : '') + '「現在の推定」はページを開いた時点で時間帯から推計しています。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `${it.day}日目の${it.cut}時中間集計` : it.kind === 'full' ? `${it.day}日目の全日データ` : `${it.day}日目の公式発表`) + `（日本時間 ${t}）` : `日本時間 ${t}`),
     chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
-    imputedTag: '（推計）', projName: '魔法使いの夜（予測）', projEnd: (g) => `→ 最終 約${g}`, projLegend: '予測（破線：HF三部作の推移の平均、帯：最低～最高）',
+    imputedTag: '（推計）', offChart: '圏外', projName: '魔法使いの夜（予測）', projEnd: (g) => `→ 最終 約${g}`, projLegend: '予測（破線：HF三部作の推移の平均、帯：最低～最高）',
     hRetro: '予測と実績', hTraj: '最終予測の推移', nTraj: '各日、その時点で手に入ったデータだけでモデルを再計算し、最終興収の予測がどう変わったかを示します（線は3作品の平均、帯は最低～最高）。モデルが妥当なら次第に安定し、同じ方向に動き続けるなら系統的に高すぎ／低すぎることを意味します。', trajName: 'その時点の最終予測', hWeek: '週ごとの増加分の比較', nRetro: '1週間前のモデルが予測した「その後7日間の興収の増加分」と実際の増加分の比較。週単位なので平日と週末の差は相殺されます。プラスなら予測が高め。公式発表の間の「実績」も推計で、「公式」の行は終点が公式発表の値です。', thWeek: 'この1週間', thWeekPred: '1週間前の予測増加分', thWeekAct: '実際の増加分', thRetroErr: 'ずれ', retroNone: '最初の行は10日目（11/29）から：3日目以降の公式発表をもとにした1週間前の予測が必要です。', weekSpan: (a, b, d1, d2) => `${d1}～${d2}日目（${a.slice(5)}～${b.slice(5)}）`, offMark: '・公式', prevPage: '← 新しい日', nextPage: '古い日 →', pageInfo: (a, b) => `${a} / ${b} ページ`,
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, sNowFull: (d, n, b) => `${d}日目の全日サンプル 約 ${n} 枚（全日データ公開前の推計）・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
@@ -248,7 +248,7 @@ const I18N = {
     method: '手法と注意点',
     methodList: [
       'サンプル：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> の合算ランキング（独立系を含まない）。主要シネコンの販売枚数で、金額ではありません。HF第二章・第三章と魔法使いの夜は「デイリー合算ランキング」（全日）、HF第一章は「19時中間集計」のみ。',
-      'ランキング圏外になった後：mimorinの全日合算ランキングは上位25位まで。魔法使いの夜が圏外になった日は、直近2週間の前週比から販売数を推計し（終盤は落ち方が緩やかになるため前週比の4乗根を使用）、その日の25位の販売数を上限とします。日別データでは「推計」と表示。HF三部作でのバックテストでは推計期間の販売数の誤差は約±15%ですが、推計値も公式発表の間の配分に使われ公式発表のたびに補正されるうえ、この時期の日別興収は小さいため、累計への影響は通常1%未満です。',
+      'ランキング圏外になった後：mimorinの全日合算ランキングは上位25位まで。魔法使いの夜が圏外の日は興収に加えず、累計はそのまま。日別データには「圏外」と表示します。その後に公式累計が発表されればグラフに丸印で示しますが、曲線ではこれらの日の分を補いません。',
       'サービスデー：毎週水曜（TOHO「TOHOウェンズデイ」）と毎月1日（ファーストデイ）は単価が低く、12月1日「映画の日」はさらに低くなります。魔法使いの夜の日別興収の推計では、これらの日のサンプル1枚あたりの平均単価をそれぞれ0.9・0.88・0.8倍として換算（動員には影響しません）。TOHOの公表料金をもとに控えめに置いた仮定で、累計は公式発表のたびに公式値へ補正されるため、主に日別の内訳に効き、累計や予測への影響はごく小さいものです。',
       '現在の推定：本作のデータから14時・19時中間集計が全日に占める割合を4区分（平日・金曜型〔翌日休み〕・土曜型〔当日も翌日も休み〕・日曜型〔翌日出勤〕）で求め（各区分の割合は、その区分のデータと全日程の全体の割合の加重平均。区分のデータが少ないうちは全体寄り、増えるほど区分寄り。初日は除外。毎晩全日データが入ると自動で再補正）、現在の日本時間に応じて開場前・14時・19時・最終回の間で補間し、本日ここまでのサンプル販売数を推計。直近の日の換算率で興収に換算しています。14時より前は当日データがないため、先週同曜日（または直近の日）から推計。ページを開くたびに計算し、5分ごとに更新。14時・19時の集計は1時間ごとに自動取得。翌朝の全日データで置き換わる参考値です。',
       '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
@@ -277,7 +277,7 @@ const I18N = {
     upd: (date, d, at, chk) => `Full-day data through ${date} (day ${d}). ` + (at ? `Last new data: ${at}. ` : '') + (chk ? `Scraper last checked: ${chk} (hourly). ` : '') + 'The "right now" figure is estimated from the time of day whenever the page is opened.',
     item: (it, t) => (it ? (it.kind === 'interim' ? `day ${it.day} ${it.cut}:00 interim count` : it.kind === 'full' ? `day ${it.day} full-day figures` : `day ${it.day} official figure`) + ` (${t} JST)` : `${t} JST`),
     chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
-    imputedTag: ' (est.)', projName: 'Witch on the Holy Night (projected)', projEnd: (g) => `→ final ≈ ${g}`, projLegend: 'Projection (dashed: average of the HF trajectories; band: lowest to highest)',
+    imputedTag: ' (est.)', offChart: 'outside top 25', projName: 'Witch on the Holy Night (projected)', projEnd: (g) => `→ final ≈ ${g}`, projLegend: 'Projection (dashed: average of the HF trajectories; band: lowest to highest)',
     hRetro: 'Projected vs actual', hTraj: 'How the final projection has moved', nTraj: 'For each day, the model is rerun with only the data available then, showing how the final-gross projection changed (line: average of the three; band: lowest to highest). If the model is sound it should settle down; if it keeps moving one way, it is systematically too high or too low.', trajName: 'Final projection at the time', hWeek: 'Weekly gain: projected vs actual', nRetro: 'What the model projected a week earlier for the gross added over the following 7 days, against what was actually added. Whole weeks are compared, so weekday/weekend differences cancel out. A positive gap means the projection was too high. Between official announcements the "actual" figure is also an estimate; rows marked "official" end on an official figure.', thWeek: 'Week', thWeekPred: 'Projected gain (a week before)', thWeekAct: 'Actual gain', thRetroErr: 'Gap', retroNone: 'The first row appears on day 10 (Nov 29): it needs a projection made a week earlier, from day 3 on.', weekSpan: (a, b, d1, d2) => `Days ${d1}–${d2} (${a.slice(5)}–${b.slice(5)})`, offMark: ' · official', prevPage: '← Newer', nextPage: 'Older →', pageInfo: (a, b) => `Page ${a} of ${b}`,
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, sNowFull: (d, n, b) => `Day ${d}: about ${n} sampled tickets for the full day (estimate until the full-day figure is posted) · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
@@ -298,7 +298,7 @@ const I18N = {
     method: 'Method and caveats',
     methodList: [
       'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day Daily Combined Ranking (デイリー合算ランキング); HF I only has the 7 p.m. interim count (19時中間集計).',
-      'After it drops out of the chart: mimorin\'s full-day combined chart only lists the top 25. On days when Witch on the Holy Night is outside it, its tickets are estimated from its week-on-week trend over the last two weeks (softened to the fourth root, since late-run declines slow down), capped at that day\'s 25th-place figure, and marked "est." in the daily table. Back-tested on the HF films, the estimated tickets are off by about ±15%, but they are still allocated between official figures and corrected by every announcement, and daily grosses are small by then, so the effect on the total is usually under 1%.',
+      'After it drops out of the chart: mimorin\'s full-day combined chart only lists the top 25. Days when Witch on the Holy Night is outside the top 25 add nothing to the running total, which stays flat, and the daily table shows "outside top 25". If an official running total is announced later it is shown as a circle on the chart, but the curve does not fill in those days.',
       'Discount days: Wednesdays (TOHO\'s "TOHO Wednesday") and the 1st of each month ("First Day") have lower ticket prices, and December 1 ("Movie Day") lower still. When estimating Witch on the Holy Night\'s daily gross, each sampled ticket on those days is valued at 0.9×, 0.88× and 0.8× the usual average price (admissions are unaffected). These factors are cautious assumptions based on TOHO\'s published prices. Because the running total is pulled back to every official figure, they mainly affect the daily breakdown and have very little effect on the total or the projection.',
       'Right-now estimate: from this film\'s own data, the share of the full day sold by the 2 p.m. and 7 p.m. interim counts is worked out for four day types (weekdays, Friday-type with a day off next, Saturday-type with today and tomorrow off, and Sunday-type with work tomorrow); each type\'s share is a weighted blend of its own data and the overall share across all days, leaning on the overall share while a type has little data; opening day is excluded; everything is recalibrated each night when the full-day figure arrives. The current Japan time is then interpolated between opening, 2 p.m., 7 p.m. and the last show to estimate today\'s sampled tickets so far, converted to gross at the latest day\'s rate. Before 2 p.m. there is no same-day data, so the same day last week (or the latest day) is used. Recalculated whenever the page is opened and every 5 minutes; interim counts are fetched hourly. It is only a guide and is replaced by the full-day figure the next morning.',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
@@ -338,33 +338,11 @@ const priceFactor = (iso) => {
   return new Date(iso + 'T00:00:00Z').getUTCDay() === 3 ? 0.9 : 1;
 };
 
-// 魔法使いの夜掉出全天榜前 25（或原帖缺）的日子：按最近两周的周环比往下推，再用当天第 25 名的张数封顶。
-// 推算出的张数照常参与官方节点之间的分配，所以每次官方公布都会把它们一起校正。
-function imputeMissing(rows) {
-  const by = new Map(rows.map((r) => [r.day, r]));
-  const real = rows.filter((r) => r.sales !== null);
-  if (real.length < 14) return;
-  const lastReal = real[real.length - 1].day;
-  const wk = (d) => [0, 1, 2, 3, 4, 5, 6].map((j) => by.get(d - j)).every((x) => x && x.sales !== null && !x.imputed) ? [0, 1, 2, 3, 4, 5, 6].reduce((t, j) => t + by.get(d - j).sales, 0) : null;
-  const a = wk(lastReal), b = wk(lastReal - 7);
-  // 后期衰减会变慢：按 HF 三部回测，周环比取四次方根（衰减放缓）误差最小
-  const ret = Math.pow(a && b ? Math.min(1, Math.max(0.3, a / b)) : 0.7, 0.25);
-  for (const r of rows) {
-    if (r.sales !== null || r.day <= lastReal) continue;
-    const ago = by.get(r.day - 7), prev = by.get(r.day - 1);
-    let v = ago && ago.sales !== null ? ago.sales * ret : prev && prev.sales !== null ? prev.sales * Math.pow(ret, 1 / 7) : null;
-    const m = r.note.match(/第25名(\d+)张/);
-    if (v !== null && m) v = Math.min(v, Number(m[1]));
-    if (v !== null) { r.sales = Math.round(v); r.imputed = true; }
-  }
-}
-
 function estimate(sample, milestones) {
   const out = [];
   for (const [f] of FILMS) {
     const rows = sample.filter((r) => r.film === f).map((r) => ({day: num(r.day), date: r.date, sales: num(r.sales), rank: num(r.rank), note: r.note || ''})).sort((a, b) => a.day - b.day);
     if (!rows.length) continue;
-    if (f === 'MAHO') imputeMissing(rows);
     const maxDay = rows[rows.length - 1].day;
     const ms = milestones.filter((m) => m.film === f && m.kind === 'point' && num(m.day) !== null && num(m.day) <= maxDay);
     const alloc = (key) => {
@@ -683,7 +661,7 @@ function renderText() {
     });
   }
   EST.filter((r) => r.film === 'MAHO').sort((x1, x2) => x2.day - x1.day).forEach((r) => {
-    mrows.push({live: false, cells: [r.date, r.day, r.rank === null ? '—' : r.rank, r.imputed ? '≈' + fmt(r.sales) + L.imputedTag : fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)]});
+    mrows.push({live: false, cells: [r.date, r.day, r.rank === null ? '—' : r.rank, r.sales === null ? L.offChart : fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)]});
   });
   const PER = 7, pages = Math.max(1, Math.ceil(mrows.length / PER));
   state.mpage = Math.min(Math.max(0, state.mpage || 0), pages - 1);
