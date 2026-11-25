@@ -162,7 +162,7 @@ const I18N = {
     hFc: '最终票房预测：套用 HF 三部的倍数',
     nFc: '倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。没有最终成绩的作品用最后公布的节点，结果是下限。对齐天数取魔法使いの夜在该作品数据范围内的最新官方节点。',
     thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
-    basisFinal: '最终成绩', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
+    basisFinal: '最终成绩', basisFinalGross: '最终票房（动员按均价推算）', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
     hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
     hSrc: '官方节点与出处', nSrc: '图上圆点对应的官方数字。出处为发行方公告，或全文转载公告、引用官方数字的媒体报道（官方 X 帖子无法稳定链接）。', thFilm: '作品', thOffAtt: '官方动员', thOffGross: '官方票房', thSrc: '出处', finalRow: '最终成绩', src: (h) => `出处：${h}`,
     method: '方法与注意事项',
@@ -170,6 +170,7 @@ const I18N = {
       '样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。',
       '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
       'HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。',
+      'HF 第三章的最终成绩只有映连公布的票房 19.5 亿日元（四舍五入到 0.1 亿），没有动员；预测时动员按最后一个官方节点的平均票价推算。',
       'HF 第三章上映时有防疫限座，网站覆盖的影院数也比前两部多。',
       '预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。',
       '原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。'],
@@ -201,7 +202,7 @@ const I18N = {
     hFc: '最終興収予測：HF三部作の倍率を適用',
     nFc: '倍率 = HFの最終動員 ÷ 同じ公開日数時点の推定累計動員。単価はHFの同時点から最終までの平均単価の変化で補正。最終成績がない作品は最後の公式発表を使うため下限値です。基準日は、各作品のデータ範囲内にある魔法使いの夜の最新の公式発表です。',
     thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
-    basisFinal: '最終成績', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
+    basisFinal: '最終成績', basisFinalGross: '最終興収（動員は平均単価から推計）', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
     hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
     hSrc: '公式発表と出典', nSrc: 'グラフの丸印に対応する公式発表の数字です。出典は配給元の発表、または発表を全文掲載・引用したメディア記事です（公式Xの投稿は安定してリンクできないため）。', thFilm: '作品', thOffAtt: '公式動員', thOffGross: '公式興収', thSrc: '出典', finalRow: '最終成績', src: (h) => `出典：${h}`,
     method: '手法と注意点',
@@ -209,6 +210,7 @@ const I18N = {
       'サンプル：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> の合算ランキング（独立系を含まない）。主要シネコンの販売枚数で、金額ではありません。HF第二章・第三章と魔法使いの夜は「デイリー合算ランキング」（全日）、HF第一章は「19時中間集計」のみ。',
       '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
       'HF第二章：2/22は全日ランキング25位圏外。2/24も圏外のため、当日の19時集計と2月の日曜の全日/19時の平均比率から推計。3/1以降は圏外。',
+      'HF第三章の最終成績は映連発表の興収19.5億円（0.1億円単位で四捨五入）のみで、動員は公表されていません。予測では、最後の公式発表の平均単価から動員を推計しています。',
       'HF第三章の公開時は感染対策の座席制限があり、集計対象の劇場数も前2作より多くなっています。',
       '予測はHF三部作の推移を当てはめただけです。魔法使いの夜は347館の拡大公開で、11/27からラージフォーマット上映も始まるため、推移はHFと異なる可能性があります。',
       '元データ：<a href="data/sample.csv">sample.csv</a>（日別サンプル）、<a href="data/milestones.csv">milestones.csv</a>（公式発表と出典）。'],
@@ -240,7 +242,7 @@ const I18N = {
     hFc: 'Final gross projection using the HF trilogy multipliers',
     nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. Where a film has no final figure, its latest official figure is used and the result is a lower bound. The aligned day is the latest official Witch on the Holy Night figure that falls within that film\'s data.',
     thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
-    basisFinal: 'Final result', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
+    basisFinal: 'Final result', basisFinalGross: 'Final gross (admissions estimated from average ticket price)', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
     hSrc: 'Official figures and sources', nSrc: 'The official figures behind the circles on the chart. Sources are the distributor\'s announcements, or news reports that reprint or quote them (official X posts can\'t be linked reliably).', thFilm: 'Film', thOffAtt: 'Official admissions', thOffGross: 'Official gross', thSrc: 'Source', finalRow: 'Final result', src: (h) => `Source: ${h}`,
     method: 'Method and caveats',
@@ -248,6 +250,7 @@ const I18N = {
       'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day Daily Combined Ranking (デイリー合算ランキング); HF I only has the 7 p.m. interim count (19時中間集計).',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
       'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
+      'HF III\'s final result is only the ¥1,950 million gross published by the Motion Picture Producers Association of Japan (rounded to ¥10 million); no admissions figure was released. The projection estimates its admissions from the average ticket price at the last official figure.',
       'HF III opened under pandemic seating limits, and mimorin2014 tracked more theaters for it than for the first two films.',
       'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
       'Raw data: <a href="data/sample.csv">sample.csv</a> (daily samples), <a href="data/milestones.csv">milestones.csv</a> (official figures and sources).'],
@@ -316,12 +319,16 @@ function forecast(est, milestones) {
     const end = fin || pts[0];
     const e = est.find((r) => r.film === f && r.day === d);
     if (!end || !e || !e.cum_att || !e.cum_gross) return;
-    const mult = num(end.attendance) / e.cum_att;
-    const priceRatio = (num(end.gross) / num(end.attendance)) / (e.cum_gross / e.cum_att);
+    // 最终成绩只公布了票房时，动员按最后一个官方节点的平均票价推算
+    const grossOnly = num(end.attendance) === null;
+    const endA = grossOnly ? (pts[0] ? num(end.gross) * num(pts[0].attendance) / num(pts[0].gross) : null) : num(end.attendance);
+    if (!endA) return;
+    const mult = endA / e.cum_att;
+    const priceRatio = (num(end.gross) / endA) / (e.cum_gross / e.cum_att);
     let projAtt = A * mult, projGross = projAtt * (G / A) * priceRatio, floored = false;
     const top = mm[0], topA = num(top.attendance), topG = num(top.gross);
     if (projGross < topG || projAtt < topA) { projGross = Math.max(projGross, topG); projAtt = Math.max(projAtt, topA); floored = true; }
-    rows.push({idx: i, final: !!fin, floored, day: d, mult, att: projAtt, gross: projGross});
+    rows.push({idx: i, final: !!fin, grossOnly, floored, day: d, mult, att: projAtt, gross: projGross});
   });
   return rows;
 }
@@ -402,7 +409,7 @@ function renderText() {
     $('s-fc').textContent = L.sFc(L.gross(mid, 1));
     withUnit($('v-fa'), L.att(Math.min(...a)) === L.att(Math.max(...a)) ? L.att(Math.min(...a)) : L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
   }
-  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], (r.final ? L.basisFinal : L.basisLatest) + (r.floored ? L.floored : ''), L.dayLong(r.day), '×' + r.mult.toFixed(2), L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
+  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], (r.final ? (r.grossOnly ? L.basisFinalGross : L.basisFinal) : L.basisLatest) + (r.floored ? L.floored : ''), L.dayLong(r.day), '×' + r.mult.toFixed(2), L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
   $('mtable').replaceChildren(); EST.filter((r) => r.film === 'MAHO').sort((x1, x2) => x2.day - x1.day).forEach((r) => {
     const tr = $('mtable').insertRow();
     [r.date, r.day, r.rank === null ? '—' : r.rank, fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
