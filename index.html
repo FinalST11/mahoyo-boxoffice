@@ -100,7 +100,7 @@ a{color:#9fc0ff}
 <h2 data-i18n="hCum">—</h2>
 <p class="note" data-i18n="nCum">—</p>
 <div class="ctrl">
-<label><span data-i18n="range">—</span> <select id="crange"><option value="7"></option><option value="14"></option><option value="30"></option><option value="57"></option><option value="0" selected></option></select></label>
+<label><span data-i18n="range">—</span> <select id="crange"><option value="7"></option><option value="14"></option><option value="21"></option><option value="28"></option><option value="0" selected></option></select></label>
 </div>
 <div class="legend" id="legend"></div>
 <div class="chart" id="cum"></div>
@@ -110,7 +110,7 @@ a{color:#9fc0ff}
 <h2 data-i18n="hDaily">—</h2>
 <p class="note" data-i18n="nDaily">—</p>
 <div class="ctrl">
-<label><span data-i18n="range">—</span> <select id="range"><option value="7"></option><option value="14"></option><option value="30" selected></option><option value="57"></option><option value="0"></option></select></label>
+<label><span data-i18n="range">—</span> <select id="range"><option value="7"></option><option value="14"></option><option value="21"></option><option value="28" selected></option><option value="0"></option></select></label>
 <label><input type="checkbox" id="log"> <span data-i18n="log">—</span></label>
 </div>
 <div class="chart" id="daily"></div>
@@ -150,7 +150,7 @@ const I18N = {
     hCum: '估算累计票房：四部按上映天数对齐', nCum: '每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。',
     hDaily: '每日售票：mimorin2014 合算样本',
     nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
-    range: '范围', ranges: ['前 7 天', '前 14 天', '前 30 天', '前 57 天', '全部'], log: '对数刻度',
+    range: '范围', ranges: ['前 7 天', '前 14 天', '前 21 天', '前 28 天', '全部'], log: '对数刻度',
     hFc: '最终票房预测：套用 HF 三部的倍数',
     nFc: '倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。没有最终成绩的作品用最后公布的节点，结果是下限。对齐天数取魔法使いの夜在该作品数据范围内的最新官方节点。',
     thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
@@ -189,7 +189,7 @@ const I18N = {
     hCum: '推定累計興収：4作品を公開日数で比較', nCum: '日別サンプルを各作品の公式発表に合わせて興収に換算。曲線は各公式発表（丸印）を通ります。',
     hDaily: '日別販売数：mimorin2014 合算サンプル',
     nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数値は低めに出ます。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
-    range: '期間', ranges: ['公開7日目まで', '公開14日目まで', '公開30日目まで', '公開57日目まで', '全期間'], log: '対数目盛',
+    range: '期間', ranges: ['公開7日目まで', '公開14日目まで', '公開21日目まで', '公開28日目まで', '全期間'], log: '対数目盛',
     hFc: '最終興収予測：HF三部作の倍率を適用',
     nFc: '倍率 = HFの最終動員 ÷ 同じ公開日数時点の推定累計動員。単価はHFの同時点から最終までの平均単価の変化で補正。最終成績がない作品は最後の公式発表を使うため下限値です。基準日は、各作品のデータ範囲内にある魔法使いの夜の最新の公式発表です。',
     thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
@@ -228,7 +228,7 @@ const I18N = {
     hCum: 'Estimated cumulative gross, aligned by day of release', nCum: 'Daily samples are converted to gross using each film\'s official figures; each curve passes through its official figures (circles).',
     hDaily: 'Daily ticket sales: mimorin2014 combined samples',
     nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and runs lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends rather than absolute numbers.',
-    range: 'Range', ranges: ['First 7 days', 'First 14 days', 'First 30 days', 'First 57 days', 'All'], log: 'Log scale',
+    range: 'Range', ranges: ['First 7 days', 'First 14 days', 'First 21 days', 'First 28 days', 'All'], log: 'Log scale',
     hFc: 'Final gross projection using the HF trilogy multipliers',
     nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. Where a film has no final figure, its latest official figure is used and the result is a lower bound. The aligned day is the latest official Witch on the Holy Night figure that falls within that film\'s data.',
     thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
@@ -260,7 +260,7 @@ const FILMS = [['HF1', '--c0'], ['HF2', '--c1'], ['HF3', '--c2'], ['MAHO', '--c3
 const num = (v) => (v === null || v === undefined || v === '' ? null : Number(v));
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const $ = (id) => document.getElementById(id);
-const state = {crange: 0, range: 30, log: false, lang: 'zh'};
+const state = {crange: 0, range: 28, log: false, lang: 'zh'};
 let L = I18N.zh;
 function fmt(v, d = 0) { return v === null || v === undefined || isNaN(v) ? '—' : Number(v).toLocaleString(L.locale, {minimumFractionDigits: d, maximumFractionDigits: d}); }
 
