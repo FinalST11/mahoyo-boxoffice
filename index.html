@@ -132,6 +132,9 @@ a{color:#9fc0ff}
 <h2 data-i18n="hCal">—</h2>
 <p class="note" data-i18n="nCal">—</p>
 <div class="tw"><table><thead><tr><th data-i18n="thCalDay">—</th><th data-i18n="thCalOff">—</th><th data-i18n="thCalEst">—</th><th data-i18n="thCalErr">—</th><th data-i18n="thSrc">—</th></tr></thead><tbody id="ctable"></tbody></table></div>
+<h3 class="srcfilm" data-i18n="hNc">—</h3>
+<p class="note" data-i18n="nNc">—</p>
+<div class="tw"><table><thead><tr><th data-i18n="thNcDay">—</th><th data-i18n="thNc14">—</th><th data-i18n="thNc19">—</th><th data-i18n="thNcAct">—</th></tr></thead><tbody id="nctable"></tbody></table></div>
 </section>
 
 <section>
@@ -164,7 +167,8 @@ const I18N = {
     upd: (date, d, at, chk) => `全天数据至 ${date}（第 ${d} 天）。` + (at ? `新数据最后写入：${at}。` : '') + (chk ? `爬虫最后检查：${chk}（每小时一次）。` : '') + '「当前估算」在打开页面时按时段实时推算。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `第 ${it.day} 天 ${it.cut} 时集计` : it.kind === 'full' ? `第 ${it.day} 天全天数字` : `第 ${it.day} 天官方数字`) + `（日本时间 ${t}）` : `日本时间 ${t}`),
     chkOk: (t) => `日本时间 ${t}，正常`, chkFail: (t) => `日本时间 ${t}，失败`, chkRun: '正在运行',
-    imputedTag: '（推算）',
+    imputedTag: '（推算）', errNote: (p, n) => `（过去 ${n} 天同一时点推算的误差中位数 ±${p}%）`,
+    hNc: '当天推算的检验', nNc: '每晚全天数字出来后，回头检验：当天只用之前的数据，从 14 时、19 时集计推算的全天，和实际差多少。之后推算用的比例也会随这些数据自动更新。标「—」的是同类日子之前还没有数据、只能用初始值的情况，不计入误差。', thNcDay: '日期', thNc14: '从 14 时推算', thNc19: '从 19 时推算', thNcAct: '实际全天', dayTypes: {wk: '平日', fri: '周五型', sat: '周六型', sun: '周日型'},
     kNow: (t) => `当前估算累计（日本时间 ${t}）`, sNow: (n, b) => `今天样本已售约 ${n} 张 · ${b}`, kEstY: (d) => `截至昨天估算累计（第 ${d} 天）`,
     basis: {'19': '按 19 时集计推算', '14': '按 14 时集计推算', wk: '按上周同日推算', last: '按最近一天推算'}, nowTag: (t) => `推算至 ${t}`, fullTag: '全天推算',
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
@@ -213,7 +217,8 @@ const I18N = {
     upd: (date, d, at, chk) => `全日データ：${date}（${d}日目）まで。` + (at ? `新データの最終反映：${at}。` : '') + (chk ? `自動取得の最終チェック：${chk}（1時間ごと）。` : '') + '「現在の推定」はページを開いた時点で時間帯から推計しています。',
     item: (it, t) => (it ? (it.kind === 'interim' ? `${it.day}日目の${it.cut}時中間集計` : it.kind === 'full' ? `${it.day}日目の全日データ` : `${it.day}日目の公式発表`) + `（日本時間 ${t}）` : `日本時間 ${t}`),
     chkOk: (t) => `日本時間 ${t}・正常`, chkFail: (t) => `日本時間 ${t}・失敗`, chkRun: '実行中',
-    imputedTag: '（推計）',
+    imputedTag: '（推計）', errNote: (p, n) => `（過去${n}日の同時点推計の誤差中央値 ±${p}%）`,
+    hNc: '当日推計の検証', nNc: '毎晩、全日データが出たあとに検証します：その日より前のデータだけで14時・19時中間集計から推計した全日販売数と、実際の差。推計に使う割合もこのデータで自動更新されます。「—」は同じ区分の日のデータがまだなく初期値を使った場合で、誤差には含めません。', thNcDay: '日付', thNc14: '14時から推計', thNc19: '19時から推計', thNcAct: '実際の全日', dayTypes: {wk: '平日', fri: '金曜型', sat: '土曜型', sun: '日曜型'},
     kNow: (t) => `現在の推定累計（日本時間 ${t}）`, sNow: (n, b) => `本日のサンプル販売 約 ${n} 枚・${b}`, kEstY: (d) => `昨日までの推定累計（${d}日目）`,
     basis: {'19': '19時中間集計から推計', '14': '14時中間集計から推計', wk: '先週同曜日から推計', last: '直近の日から推計'}, nowTag: (t) => `${t}までの推計`, fullTag: '全日推計',
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
@@ -262,7 +267,8 @@ const I18N = {
     upd: (date, d, at, chk) => `Full-day data through ${date} (day ${d}). ` + (at ? `Last new data: ${at}. ` : '') + (chk ? `Scraper last checked: ${chk} (hourly). ` : '') + 'The "right now" figure is estimated from the time of day whenever the page is opened.',
     item: (it, t) => (it ? (it.kind === 'interim' ? `day ${it.day} ${it.cut}:00 interim count` : it.kind === 'full' ? `day ${it.day} full-day figures` : `day ${it.day} official figure`) + ` (${t} JST)` : `${t} JST`),
     chkOk: (t) => `${t} JST, OK`, chkFail: (t) => `${t} JST, failed`, chkRun: 'running now',
-    imputedTag: ' (est.)',
+    imputedTag: ' (est.)', errNote: (p, n) => ` (median error of past estimates at this time: ±${p}%, ${n} day${n > 1 ? 's' : ''})`,
+    hNc: 'How good are the same-day estimates?', nNc: 'Each night, once the full-day figure is in, the site checks how far the full-day estimate made from that day\'s 2 p.m. and 7 p.m. counts (using only earlier data) was from the actual figure. The shares used for estimating are updated from this data automatically. "—" means there was no earlier day of the same type yet, so only the starting value could be used; those are left out of the error.', thNcDay: 'Date', thNc14: 'From 2 p.m. count', thNc19: 'From 7 p.m. count', thNcAct: 'Actual full day', dayTypes: {wk: 'weekday', fri: 'Friday-type', sat: 'Saturday-type', sun: 'Sunday-type'},
     kNow: (t) => `Estimated total right now (${t} JST)`, sNow: (n, b) => `About ${n} sampled tickets today · ${b}`, kEstY: (d) => `Estimated total through yesterday (day ${d})`,
     basis: {'19': 'from the 7 p.m. count', '14': 'from the 2 p.m. count', wk: 'from the same day last week', last: 'from the latest day'}, nowTag: (t) => `est. to ${t}`, fullTag: 'full-day est.',
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
@@ -490,15 +496,44 @@ const addDays = (iso, n) => new Date(Date.parse(iso + 'T00:00:00Z') + n * 864e5)
 const jstNow = () => { const j = new Date(Date.now() + 9 * 3600e3); return {date: j.toISOString().slice(0, 10), min: j.getUTCHours() * 60 + j.getUTCMinutes(), hhmm: j.toISOString().slice(11, 16)}; };
 const median = (x) => { const v = x.slice().sort((a, b) => a - b); return v.length ? (v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2) : null; };
 
-function cutShares() {
+// 14 时 / 19 时集计占全天的比例。before：只用这一天之前的数据（回测时用，避免偷看答案）。
+// 首日有首映效应，不计入。周五型在有普通周五的数据之前，先用平日的比例。
+const OPENING = '2026-11-20';
+function cutShares(before) {
   const full = new Map(SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales)).map((r) => [r.date, num(r.sales)]));
-  // 没有数据时的初始值（来自上映第一周）；有数据就用本片同类日子的中位数
-  const sh = {wk: {14: 0.41, 19: 0.79}, fri: {14: 0.38, 19: 0.70}, sat: {14: 0.49, 19: 0.83}, sun: {14: 0.53, 19: 0.89}};
+  const sh = {wk: {14: 0.41, 19: 0.79}, fri: {14: 0.41, 19: 0.79}, sat: {14: 0.49, 19: 0.83}, sun: {14: 0.53, 19: 0.89}};
+  const n = {};
   for (const t of ['wk', 'fri', 'sat', 'sun']) for (const c of ['14', '19']) {
-    const v = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && dayType(r.date) === t).map((r) => num(r.sales) / full.get(r.date));
+    const v = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && r.date !== OPENING && (!before || r.date < before) && dayType(r.date) === t).map((r) => num(r.sales) / full.get(r.date));
     if (v.length) sh[t][c] = median(v);
+    n[t + c] = v.length;
   }
+  sh.n = n;
   return sh;
+}
+
+// 推算能力的回测：每个已有全天数字的日子，只用它之前的数据推全天，再和实际比
+function nowcastBacktest() {
+  const full = new Map(SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales)).map((r) => [r.date, {day: num(r.day), sales: num(r.sales)}]));
+  const out = [];
+  for (const [date, f] of full) {
+    if (date === OPENING) continue;
+    const sh = cutShares(date), t = dayType(date), row = {date, day: f.day, type: t, full: f.sales};
+    for (const c of ['14', '19']) {
+      const im = INTERIM.find((r) => r.date === date && r.cut === c && num(r.sales));
+      if (!im) continue;
+      const prior = sh.n[t + c] > 0;  // 同类日子之前有没有数据；没有的话只能用初始值，不算进准确度
+      const pred = num(im.sales) / sh[t][c];
+      row['p' + c] = pred; row['e' + c] = pred / f.sales - 1; row['ok' + c] = prior;
+    }
+    if (row.p14 || row.p19) out.push(row);
+  }
+  return out.sort((a, b) => b.day - a.day);
+}
+// 用回测误差给「当前估算」标范围：同一时点（14 或 19 时）过去推算误差的中位数
+function nowcastErr(cut) {
+  const e = nowcastBacktest().filter((r) => r['ok' + cut]).map((r) => Math.abs(r['e' + cut]));
+  return e.length ? {err: median(e), n: e.length} : null;
 }
 function shareAt(type, min, sh) {
   const rest = type === 'sat' || type === 'sun', late = type === 'fri' || type === 'sat';
@@ -562,7 +597,8 @@ function renderText() {
     if (nc) {
       $('k-now').textContent = L.kNow(nc.hhmm);
       withUnit($('v-now'), L.gross(nc.cum_gross / 1e8, 2), L.grossUnit);
-      $('s-now').textContent = L.sNow(fmt(Math.round(nc.today.sold / 10) * 10), L.basis[nc.today.basis]);
+      const ne = (nc.today.basis === '14' || nc.today.basis === '19') ? nowcastErr(nc.today.basis) : null;
+      $('s-now').textContent = L.sNow(fmt(Math.round(nc.today.sold / 10) * 10), L.basis[nc.today.basis]) + (ne ? L.errNote(Math.round(ne.err * 100), ne.n) : '');
     }
   }
   if (off) {
@@ -616,6 +652,16 @@ function renderCalib() {
   });
 }
 
+function renderNcTable() {
+  if (!SAMPLE) return;
+  const tb = $('nctable'); tb.replaceChildren();
+  const cell = (row, c) => (row['p' + c] ? (row['ok' + c] ? '≈' + fmt(Math.round(row['p' + c] / 10) * 10) + (state.lang === 'en' ? ' (' : '（') + (row['e' + c] >= 0 ? '+' : '') + (row['e' + c] * 100).toFixed(1) + (state.lang === 'en' ? '%)' : '%）') : '—') : '');
+  nowcastBacktest().forEach((row) => {
+    const tr = tb.insertRow();
+    [row.date + ' · ' + L.dayLong(row.day) + ' · ' + L.dayTypes[row.type], cell(row, '14'), cell(row, '19'), fmt(row.full)].forEach((v) => (tr.insertCell().textContent = v));
+  });
+}
+
 function renderSources() {
   if (!MS) return;
   const box = $('sources'); box.replaceChildren();
@@ -662,7 +708,7 @@ function renderCharts() {
 function setLang(lang) {
   state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
   try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
-  renderText(); renderCharts(); renderSources(); renderCalib(); renderVisits();
+  renderText(); renderCharts(); renderSources(); renderCalib(); renderNcTable(); renderVisits();
 }
 
 // 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
@@ -687,7 +733,7 @@ setLang(initial);
 // 读取全部数据；页面开着时每 5 分钟重新读一次，爬虫推送的新数字（14/19 时集计、全天数字）会自动反映出来
 const loadAll = () => Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null), d3.csv('data/interim.csv?v=' + Date.now()).catch(() => [])]).then(([sample, ms, st, im]) => {
   SAMPLE = sample; MS = ms; STATUS = st; INTERIM = im || []; EST = estimate(sample, ms); FC = forecast(EST, ms);
-  renderText(); renderCharts(); renderSources(); renderCalib();
+  renderText(); renderCharts(); renderSources(); renderCalib(); renderNcTable();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 loadAll();
 loadRun();
