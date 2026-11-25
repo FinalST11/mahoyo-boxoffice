@@ -139,6 +139,8 @@ const I18N = {
     axisGross: (v) => v + '亿', tipGross: (oku) => fmt(oku, 2) + ' 亿日元',
     axisSales: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipSales: (v) => fmt(v) + ' 张',
     estGrossCell: (yen) => fmt(yen / 1e4), cumCell: (oku) => fmt(oku, 2),
+    approx: '（均为“超过”，日期为推算）',
+    offNote: (a, g) => '官方：' + [a !== null ? '动员 ' + fmt(a / 1e4, 1) + ' 万人' : null, g !== null ? '票房 ' + fmt(g / 1e8, 2) + ' 亿日元' : null].filter(Boolean).join(' · '),
     labelCum: '四部作品按上映天数对齐的估算累计票房曲线', labelDaily: '四部作品每日样本售票数', loadErr: '数据没有加载成功。'
   },
   ja: {
@@ -175,6 +177,8 @@ const I18N = {
     axisGross: (v) => v + '億', tipGross: (oku) => fmt(oku, 2) + ' 億円',
     axisSales: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipSales: (v) => fmt(v) + ' 枚',
     estGrossCell: (yen) => fmt(yen / 1e4), cumCell: (oku) => fmt(oku, 2),
+    approx: '（いずれも「突破」、日付は推定）',
+    offNote: (a, g) => '公式：' + [a !== null ? '動員 ' + fmt(a / 1e4, 1) + ' 万人' : null, g !== null ? '興収 ' + fmt(g / 1e8, 2) + ' 億円' : null].filter(Boolean).join(' · '),
     labelCum: '4作品の公開日数別推定累計興収', labelDaily: '4作品の日別サンプル販売数', loadErr: 'データを読み込めませんでした。'
   },
   en: {
@@ -211,6 +215,8 @@ const I18N = {
     axisGross: (v) => '¥' + (v / 10) + 'bn', tipGross: (oku) => '¥' + fmt(oku / 10, 3) + 'bn',
     axisSales: (v) => (v >= 1000 ? v / 1000 + 'k' : v), tipSales: (v) => fmt(v) + ' tickets',
     estGrossCell: (yen) => '¥' + fmt(yen / 1e6, 1) + 'M', cumCell: (oku) => '¥' + fmt(oku / 10, 3) + 'bn',
+    approx: ' (both "over"; date inferred)',
+    offNote: (a, g) => 'Official: ' + [a !== null ? fmt(a) + ' admissions' : null, g !== null ? '¥' + fmt(g / 1e9, 3) + 'bn' : null].filter(Boolean).join(' · '),
     labelCum: 'Estimated cumulative gross by day of release for the four films', labelDaily: 'Daily sampled ticket sales for the four films', loadErr: 'The data could not be loaded.'
   }
 };
@@ -299,6 +305,11 @@ function lineChart(el, series, opts) {
         const row = tip.append('div').style('display', 'flex').style('align-items', 'center').style('gap', '6px');
         row.append('span').style('width', '10px').style('height', '10px').style('border-radius', '2px').style('background', s.color).style('flex', 'none');
         row.append('span').text(s.name + (L === I18N.en ? ': ' : '：') + opts.tipfmt(p.y));
+        const note = opts.note ? opts.note(s.film, dx) : null;
+        if (note) {
+          tip.append('div').style('padding-left', '16px').style('color', css('--muted')).text(note);
+          if (note.dot) hov.append('circle').attr('cx', x(dx)).attr('cy', y(note.dot)).attr('r', 8).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2);
+        }
         hov.append('circle').attr('cx', x(dx)).attr('cy', y(p.y)).attr('r', 4).attr('fill', s.color).attr('stroke', css('--bg')).attr('stroke-width', 2);
       });
       const tw = tip.node().offsetWidth || 190;
@@ -351,9 +362,16 @@ function renderText() {
 
 function renderCharts() {
   if (!SAMPLE) return;
-  const series = (key) => FILMS.map(([f, c], i) => ({name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
+  const series = (key) => FILMS.map(([f, c], i) => ({film: f, name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
   lineChart($('cum'), series((f) => EST.filter((r) => r.film === f).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null}))), {
     maxX: 57, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
+    note: (f, d) => {
+      const m = MS.find((r) => r.film === f && r.kind === 'point' && num(r.day) === d);
+      if (!m) return null;
+      const t = new String(L.offNote(num(m.attendance), num(m.gross)) + ((m.source_note || '').includes('推算') ? L.approx : ''));
+      t.dot = num(m.gross) !== null ? num(m.gross) / 1e8 : null;
+      return t;
+    },
     dots: MS.filter((m) => m.kind === 'point' && num(m.gross) !== null && num(m.day) !== null).map((m) => ({x: num(m.day), y: num(m.gross) / 1e8, color: css(FILMS.find((f) => f[0] === m.film)[1])}))});
   const R = state.range;
   lineChart($('daily'), series((f) => SAMPLE.filter((r) => r.film === f && num(r.day) <= R).map((r) => ({x: num(r.day), y: num(r.sales)})).sort((a, b) => a.x - b.x)), {
