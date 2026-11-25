@@ -78,7 +78,7 @@ a{color:var(--c0)}
 <h2 data-i18n="hDaily">—</h2>
 <p class="note" data-i18n="nDaily">—</p>
 <div class="ctrl">
-<label><span data-i18n="range">—</span> <select id="range"><option value="14"></option><option value="30" selected></option><option value="57"></option></select></label>
+<label><span data-i18n="range">—</span> <select id="range"><option value="14"></option><option value="30" selected></option><option value="57"></option><option value="0"></option></select></label>
 <label><input type="checkbox" id="log"> <span data-i18n="log">—</span></label>
 </div>
 <div class="chart" id="daily"></div>
@@ -118,11 +118,11 @@ const I18N = {
     hCum: '估算累计票房：四部按上映天数对齐', nCum: '每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。',
     hDaily: '每日售票：mimorin2014 合算样本',
     nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
-    range: '范围', ranges: ['前 14 天', '前 30 天', '前 57 天'], log: '对数刻度',
+    range: '范围', ranges: ['前 14 天', '前 30 天', '前 57 天', '全部'], log: '对数刻度',
     hFc: '最终票房预测：套用 HF 三部的倍数',
-    nFc: '倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。HF 第三章未找到最终成绩，用最后公布的节点，所以是下限。',
+    nFc: '倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。没有最终成绩的作品用最后公布的节点，结果是下限。对齐天数取魔法使いの夜在该作品数据范围内的最新官方节点。',
     thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
-    basisFinal: '最终成绩', basisLatest: '最后公布的节点（下限）',
+    basisFinal: '最终成绩', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
     hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
     method: '方法与注意事项',
     methodList: [
@@ -156,11 +156,11 @@ const I18N = {
     hCum: '推定累計興収：4作品を公開日数で比較', nCum: '日別サンプルを各作品の公式発表に合わせて興収に換算。曲線は各公式発表（丸印）を通ります。',
     hDaily: '日別販売数：mimorin2014 合算サンプル',
     nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数値は低めに出ます。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
-    range: '期間', ranges: ['公開14日目まで', '公開30日目まで', '公開57日目まで'], log: '対数目盛',
+    range: '期間', ranges: ['公開14日目まで', '公開30日目まで', '公開57日目まで', '全期間'], log: '対数目盛',
     hFc: '最終興収予測：HF三部作の倍率を適用',
-    nFc: '倍率 = HFの最終動員 ÷ 同じ公開日数時点の推定累計動員。単価はHFの同時点から最終までの平均単価の変化で補正。HF第三章は最終成績が見つからなかったため最後の公式発表を使用（下限値）。',
+    nFc: '倍率 = HFの最終動員 ÷ 同じ公開日数時点の推定累計動員。単価はHFの同時点から最終までの平均単価の変化で補正。最終成績がない作品は最後の公式発表を使うため下限値です。基準日は、各作品のデータ範囲内にある魔法使いの夜の最新の公式発表です。',
     thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
-    basisFinal: '最終成績', basisLatest: '最後の公式発表（下限）',
+    basisFinal: '最終成績', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
     hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
     method: '手法と注意点',
     methodList: [
@@ -194,11 +194,11 @@ const I18N = {
     hCum: 'Estimated cumulative gross, aligned by day of release', nCum: 'Daily samples are converted to gross using each film\'s official figures; each curve passes through its official figures (circles).',
     hDaily: 'Daily ticket sales: mimorin2014 combined samples',
     nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and runs lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends rather than absolute numbers.',
-    range: 'Range', ranges: ['First 14 days', 'First 30 days', 'First 57 days'], log: 'Log scale',
+    range: 'Range', ranges: ['First 14 days', 'First 30 days', 'First 57 days', 'All'], log: 'Log scale',
     hFc: 'Final gross projection using the HF trilogy multipliers',
-    nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. No final figure was found for HF III, so its latest official figure is used and the result is a lower bound.',
+    nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. Where a film has no final figure, its latest official figure is used and the result is a lower bound. The aligned day is the latest official Witch on the Holy Night figure that falls within that film\'s data.',
     thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross',
-    basisFinal: 'Final result', basisLatest: 'Latest official figure (lower bound)',
+    basisFinal: 'Final result', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
     method: 'Method and caveats',
     methodList: [
@@ -260,11 +260,14 @@ function estimate(sample, milestones) {
 }
 
 function forecast(est, milestones) {
-  const mm = milestones.filter((m) => m.film === 'MAHO' && m.kind === 'point' && num(m.gross) !== null).sort((a, b) => num(b.day) - num(a.day));
+  const mm = milestones.filter((m) => m.film === 'MAHO' && m.kind === 'point' && num(m.gross) !== null && num(m.attendance) !== null).sort((a, b) => num(b.day) - num(a.day));
   if (!mm.length) return [];
-  const d = num(mm[0].day), A = num(mm[0].attendance), G = num(mm[0].gross);
   const rows = [];
   FILMS.slice(0, 3).forEach(([f], i) => {
+    const maxDay = Math.max(0, ...est.filter((r) => r.film === f && r.sales !== null).map((r) => r.day));
+    const base = mm.find((m) => num(m.day) <= maxDay);
+    if (!base) return;
+    const d = num(base.day), A = num(base.attendance), G = num(base.gross);
     const fin = milestones.find((m) => m.film === f && m.kind === 'final');
     const pts = milestones.filter((m) => m.film === f && m.kind === 'point' && num(m.gross) !== null).sort((a, b) => num(b.day) - num(a.day));
     const end = fin || pts[0];
@@ -272,8 +275,10 @@ function forecast(est, milestones) {
     if (!end || !e || !e.cum_att || !e.cum_gross) return;
     const mult = num(end.attendance) / e.cum_att;
     const priceRatio = (num(end.gross) / num(end.attendance)) / (e.cum_gross / e.cum_att);
-    const projAtt = A * mult;
-    rows.push({idx: i, final: !!fin, day: d, mult, att: projAtt, gross: projAtt * (G / A) * priceRatio});
+    let projAtt = A * mult, projGross = projAtt * (G / A) * priceRatio, floored = false;
+    const top = mm[0], topA = num(top.attendance), topG = num(top.gross);
+    if (projGross < topG || projAtt < topA) { projGross = Math.max(projGross, topG); projAtt = Math.max(projAtt, topA); floored = true; }
+    rows.push({idx: i, final: !!fin, floored, day: d, mult, att: projAtt, gross: projGross});
   });
   return rows;
 }
@@ -332,12 +337,13 @@ function renderText() {
   const en = L === I18N.en;
   $('th-att').textContent = L.thAtt; $('th-gross').textContent = L.thGross; $('th-egross').textContent = L.thEGross; $('th-ecum').textContent = L.thECum;
   if (!SAMPLE) return;
-  const maho = EST.filter((r) => r.film === 'MAHO' && r.sales !== null).sort((a, b) => b.day - a.day)[0];
+  const maho = EST.filter((r) => r.film === 'MAHO').sort((a, b) => b.day - a.day)[0];
   const off = MS.filter((m) => m.film === 'MAHO' && m.kind === 'point').sort((a, b) => num(b.day) - num(a.day))[0];
   const g = FC.map((r) => r.gross / 1e8), a = FC.map((r) => r.att);
   const lo = Math.min(...g), hi = Math.max(...g), mid = g.reduce((s, v) => s + v, 0) / (g.length || 1);
   if (maho) {
-    $('lead').innerHTML = L.lead(maho.day, L.gross(maho.cum_gross / 1e8, 2), FC.length ? L.gross(lo, 1) : '—', FC.length ? L.gross(hi, 1) : '—');
+    const loS = FC.length ? L.gross(lo, 1) : '—', hiS = FC.length ? L.gross(hi, 1) : '—';
+    $('lead').innerHTML = loS === hiS ? L.lead(maho.day, L.gross(maho.cum_gross / 1e8, 2), loS, '').replace(/(<b>[^<]*<\/b>)[～–]<b><\/b>/, '$1') : L.lead(maho.day, L.gross(maho.cum_gross / 1e8, 2), loS, hiS);
     $('upd').textContent = L.upd(maho.date, maho.day);
     $('k-est').textContent = L.kEst(maho.day);
     withUnit($('v-est'), L.gross(maho.cum_gross / 1e8, 2), L.grossUnit);
@@ -349,11 +355,11 @@ function renderText() {
     $('s-off').textContent = L.sOff(L.att(num(off.attendance)));
   }
   if (FC.length) {
-    withUnit($('v-fc'), L.gross(lo, 1) + (en ? '–' : '～') + L.gross(hi, 1), L.grossUnit);
+    withUnit($('v-fc'), L.gross(lo, 1) === L.gross(hi, 1) ? L.gross(lo, 1) : L.gross(lo, 1) + (en ? '–' : '～') + L.gross(hi, 1), L.grossUnit);
     $('s-fc').textContent = L.sFc(L.gross(mid, 1));
-    withUnit($('v-fa'), L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
+    withUnit($('v-fa'), L.att(Math.min(...a)) === L.att(Math.max(...a)) ? L.att(Math.min(...a)) : L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
   }
-  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], r.final ? L.basisFinal : L.basisLatest, L.dayLong(r.day), '×' + r.mult.toFixed(2), L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
+  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], (r.final ? L.basisFinal : L.basisLatest) + (r.floored ? L.floored : ''), L.dayLong(r.day), '×' + r.mult.toFixed(2), L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
   $('mtable').replaceChildren(); EST.filter((r) => r.film === 'MAHO').sort((x1, x2) => x2.day - x1.day).forEach((r) => {
     const tr = $('mtable').insertRow();
     [r.date, r.day, r.rank === null ? '—' : r.rank, fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
@@ -362,9 +368,10 @@ function renderText() {
 
 function renderCharts() {
   if (!SAMPLE) return;
+  const maxDay = Math.max(57, ...SAMPLE.map((r) => num(r.day) || 0));
   const series = (key) => FILMS.map(([f, c], i) => ({film: f, name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
   lineChart($('cum'), series((f) => EST.filter((r) => r.film === f).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null}))), {
-    maxX: 57, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
+    maxX: maxDay, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
     note: (f, d) => {
       const m = MS.find((r) => r.film === f && r.kind === 'point' && num(r.day) === d);
       if (!m) return null;
@@ -373,7 +380,7 @@ function renderCharts() {
       return t;
     },
     dots: MS.filter((m) => m.kind === 'point' && num(m.gross) !== null && num(m.day) !== null).map((m) => ({x: num(m.day), y: num(m.gross) / 1e8, color: css(FILMS.find((f) => f[0] === m.film)[1])}))});
-  const R = state.range;
+  const R = state.range || maxDay;
   lineChart($('daily'), series((f) => SAMPLE.filter((r) => r.film === f && num(r.day) <= R).map((r) => ({x: num(r.day), y: num(r.sales)})).sort((a, b) => a.x - b.x)), {
     maxX: R, log: state.log, label: L.labelDaily, yfmt: L.axisSales, tipfmt: L.tipSales});
 }
