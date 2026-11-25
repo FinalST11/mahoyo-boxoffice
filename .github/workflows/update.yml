@@ -1,11 +1,11 @@
-name: 每小时抓取票房样本（全天＋中间集计）
+name: 每小时抓取（全天样本、中间集计、官方数字）
 on:
   schedule:
     - cron: '17 * * * *'   # 每小时第 17 分钟（GitHub 繁忙时可能延后几分钟到几十分钟）
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['scripts/update_sample.py', '.github/workflows/update.yml']
+    paths: ['scripts/update_sample.py', 'scripts/update_official.py', '.github/workflows/update.yml']
 permissions:
   contents: write
 concurrency:
@@ -22,14 +22,19 @@ jobs:
           python-version: '3.12'
       - name: 抓取 mimorin2014 全天合算
         id: scrape
+        continue-on-error: true
         run: python scripts/update_sample.py
+      - name: 抓取新闻里的官方累计数字
+        id: official
+        continue-on-error: true
+        run: python scripts/update_official.py
       - name: 有新数据就提交
         run: |
           if git diff --quiet -- data/; then echo "没有变化"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sample.csv data/status.json data/interim.csv
-          git commit -m "自动更新：${{ steps.scrape.outputs.added }}"
+          git add data/sample.csv data/status.json data/interim.csv data/milestones.csv data/official_seen.json
+          git commit -m "自动更新：${{ steps.scrape.outputs.added }} ${{ steps.official.outputs.official }}"
           for i in 1 2 3; do
             git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0
             sleep 10

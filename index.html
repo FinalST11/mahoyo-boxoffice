@@ -129,6 +129,12 @@ a{color:#9fc0ff}
 </section>
 
 <section>
+<h2 data-i18n="hCal">—</h2>
+<p class="note" data-i18n="nCal">—</p>
+<div class="tw"><table><thead><tr><th data-i18n="thCalDay">—</th><th data-i18n="thCalOff">—</th><th data-i18n="thCalEst">—</th><th data-i18n="thCalErr">—</th><th data-i18n="thSrc">—</th></tr></thead><tbody id="ctable"></tbody></table></div>
+</section>
+
+<section>
 <h2 data-i18n="hMaho">—</h2>
 <div class="tw"><table><thead><tr><th data-i18n="thDate">—</th><th data-i18n="thN">—</th><th data-i18n="thRank">—</th><th data-i18n="thSales">—</th><th data-i18n="thEstAtt">—</th><th id="th-egross">—</th><th id="th-ecum">—</th></tr></thead><tbody id="mtable"></tbody></table></div>
 </section>
@@ -170,6 +176,7 @@ const I18N = {
     thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAdj: '走势校正', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
     basisFinal: '最终成绩', basisFinalGross: '最终票房（动员按均价推算）', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
     hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
+    hCal: '官方数字校正记录', nCal: '每次出现新的官方数字，模型都会自动对齐。这里列出对齐之前、只用更早数据估算的同一天累计票房和官方数字的差距，用来检验估算准不准。新闻爬虫每小时自动抓官方数字；标「待核对」的会由每日的 AI 任务再核对一次。', thCalDay: '官方节点', thCalOff: '官方票房', thCalEst: '校正前估算', thCalErr: '误差', calPending: '（待核对）', calNone: '还需要至少两个官方节点才能比较。',
     hSrc: '官方节点与出处', nSrc: '图上圆点对应的官方数字。出处为发行方公告，或全文转载公告、引用官方数字的媒体报道（官方 X 帖子无法稳定链接）。', thFilm: '作品', thOffAtt: '官方动员', thOffGross: '官方票房', thSrc: '出处', finalRow: '最终成绩', src: (h) => `出处：${h}`,
     method: '方法与注意事项',
     methodList: [
@@ -214,6 +221,7 @@ const I18N = {
     thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAdj: '推移補正', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
     basisFinal: '最終成績', basisFinalGross: '最終興収（動員は平均単価から推計）', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
     hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
+    hCal: '公式発表による補正の記録', nCal: '新しい公式発表が出るたびに、モデルは自動的にその数字に合わせます。ここでは補正前（それより前のデータだけで推計）の同日の推定累計と公式値の差を示し、推計の精度を確かめられるようにしています。公式値はニュースから1時間ごとに自動取得し、「要確認」は毎日のAIタスクで再確認します。', thCalDay: '公式発表', thCalOff: '公式興収', thCalEst: '補正前の推計', thCalErr: '誤差', calPending: '（要確認）', calNone: '比較には公式発表が2つ以上必要です。',
     hSrc: '公式発表と出典', nSrc: 'グラフの丸印に対応する公式発表の数字です。出典は配給元の発表、または発表を全文掲載・引用したメディア記事です（公式Xの投稿は安定してリンクできないため）。', thFilm: '作品', thOffAtt: '公式動員', thOffGross: '公式興収', thSrc: '出典', finalRow: '最終成績', src: (h) => `出典：${h}`,
     method: '手法と注意点',
     methodList: [
@@ -258,6 +266,7 @@ const I18N = {
     thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAdj: 'Trend adj.', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
     basisFinal: 'Final result', basisFinalGross: 'Final gross (admissions estimated from average ticket price)', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
+    hCal: 'Calibration against official figures', nCal: 'Whenever a new official figure appears, the model snaps to it automatically. This table shows, for each official figure, what the model estimated for that day beforehand (using only earlier data) and how far off it was, so you can judge the estimates. Official figures are picked up from the news every hour; rows marked "to be checked" are double-checked by the daily AI task.', thCalDay: 'Official figure', thCalOff: 'Official gross', thCalEst: 'Estimate before', thCalErr: 'Error', calPending: ' (to be checked)', calNone: 'At least two official figures are needed for a comparison.',
     hSrc: 'Official figures and sources', nSrc: 'The official figures behind the circles on the chart. Sources are the distributor\'s announcements, or news reports that reprint or quote them (official X posts can\'t be linked reliably).', thFilm: 'Film', thOffAtt: 'Official admissions', thOffGross: 'Official gross', thSrc: 'Source', finalRow: 'Final result', src: (h) => `Source: ${h}`,
     method: 'Method and caveats',
     methodList: [
@@ -548,6 +557,25 @@ const rangeOf = (v, maxDay) => (v === -1 ? Math.max(2, mahoDay()) : v || maxDay)
 
 function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; } }
 
+// 校正记录：对每个官方节点，只用它之前的官方数字重新估算同一天的累计，和官方数字比较
+function renderCalib() {
+  if (!MS || !SAMPLE) return;
+  const offs = MS.filter((m) => m.film === 'MAHO' && m.kind === 'point' && num(m.gross) !== null && num(m.attendance) !== null).sort((a, b) => num(a.day) - num(b.day));
+  const tb = $('ctable'); tb.replaceChildren();
+  if (offs.length < 2) { const td = tb.insertRow().insertCell(); td.colSpan = 5; td.textContent = L.calNone; return; }
+  offs.slice(1).reverse().forEach((o) => {
+    const d = num(o.day);
+    const prior = MS.filter((m) => !(m.film === 'MAHO' && m.kind === 'point' && num(m.day) >= d));
+    const row = estimate(SAMPLE.filter((r) => r.film !== 'MAHO' || num(r.day) <= d), prior).find((r) => r.film === 'MAHO' && r.day === d);
+    const tr = tb.insertRow();
+    const g = num(o.gross), e = row ? row.cum_gross : null;
+    const err = e ? (e / g - 1) * 100 : null;
+    [L.dayLong(d) + ' · ' + o.date + ((o.source_note || '').includes('待核对') ? L.calPending : ''), L.tipGross(g / 1e8), e ? L.tipGross(e / 1e8) : '—', err === null ? '—' : (err >= 0 ? '+' : '') + err.toFixed(1) + '%'].forEach((v) => (tr.insertCell().textContent = v));
+    const c = tr.insertCell();
+    if (o.source_url) { const a = document.createElement('a'); a.href = o.source_url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = hostOf(o.source_url); c.append(a); } else c.textContent = '—';
+  });
+}
+
 function renderSources() {
   if (!MS) return;
   const box = $('sources'); box.replaceChildren();
@@ -593,7 +621,7 @@ function renderCharts() {
 function setLang(lang) {
   state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
   try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
-  renderText(); renderCharts(); renderSources(); renderVisits();
+  renderText(); renderCharts(); renderSources(); renderCalib(); renderVisits();
 }
 
 // 访问统计：abacus 免费计数器（无需注册）。同一浏览器只算一次访问人数，每次打开都算一次浏览。本地预览不计数。
@@ -618,7 +646,7 @@ setLang(initial);
 // 读取全部数据；页面开着时每 5 分钟重新读一次，爬虫推送的新数字（14/19 时集计、全天数字）会自动反映出来
 const loadAll = () => Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now()), d3.json('data/status.json?v=' + Date.now()).catch(() => null), d3.csv('data/interim.csv?v=' + Date.now()).catch(() => [])]).then(([sample, ms, st, im]) => {
   SAMPLE = sample; MS = ms; STATUS = st; INTERIM = im || []; EST = estimate(sample, ms); FC = forecast(EST, ms);
-  renderText(); renderCharts(); renderSources();
+  renderText(); renderCharts(); renderSources(); renderCalib();
 }).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
 loadAll();
 
