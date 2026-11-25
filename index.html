@@ -587,7 +587,8 @@ function renderCalib() {
 function renderSources() {
   if (!MS) return;
   const box = $('sources'); box.replaceChildren();
-  FILMS.forEach(([film, color], i) => {
+  // 魔法使いの夜放最上面，后面依次是 HF 第一、二、三章
+  [3, 0, 1, 2].map((i) => [...FILMS[i], i]).forEach(([film, color, i]) => {
     const rows = MS.filter((m) => m.film === film).sort((a, b) => (a.kind === 'final') - (b.kind === 'final') || num(a.day) - num(b.day));
     if (!rows.length) return;
     const h = document.createElement('h3'); h.className = 'srcfilm';
