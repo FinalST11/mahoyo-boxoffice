@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xml:lang="ja">
+ <channel rdf:about="https://av.watch.impress.co.jp/data/rss/1.0/avw/feed.rdf">
+  <title>AV Watch</title>
+  <link>https://av.watch.impress.co.jp</link>
+  <description>オーディオ・ビジュアル総合情報サイト</description>
+  <dc:language>ja</dc:language>
+  <dc:rights>Copyright (c) 2015 Impress Corporation. All rights reserved.</dc:rights>
+  <dc:date>2026-11-25T15:31:13+09:00</dc:date>
+  <items>
+   <rdf:Seq>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2159000.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2159119.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2159069.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/todayssales/2159025.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2159007.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2159003.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158762.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158751.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/series/zooma/2158609.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158850.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158642.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158766.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158778.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158787.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158738.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158586.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158668.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158631.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/news/2158248.html?ref=rss"/>
+    <rdf:li rdf:resource="https://av.watch.impress.co.jp/docs/topic/special/2156656.html?ref=rss"/>
+   </rdf:Seq>
+  </items>
+ </channel>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2159000.html?ref=rss">
+  <title>HEGEL、「純粋な伝送経路を大切にするオーディオファンのために設計」したフルアナログアンプ</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2159000.html</link>
+  <dc:date>2026-11-25T15:00:00+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[ヒビノエレクトリは、HEGELのフルアナログ構成インテグレーテッドアンプ「A200」を、11月20日に発売した。価格は693,000円、カラーはブラック。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2159119.html?ref=rss">
+  <title>今年のフジロックを振り返る5時間超の特番。Prime VideoとTwitchで</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2159119.html</link>
+  <dc:date>2026-11-25T14:41:22+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[Amazon Musicは、7月24日～26日に新潟県の苗場スキー場で開催された「FUJI ROCK FESTIVAL ’26」を振り返る5時間超えの特別番組「FUJI ROCK FESTIVAL ’26 Limited Program」を、12月13日18時よりPrime VideoとTwitchにて、一夜限りで限定配信する。番組の司会はタレントのハリー杉山と、シンガーソングライターのセレイナ・アン。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2159069.html?ref=rss">
+  <title>「バック・トゥ・ザ・フューチャー」ガチャ。タイムサーキット、ホバーボードなど5種</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2159069.html</link>
+  <dc:date>2026-11-25T12:51:54+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[タカラトミーアーツは、映画「バック・トゥ・ザ・フューチャー」シリーズに登場するアイテムをミニチュアサイズで立体化したガチャ(カプセルトイ)「バック・トゥ・ザ・フューチャー -ムービーアイテムコレクションDX-」を、2027年1月中旬より全国のカプセル自販機(ガチャマシン)で順次発売する。全5種類で、価格は1回500円。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/todayssales/2159025.html?ref=rss">
+  <title>「崩壊：スターレイル」コラボのUGREENバッテリー、Amazonで29% OFF【今日みつけたお買い得品】</title>
+  <link>https://av.watch.impress.co.jp/docs/news/todayssales/2159025.html</link>
+  <dc:date>2026-11-25T12:10:33+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[Amazonで、UGREENと「崩壊：スターレイル」がコラボレーションしたQi2対応のモバイルバッテリーがタイムセール価格で販売されている。11月25日12時に編集部が確認したところ、通常8,480円のところ29% OFFの6,041円だった。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2159007.html?ref=rss">
+  <title>バッファロー、録画可能時間がわかるメータ付きHDDに6TBモデル。24時間連続録画にも対応</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2159007.html</link>
+  <dc:date>2026-11-25T12:07:13+09:00</dc:date>
+  <dc:creator>大須賀光輝</dc:creator>
+  <description><![CDATA[バッファローは、24時間連続録画に対応したテレビ録画向け外付けHDD「HDV-SAMU3-Aシリーズ」に、容量6TBのモデル「HDV-SAM6.0U3-BKA」を追加した。価格は78,210円。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2159003.html?ref=rss">
+  <title>視界を包む巨大LEDビジョン、日本初“フレームレス・シアター”「ゼリアル」2027年夏・池袋に誕生</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2159003.html</link>
+  <dc:date>2026-11-25T11:48:44+09:00</dc:date>
+  <dc:creator>山崎健太郎</dc:creator>
+  <description><![CDATA[LED TOKYOは、正面から左右の壁面、天井、床へと広がるLEDビジョンが、空間全体にひとつの情景を描き出す、日本初の「フレームレス・シアター」として、2027年夏、東京の池袋に「THEREAL(ゼリアル)」を開業する。エンターテインメント施設の運営や興行に知見を持つヒューマックスエンタテインメントと協業する。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158762.html?ref=rss">
+  <title>MagSafe対応でスマホ背面にDAC固定、LEPIC EQUIP「DAC POCKET 2」</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158762.html</link>
+  <dc:date>2026-11-25T11:00:00+09:00</dc:date>
+  <dc:creator>今宮冬羽</dc:creator>
+  <description><![CDATA[アユートは、韓国発ライフスタイルギアブランド「LEPIC EQUIP」(ルピックエクイップ)の取扱を開始。ブランド第1弾製品として、MagSafeに対応したポータブルDAC収納ケース「DAC POCKET 2」を11月28日に発売する。価格はオープン、希望小売価格は2,530円。「アキハバラe市場」および正規取扱店にて販売され、カラーはBlack、Dark Gray、Navyの3色展開。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158751.html?ref=rss">
+  <title>AudioQuest、全体を総合的に設計した新スピーカーケーブル「Dragon XTRM/ThunderBird XTRM/Athena」</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158751.html</link>
+  <dc:date>2026-11-25T11:00:00+09:00</dc:date>
+  <dc:creator>山崎健太郎</dc:creator>
+  <description><![CDATA[ディーアンドエムホールディングスは、AudioQuestの新スピーカーケーブル「Dragon XTRM」、「ThunderBird XTRM」、「Athena」、「BassZilla」を発表した。価格は以下の通り。11月25日から受注オーダーを受け付ける。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/series/zooma/2158609.html?ref=rss">
+  <title>【小寺信良の週刊 Electric Zooma!】もはやテレビ業界向けではなくなったInter BEE 2026</title>
+  <link>https://av.watch.impress.co.jp/docs/series/zooma/2158609.html</link>
+  <dc:date>2026-11-25T08:00:00+09:00</dc:date>
+  <dc:creator>小寺 信良</dc:creator>
+  <description><![CDATA[例年11月に行なわれるのが、国際放送機器展Inter BEEである。放送機器展というぐらいだから当然放送関係機材の展示が行なわれており、長年テレビ放送に携わってきたオジサンたちが大集合してきた。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158850.html?ref=rss">
+  <title>Fire TV Stickを車内で使える多機能アダプタ、楽天ブラックフライデーでセール</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158850.html</link>
+  <dc:date>2026-11-24T19:00:00+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[昌騰は、楽天市場ブラックフライデーにて、MAXWINのドライブレコーダーなどをセール価格で販売している。セール期間は11月25日1時59分まで。Fire TV Stickを車載ディスプレイオーディオで使えるMAXWINの多機能アダプター「DA-AD02-PRO」が通常11,000円のところ9,980円で販売されている。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158642.html?ref=rss">
+  <title>Netflix、12月は山田孝之主演「国民クイズ」、STARTOカウコン生中継</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158642.html</link>
+  <dc:date>2026-11-24T18:00:00+09:00</dc:date>
+  <dc:creator>今宮冬羽</dc:creator>
+  <description><![CDATA[Netflixは12月の配信作品ラインナップを発表した。山田孝之主演のディストピア・エンターテインメント「国民クイズ」や、70年代の韓国芸能界が舞台のヒューマンドラマ「タンタラの詩」、SFアニメーション映画「レイ・ガン」などを順次配信するほか、STARTO ENTERTAINMENTが開催する年末カウントダウンコンサート「COUNTDOWN CONCERT 2026-2027 STARTO to WORLD」を初の世界同時ライブ配信する。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158766.html?ref=rss">
+  <title>「Fire TV Stick HD」が3980円。Amazonブラックフライデーのセール予告</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158766.html</link>
+  <dc:date>2026-11-24T17:00:00+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[Amazonは、11月27日0時からの「ブラックフライデー先行セール」と、11月30日0時からの「ブラックフライデー」でセールとなるFire TVシリーズ、Echoシリーズのセール価格を予告している。期間中、通常8,980円～の「Fire TV Stick HD」は3,980円、通常11,980円の「Fire TV Stick 4K」は5,980円で販売される。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158778.html?ref=rss">
+  <title>EarFun、Boseと協力してノイキャン大幅強化「Air Pro 5」近日発売。QuietSmart 4.0</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158778.html</link>
+  <dc:date>2026-11-24T16:37:18+09:00</dc:date>
+  <dc:creator>山崎健太郎</dc:creator>
+  <description><![CDATA[EarFun Technologyは、Bose Corporationオーディオ技術部門と協力することで、ノイズキャンセリング機能を大幅に強化したという完全ワイヤレスイヤフォン「EarFun Air Pro 5」を2027年1月頃に発売予定。価格はオープン。独自のANC技術「QuietSmart 4.0」とAI適応型ハイブリッドANCによるノイズ低減効果が得られる。カラーはブラック、ホワイト、ブルー。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158787.html?ref=rss">
+  <title>劇場アニメ「魔法使いの夜」続編決定。公開4日間で興収5億円突破</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158787.html</link>
+  <dc:date>2026-11-24T16:26:57+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[劇場アニメーション「魔法使いの夜」の続編制作が公式Xで発表された。「現在公開中の『魔法使いの夜』をぜひ劇場のスクリーンでお楽しみください！ そして、続編へと続く今後の展開にもぜひご期待ください！」としている。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158738.html?ref=rss">
+  <title>ゼンハイザー、ウインターセール。HD 800Sやサウンドバーが低価格</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158738.html</link>
+  <dc:date>2026-11-24T16:00:00+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[Sonova Consumer Hearing Japanは、ゼンハイザーのヘッドフォン「HD 800S」や有線イヤフォン「IE 900」、サウンドバー「AMBEO Soundbar」などが対象のゼンハイザーウィンターセールを、11月26日23時59分まで開催している。24日14時25分に編集部が確認したところ、AmazonではHD 800Sが30% OFFの181,000円だった。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158586.html?ref=rss">
+  <title>「109シネマズ二子玉川」12月1日リニューアル。プレミアムピュアサウンド「SAION」導入、シート刷新</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158586.html</link>
+  <dc:date>2026-11-24T15:00:00+09:00</dc:date>
+  <dc:creator>今宮冬羽</dc:creator>
+  <description><![CDATA[東急レクリエーションは、全10スクリーンを備えたシネマコンプレックス「109シネマズ二子玉川」を12月1日にリニューアルオープンする。所在地は東京都世田谷区玉川1-14-1で、東急田園都市線・大井町線「二子玉川駅」直結の、二子玉川ライズ・ショッピングセンター・テラスマーケット内。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158668.html?ref=rss">
+  <title>アンカー、200以上の国と地域で使える最大100W出力のUSB充電器</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158668.html</link>
+  <dc:date>2026-11-24T12:28:01+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[アンカー・ジャパンは、海外旅行や出張時に便利なトラベルアダプターと最大100W出力のUSB充電器が一体になった「Anker Nano Universal Charger (4-in-1, 100W, Display)」を、11月24日に発売した。価格は11,990円だが、直販サイトとAmazonでは12月7日23時59分まで数量限定で20% OFFになる初回セールを行なっている。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158631.html?ref=rss">
+  <title>「宇宙戦艦ヤマト2/III」が初のBD化。オリジナルネガからHDリマスター</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158631.html</link>
+  <dc:date>2026-11-24T11:39:44+09:00</dc:date>
+  <dc:creator>酒井隆文</dc:creator>
+  <description><![CDATA[バンダイナムコフィルムワークスは、35mmオリジナルネガフィルムから最新のフィルムスキャン技術を使ってHDリマスター化した「宇宙戦艦ヤマト2」と「宇宙戦艦ヤマトIII」初のBlu-ray BOXを発売する。発売日は「宇宙戦艦ヤマト２ TV BD-BOX」が2027年3月26日、「宇宙戦艦ヤマトIII TV BD-BOX」が2027年6月23日で、価格は各44,000円。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/news/2158248.html?ref=rss">
+  <title>MADOO、Acoustune HS3000/HS2000用チャンバー「ACT55」。Knowles共同開発の4BA構成</title>
+  <link>https://av.watch.impress.co.jp/docs/news/2158248.html</link>
+  <dc:date>2026-11-24T09:00:00+09:00</dc:date>
+  <dc:creator>今宮冬羽</dc:creator>
+  <description><![CDATA[東京音響は、MADOOより、Acoustuneの「HS3000」と「HS2000」シリーズに対応した音響チャンバー「ACT55」を11月27日に発売する。予約受付は既に開始されており、価格はオープン、市場想定価格は113,300円前後。]]></description>
+ </item>
+ <item rdf:about="https://av.watch.impress.co.jp/docs/topic/special/2156656.html?ref=rss">
+  <title>アラフォーCD世代が“アナログ沼”に落ちるとき。デノンのレコードプレーヤーがあると良い[Sponsored]</title>
+  <link>https://av.watch.impress.co.jp/docs/topic/special/2156656.html</link>
+  <dc:date>2026-11-24T08:00:00+09:00</dc:date>
+  <dc:creator>杉浦みな子</dc:creator>
+  <description><![CDATA[ハイレゾ・サブスクが普及した現代は、いつでもどこでも音楽を高クオリティに聴ける環境が整い、かつてないほど日常に音楽が溶け込む時代になっている。そんな中で本格化しているのが、“レコード再燃”というアナログのムーブメントだ。]]></description>
+ </item>
+</rdf:RDF>
