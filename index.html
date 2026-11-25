@@ -177,7 +177,7 @@ const I18N = {
       '当前估算：用本片自己的数据算出 14 时、19 时中间集计约占全天的比例（平日和周末假日分开），再按当前日本时间在开场前、14 时、19 时、末场之间插值，推算今天到现在的样本售票，然后用最近一天的换算比例折成票房。14 时以前没有当天数据，先按上周同日（或最近一天）推算。每次打开页面实时计算，每 5 分钟刷新；爬虫每小时补入新的 14/19 时集计。这只是参考，第二天早上的全天数字公布后会替换。',
       '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
       'HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。',
-      'HF 第三章的最终成绩只有映连公布的票房 20.2 亿日元（含 2021 年春的特别上映，只到 0.1 亿），没有动员；预测时动员按最后一个官方节点的平均票价推算。',
+      'HF 第三章的最终成绩只有映连公布的票房（2020 年底首轮约 19.5 亿日元，含 2021 年春特别上映为 20.2 亿日元），没有动员人数。为了让动员和票房对得上号、并且只比首轮，预测改用 9/29 最后一次动员和票房都公布的节点（18.24 亿日元、112.7 万人），所以这一项是下限。',
       'HF 第三章上映时有防疫限座，网站覆盖的影院数也比前两部多。',
       '预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。',
       '原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。'],
@@ -220,7 +220,7 @@ const I18N = {
       '現在の推定：本作のデータから14時・19時中間集計が全日に占める割合（平日と土日祝で別）を求め、現在の日本時間に応じて開場前・14時・19時・最終回の間で補間し、本日ここまでのサンプル販売数を推計。直近の日の換算率で興収に換算しています。14時より前は当日データがないため、先週同曜日（または直近の日）から推計。ページを開くたびに計算し、5分ごとに更新。14時・19時の集計は1時間ごとに自動取得。翌朝の全日データで置き換わる参考値です。',
       '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
       'HF第二章：2/22は全日ランキング25位圏外。2/24も圏外のため、当日の19時集計と2月の日曜の全日/19時の平均比率から推計。3/1以降は圏外。',
-      'HF第三章の最終成績は映連発表の興収20.2億円（2021年春の特別上映を含む、0.1億円単位）のみで、動員は公表されていません。予測では、最後の公式発表の平均単価から動員を推計しています。',
+      'HF第三章の最終成績は映連発表の興収のみ（2020年末の初回上映で約19.5億円、2021年春の特別上映込みで20.2億円）で、動員は公表されていません。動員と興収が揃い、初回上映だけで比べられるよう、予測には両方が発表された最後の公式発表（9/29：18.24億円・112.7万人）を使っており、この項目は下限です。',
       'HF第三章の公開時は感染対策の座席制限があり、集計対象の劇場数も前2作より多くなっています。',
       '予測はHF三部作の推移を当てはめただけです。魔法使いの夜は347館の拡大公開で、11/27からラージフォーマット上映も始まるため、推移はHFと異なる可能性があります。',
       '元データ：<a href="data/sample.csv">sample.csv</a>（日別サンプル）、<a href="data/milestones.csv">milestones.csv</a>（公式発表と出典）。'],
@@ -263,7 +263,7 @@ const I18N = {
       'Right-now estimate: from this film\'s own data, the share of the full day sold by the 2 p.m. and 7 p.m. interim counts is worked out (weekdays and weekends/holidays separately). The current Japan time is then interpolated between opening, 2 p.m., 7 p.m. and the last show to estimate today\'s sampled tickets so far, converted to gross at the latest day\'s rate. Before 2 p.m. there is no same-day data, so the same day last week (or the latest day) is used. Recalculated whenever the page is opened and every 5 minutes; interim counts are fetched hourly. It is only a guide and is replaced by the full-day figure the next morning.',
       'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
       'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
-      'HF III\'s final result is the ¥2,020 million gross published by the Motion Picture Producers Association of Japan (including the spring 2021 special screenings, rounded to ¥10 million); no admissions figure was released. The projection estimates its admissions from the average ticket price at the last official figure.',
+      'HF III\'s final result is only a gross figure from the Motion Picture Producers Association of Japan (about ¥1,950 million for the original 2020 run, ¥2,020 million including the spring 2021 special screenings); no admissions figure was released. So that admissions and gross match and only the original run is compared, the projection uses the last official figure with both numbers (Sept 29: ¥1,824 million, 1,127,233 admissions), which makes this row a lower bound.',
       'HF III opened under pandemic seating limits, and mimorin2014 tracked more theaters for it than for the first two films.',
       'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
       'Raw data: <a href="data/sample.csv">sample.csv</a> (daily samples), <a href="data/milestones.csv">milestones.csv</a> (official figures and sources).'],
@@ -327,7 +327,8 @@ function forecast(est, milestones) {
     const base = mm.find((m) => num(m.day) <= maxDay);
     if (!base) return;
     const d = num(base.day), A = num(base.attendance), G = num(base.gross);
-    const fin = milestones.find((m) => m.film === f && m.kind === 'final');
+    // 只用动员和票房都公布了的最终成绩；只有票房的（如 HF 第三章映连数字，含次年重映）不用，改用最后一个动员、票房都齐的官方节点（下限）
+    const fin = milestones.find((m) => m.film === f && m.kind === 'final' && num(m.attendance) !== null && num(m.gross) !== null);
     const pts = milestones.filter((m) => m.film === f && m.kind === 'point' && num(m.gross) !== null).sort((a, b) => num(b.day) - num(a.day));
     const end = fin || pts[0];
     const e = est.find((r) => r.film === f && r.day === d);
