@@ -23,6 +23,8 @@ main{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 5
 .eyebrow{font-family:var(--serif);letter-spacing:.32em;text-transform:uppercase;font-size:12px;color:var(--gold);margin:0 0 10px}
 h1{font-family:var(--serif);font-weight:500;font-size:34px;margin:0;line-height:1.25;letter-spacing:.04em;text-shadow:0 0 24px rgba(122,167,255,.25)}
 h2{font-family:var(--serif);font-size:21px;font-weight:500;margin:0 0 6px;letter-spacing:.03em}
+.srcfilm{font-family:var(--serif);font-size:17px;font-weight:500;margin:22px 0 8px;display:flex;align-items:center;gap:8px}.srcfilm i{width:12px;height:3px;border-radius:2px;display:inline-block}
+#sources table{table-layout:fixed;min-width:600px}#sources th:nth-child(1){width:14%}#sources th:nth-child(2){width:18%}#sources th:nth-child(3){width:18%}#sources th:nth-child(4){width:20%}
 h2::after{content:"";display:block;margin-top:8px;height:1px;width:120px;background:linear-gradient(90deg,var(--gold),rgba(217,192,138,0))}
 .langs{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none;backdrop-filter:blur(6px);background:rgba(11,16,32,.4)}
 .langs button{font:inherit;font-size:12px;letter-spacing:.06em;background:transparent;color:var(--muted);border:0;padding:6px 14px;cursor:pointer}
@@ -130,7 +132,7 @@ a{color:#9fc0ff}
 <section>
 <h2 data-i18n="hSrc">—</h2>
 <p class="note" data-i18n="nSrc">—</p>
-<div class="tw"><table><thead><tr><th data-i18n="thFilm">—</th><th data-i18n="thN">—</th><th data-i18n="thDate">—</th><th data-i18n="thOffAtt">—</th><th data-i18n="thOffGross">—</th><th data-i18n="thSrc">—</th></tr></thead><tbody id="stable"></tbody></table></div>
+<div id="sources"></div>
 </section>
 
 <details>
@@ -414,15 +416,23 @@ function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } c
 
 function renderSources() {
   if (!MS) return;
-  const order = {HF1: 0, HF2: 1, HF3: 2, MAHO: 3};
-  const rows = MS.slice().sort((a, b) => order[a.film] - order[b.film] || (a.kind === 'final') - (b.kind === 'final') || num(a.day) - num(b.day));
-  $('stable').replaceChildren();
-  rows.forEach((m) => {
-    const tr = $('stable').insertRow();
-    const g = num(m.gross), a = num(m.attendance);
-    [L.films[order[m.film]], m.kind === 'final' ? L.finalRow : L.dayLong(num(m.day)), m.date || '—', a === null ? '—' : fmt(a), g === null ? '—' : L.tipGross(g / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
-    const c = tr.insertCell();
-    if (m.source_url) { const el = document.createElement('a'); el.href = m.source_url; el.target = '_blank'; el.rel = 'noopener'; el.textContent = hostOf(m.source_url); c.append(el); } else c.textContent = '—';
+  const box = $('sources'); box.replaceChildren();
+  FILMS.forEach(([film, color], i) => {
+    const rows = MS.filter((m) => m.film === film).sort((a, b) => (a.kind === 'final') - (b.kind === 'final') || num(a.day) - num(b.day));
+    if (!rows.length) return;
+    const h = document.createElement('h3'); h.className = 'srcfilm';
+    const sw = document.createElement('i'); sw.style.background = `var(${color})`; h.append(sw, L.films[i]); box.append(h);
+    const tw = document.createElement('div'); tw.className = 'tw';
+    const t = document.createElement('table'); const hr = t.createTHead().insertRow();
+    [L.thN, L.thDate, L.thOffAtt, L.thOffGross, L.thSrc].forEach((x) => { const th = document.createElement('th'); th.textContent = x; hr.append(th); });
+    const tb = t.createTBody();
+    rows.forEach((m) => {
+      const tr = tb.insertRow(); const g = num(m.gross), a = num(m.attendance);
+      [m.kind === 'final' ? L.finalRow : L.dayLong(num(m.day)), m.date || '—', a === null ? '—' : fmt(a), g === null ? '—' : L.tipGross(g / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
+      const c = tr.insertCell();
+      if (m.source_url) { const el = document.createElement('a'); el.href = m.source_url; el.target = '_blank'; el.rel = 'noopener'; el.textContent = hostOf(m.source_url); c.append(el); } else c.textContent = '—';
+    });
+    tw.append(t); box.append(tw);
   });
 }
 
