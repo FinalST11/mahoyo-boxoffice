@@ -1,4 +1,4 @@
-name: probe-lists
+name: probe-feeds
 on:
   push:
     branches: [main]
@@ -14,11 +14,26 @@ jobs:
         run: |
           mkdir -p probe
           UA="Mozilla/5.0 (mahoyo-boxoffice tracker)"
-          curl -sSL -A "$UA" -o probe/at_tag.html -w "%{http_code} at\n" "https://www.animatetimes.com/tag/details.php?id=12009"; sleep 3
-          curl -sSL -A "$UA" -o probe/df_feed.xml -w "%{http_code} df\n" "https://news.denfaminicogamer.jp/tag/%e9%ad%94%e6%b3%95%e4%bd%bf%e3%81%84%e3%81%ae%e5%a4%9c/feed"
+          i=0
+          for u in \
+            "https://news.denfaminicogamer.jp/feed" \
+            "https://natalie.mu/comic/feed/news" \
+            "https://natalie.mu/eiga/feed/news" \
+            "https://www.animatetimes.com/rss/news.xml" \
+            "https://www.animatetimes.com/news/rss.php" \
+            "https://www.cinematoday.jp/index.xml" \
+            "https://www.oricon.co.jp/rss/news_anime.xml" \
+            "https://av.watch.impress.co.jp/data/rss/1.0/avw/feed.rdf" \
+            "https://dengekionline.com/rss/all" \
+            "https://www.famitsu.com/rss/famitsu_rss.xml" \
+            "https://anime.eiga.com/rss/news.xml" \
+            "https://mantan-web.jp/rss/anime.xml" ; do
+            i=$((i+1)); curl -sSL -m 30 -A "$UA" -o "probe/feed$i.xml" -w "%{http_code} feed$i $u\n" "$u" || echo "fail $u"
+            echo "$u" > "probe/feed$i.url"; sleep 2
+          done
       - name: push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b probe6
-          git add probe && git commit -qm "probe" && git push -qf origin probe6
+          git checkout -b probe7
+          git add probe && git commit -qm "probe" && git push -qf origin probe7
