@@ -4,15 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HF三部曲 & 魔法使いの夜 票房追踪</title>
-<meta name="description" content="用 mimorin2014 的 19 时合算样本和官方节点，估算并追踪 Fate/stay night [Heaven's Feel] 三部曲与《魔法使いの夜》的票房，每日更新。">
+<meta name="description" content="Fate/stay night [Heaven's Feel] 三部曲与《魔法使いの夜》票房追踪 / 興行収入トラッカー / Box office tracker, updated daily.">
 <style>
 :root{--bg:#fcfcfb;--panel:#fff;--fg:#0b0b0b;--muted:#6b6a65;--line:#e1e0d9;--grid:#ecebe5;--axis:#c3c2b7;--c0:#2a78d6;--c1:#eb6834;--c2:#1baf7a;--c3:#6250d6}
 @media (prefers-color-scheme:dark){:root{--bg:#151515;--panel:#1d1d1c;--fg:#f0efec;--muted:#a3a29b;--line:#2c2c2a;--grid:#262624;--axis:#383835;--c0:#3987e5;--c1:#d95926;--c2:#199e70;--c3:#9085e9}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans","Noto Sans CJK SC","Microsoft YaHei",sans-serif;line-height:1.6}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans","Noto Sans CJK SC","Noto Sans CJK JP","Microsoft YaHei","Yu Gothic",sans-serif;line-height:1.6}
 main{max-width:1040px;margin:0 auto;padding:32px 20px 48px;display:flex;flex-direction:column;gap:36px}
-h1{font-family:Georgia,"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:30px;margin:0;line-height:1.3}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+h1{font-family:Georgia,"Songti SC","Noto Serif CJK SC","Yu Mincho",serif;font-weight:400;font-size:30px;margin:0;line-height:1.3}
 h2{font-size:18px;font-weight:500;margin:0 0 4px}
+.langs{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.langs button{font:inherit;font-size:13px;background:var(--panel);color:var(--muted);border:0;padding:5px 12px;cursor:pointer}
+.langs button+button{border-left:1px solid var(--line)}
+.langs button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
 .lead{font-size:16px;margin:10px 0 0}
 .lead b{font-weight:600;font-variant-numeric:tabular-nums}
 .upd{font-size:13px;color:var(--muted);margin:6px 0 0}
@@ -20,7 +25,7 @@ h2{font-size:18px;font-weight:500;margin:0 0 4px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
 .k{font-size:13px;color:var(--muted);margin:0 0 4px}
 .v{font-family:Georgia,"Songti SC",serif;font-size:28px;margin:0;line-height:1.2;font-variant-numeric:tabular-nums}
-.u{font-size:14px;color:var(--muted);font-family:inherit}
+.u{font-size:14px;color:var(--muted);font-family:system-ui,sans-serif}
 .s{font-size:13px;color:var(--muted);margin:4px 0 0}
 .note{font-size:13px;color:var(--muted);margin:0 0 10px}
 .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin:0 0 8px}
@@ -45,75 +50,178 @@ a{color:var(--c0)}
 <body>
 <main>
 <header>
-<h1>HF三部曲 &amp; 魔法使いの夜 票房追踪</h1>
-<p class="lead">《魔法使いの夜》上映第 <b id="m-day">—</b> 天，估算累计票房 <b id="m-gross">—</b> 亿日元；按 HF 三部的走势推算，最终约 <b id="f-low">—</b>～<b id="f-high">—</b> 亿日元。</p>
-<p class="upd">数据更新至 <span id="upd">—</span>（每天日本时间上午 10:41 左右自动更新前一天的全天数字）</p>
+<div class="top">
+<h1 data-i18n="title">HF三部曲 &amp; 魔法使いの夜 票房追踪</h1>
+<div class="langs" role="group" aria-label="Language">
+<button type="button" data-lang="zh">中文</button><button type="button" data-lang="ja">日本語</button><button type="button" data-lang="en">English</button>
+</div>
+</div>
+<p class="lead" id="lead">—</p>
+<p class="upd" id="upd">—</p>
 </header>
 
 <section class="tiles">
-<div class="card"><p class="k">魔法使いの夜 · 最新官方节点（第 <span id="t-offday">—</span> 天）</p><p class="v"><span id="t-offgross">—</span> <span class="u">亿日元</span></p><p class="s">动员 <span id="t-offatt">—</span> 万人</p></div>
-<div class="card"><p class="k">估算累计（至第 <span id="t-estday">—</span> 天）</p><p class="v"><span id="t-estgross">—</span> <span class="u">亿日元</span></p><p class="s">动员约 <span id="t-estatt">—</span> 万人</p></div>
-<div class="card"><p class="k">预测最终票房（按 HF 三部走势）</p><p class="v"><span id="t-flow">—</span>～<span id="t-fhigh">—</span> <span class="u">亿日元</span></p><p class="s">中值 <span id="t-fmid">—</span> 亿日元</p></div>
-<div class="card"><p class="k">预测最终动员</p><p class="v"><span id="t-falow">—</span>～<span id="t-fahigh">—</span> <span class="u">万人</span></p><p class="s">每次加入新的官方节点后自动重算</p></div>
+<div class="card"><p class="k" id="k-off">—</p><p class="v" id="v-off">—</p><p class="s" id="s-off">—</p></div>
+<div class="card"><p class="k" id="k-est">—</p><p class="v" id="v-est">—</p><p class="s" id="s-est">—</p></div>
+<div class="card"><p class="k" data-i18n="kFc">—</p><p class="v" id="v-fc">—</p><p class="s" id="s-fc">—</p></div>
+<div class="card"><p class="k" data-i18n="kFa">—</p><p class="v" id="v-fa">—</p><p class="s" data-i18n="sFa">—</p></div>
 </section>
 
 <section>
-<h2>估算累计票房：四部按上映天数对齐</h2>
-<p class="note">每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。</p>
-<div class="legend">
-<span><i class="sw" style="background:var(--c0)"></i>HF 第一章（2017）</span>
-<span><i class="sw" style="background:var(--c1)"></i>HF 第二章（2019）</span>
-<span><i class="sw" style="background:var(--c2)"></i>HF 第三章（2020）</span>
-<span><i class="sw" style="background:var(--c3)"></i>魔法使いの夜（2026）</span>
-<span>○ 官方节点</span>
-</div>
+<h2 data-i18n="hCum">—</h2>
+<p class="note" data-i18n="nCum">—</p>
+<div class="legend" id="legend"></div>
 <div class="chart" id="cum"></div>
 </section>
 
 <section>
-<h2>每日售票：mimorin2014 合算样本</h2>
-<p class="note">HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。</p>
+<h2 data-i18n="hDaily">—</h2>
+<p class="note" data-i18n="nDaily">—</p>
 <div class="ctrl">
-<label>范围 <select id="range"><option value="14">前 14 天</option><option value="30" selected>前 30 天</option><option value="57">前 57 天</option></select></label>
-<label><input type="checkbox" id="log"> 对数刻度</label>
+<label><span data-i18n="range">—</span> <select id="range"><option value="14"></option><option value="30" selected></option><option value="57"></option></select></label>
+<label><input type="checkbox" id="log"> <span data-i18n="log">—</span></label>
 </div>
 <div class="chart" id="daily"></div>
 </section>
 
 <section>
-<h2>最终票房预测：套用 HF 三部的倍数</h2>
-<p class="note">倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。HF 第三章未找到最终成绩，用最后公布的节点，所以是下限。</p>
-<div class="tw"><table><thead><tr><th>参照作品</th><th>参照依据</th><th>对齐天数</th><th>倍数</th><th>预测动员（万人）</th><th>预测票房（亿日元）</th></tr></thead><tbody id="ftable"></tbody></table></div>
+<h2 data-i18n="hFc">—</h2>
+<p class="note" data-i18n="nFc">—</p>
+<div class="tw"><table><thead><tr><th data-i18n="thRef">—</th><th data-i18n="thBasis">—</th><th data-i18n="thDay">—</th><th data-i18n="thMult">—</th><th id="th-att">—</th><th id="th-gross">—</th></tr></thead><tbody id="ftable"></tbody></table></div>
 </section>
 
 <section>
-<h2>魔法使いの夜 每日明细</h2>
-<div class="tw"><table><thead><tr><th>日期</th><th>第 N 天</th><th>排名</th><th>样本售票</th><th>估算动员</th><th>估算票房（万日元）</th><th>估算累计（亿日元）</th></tr></thead><tbody id="mtable"></tbody></table></div>
+<h2 data-i18n="hMaho">—</h2>
+<div class="tw"><table><thead><tr><th data-i18n="thDate">—</th><th data-i18n="thN">—</th><th data-i18n="thRank">—</th><th data-i18n="thSales">—</th><th data-i18n="thEstAtt">—</th><th id="th-egross">—</th><th id="th-ecum">—</th></tr></thead><tbody id="mtable"></tbody></table></div>
 </section>
 
 <details>
-<summary>方法与注意事项</summary>
-<ul>
-<li>样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。</li>
-<li>换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。</li>
-<li>HF 第一章第 18 天的节点（65 万人、10 亿日元）日期是按"第三章破 10 亿比第一章早 7 天"推算的。</li>
-<li>HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。</li>
-<li>HF 第三章上映时有防疫限座，网站覆盖的影院数也比前两部多。</li>
-<li>预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。</li>
-<li>原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。</li>
-</ul>
+<summary data-i18n="method">—</summary>
+<ul id="method-list"></ul>
 </details>
-<footer>非官方的个人统计页面，数字为估算，仅供参考。</footer>
+<footer data-i18n="footer">—</footer>
 </main>
 
 <script src="d3.min.js"></script>
 <script>
-const FILMS = [['HF1','HF 第一章','--c0'],['HF2','HF 第二章','--c1'],['HF3','HF 第三章','--c2'],['MAHO','魔法使いの夜','--c3']];
+const I18N = {
+  zh: {
+    htmlLang: 'zh-CN', locale: 'zh-CN',
+    title: 'HF三部曲 & 魔法使いの夜 票房追踪',
+    films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
+    legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 官方节点'],
+    lead: (d, g, lo, hi) => `《魔法使いの夜》上映第 <b>${d}</b> 天，估算累计票房 <b>${g}</b> 亿日元；按 HF 三部的走势推算，最终约 <b>${lo}</b>～<b>${hi}</b> 亿日元。`,
+    upd: (date, d) => `数据更新至 ${date}（第 ${d} 天）（每天日本时间上午 10:41 左右自动更新前一天的全天数字）`,
+    kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
+    sOff: (a) => `动员 ${a} 万人`, sEst: (a) => `动员约 ${a} 万人`, sFc: (m) => `中值 ${m} 亿日元`,
+    kFc: '预测最终票房（按 HF 三部走势）', kFa: '预测最终动员', sFa: '每次加入新的官方节点后自动重算',
+    hCum: '估算累计票房：四部按上映天数对齐', nCum: '每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。',
+    hDaily: '每日售票：mimorin2014 合算样本',
+    nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
+    range: '范围', ranges: ['前 14 天', '前 30 天', '前 57 天'], log: '对数刻度',
+    hFc: '最终票房预测：套用 HF 三部的倍数',
+    nFc: '倍数 = HF 最终动员 ÷ 同一上映天数的估算累计动员；票价按 HF 从同一天到最终的平均票价变化折算。HF 第三章未找到最终成绩，用最后公布的节点，所以是下限。',
+    thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
+    basisFinal: '最终成绩', basisLatest: '最后公布的节点（下限）',
+    hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
+    method: '方法与注意事项',
+    methodList: [
+      '样本：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> 的合算排行（不含独立系），是主要院线的售票张数，不是金额。HF 第二章、第三章和魔法使いの夜用「デイリー合算ランキング」（全天）；HF 第一章只有「19時中間集計」。',
+      '换算：两个官方节点之间，官方增量（动员和票房分别）按样本每天的售票比例分配；最后一个节点之后沿用最后一段的倍率。',
+      'HF 第一章第 18 天的节点（65 万人、10 亿日元）日期是按"第三章破 10 亿比第一章早 7 天"推算的。',
+      'HF 第二章 2/22 不在全天榜前 25；2/24 也不在榜上，按当天 19 时数字和二月周日的全天/19 时平均比例估算；3/1 起跌出前 25 名。',
+      'HF 第三章上映时有防疫限座，网站覆盖的影院数也比前两部多。',
+      '预测只是套用 HF 三部的走势。魔法使いの夜是 347 家影院的大规模上映，11/27 起加开大格式场次，走势可能和 HF 不同。',
+      '原始数据：<a href="data/sample.csv">sample.csv</a>（每日样本）、<a href="data/milestones.csv">milestones.csv</a>（官方节点及来源）。'],
+    footer: '非官方的个人统计页面，数字为估算，仅供参考。',
+    day: (d) => `第${d}天`, dayLong: (d) => `第 ${d} 天`,
+    gross: (oku, d) => fmt(oku, d), grossUnit: '亿日元', att: (n) => fmt(n / 1e4, 1), attUnit: '万人',
+    axisGross: (v) => v + '亿', tipGross: (oku) => fmt(oku, 2) + ' 亿日元',
+    axisSales: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipSales: (v) => fmt(v) + ' 张',
+    estGrossCell: (yen) => fmt(yen / 1e4), cumCell: (oku) => fmt(oku, 2),
+    labelCum: '四部作品按上映天数对齐的估算累计票房曲线', labelDaily: '四部作品每日样本售票数', loadErr: '数据没有加载成功。'
+  },
+  ja: {
+    htmlLang: 'ja', locale: 'ja-JP',
+    title: 'HF三部作 & 魔法使いの夜 興行収入トラッカー',
+    films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
+    legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 公式発表'],
+    lead: (d, g, lo, hi) => `『魔法使いの夜』公開 <b>${d}</b> 日目、推定累計興収 <b>${g}</b> 億円。HF三部作の推移から推計すると、最終は約 <b>${lo}</b>～<b>${hi}</b> 億円。`,
+    upd: (date, d) => `データ更新：${date}（${d}日目）まで（毎日 日本時間 午前10:41頃に前日の全日データを自動更新）`,
+    kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
+    sOff: (a) => `動員 ${a} 万人`, sEst: (a) => `動員 約 ${a} 万人`, sFc: (m) => `中央値 ${m} 億円`,
+    kFc: '最終興収予測（HF三部作の推移から）', kFa: '最終動員予測', sFa: '新しい公式発表が加わるたびに自動で再計算',
+    hCum: '推定累計興収：4作品を公開日数で比較', nCum: '日別サンプルを各作品の公式発表に合わせて興収に換算。曲線は各公式発表（丸印）を通ります。',
+    hDaily: '日別販売数：mimorin2014 合算サンプル',
+    nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数字は低めです。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
+    range: '期間', ranges: ['最初の14日', '最初の30日', '最初の57日'], log: '対数目盛',
+    hFc: '最終興収予測：HF三部作の倍率を適用',
+    nFc: '倍率 = HFの最終動員 ÷ 同じ公開日数時点の推定累計動員。単価はHFの同時点から最終までの平均単価の変化で補正。HF第三章は最終成績が見つからなかったため最後の公式発表を使用（下限値）。',
+    thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
+    basisFinal: '最終成績', basisLatest: '最後の公式発表（下限）',
+    hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
+    method: '手法と注意点',
+    methodList: [
+      'サンプル：<a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> の合算ランキング（独立系を含まない）。主要シネコンの販売枚数で、金額ではありません。HF第二章・第三章と魔法使いの夜は「デイリー合算ランキング」（全日）、HF第一章は「19時中間集計」のみ。',
+      '換算：2つの公式発表の間の増分（動員・興収それぞれ）を、サンプルの日別販売数の比率で配分。最後の公式発表以降は最後の区間の倍率を使用。',
+      'HF第一章18日目の発表（65万人・10億円）の日付は、「第三章は第一章より7日早く10億円突破」から逆算したものです。',
+      'HF第二章：2/22は全日ランキング25位圏外。2/24も圏外のため、当日の19時集計と2月の日曜の全日/19時の平均比率から推計。3/1以降は圏外。',
+      'HF第三章の公開時は感染対策の座席制限があり、集計対象の劇場数も前2作より多くなっています。',
+      '予測はHF三部作の推移を当てはめただけです。魔法使いの夜は347館の拡大公開で、11/27からラージフォーマット上映も始まるため、推移はHFと異なる可能性があります。',
+      '元データ：<a href="data/sample.csv">sample.csv</a>（日別サンプル）、<a href="data/milestones.csv">milestones.csv</a>（公式発表と出典）。'],
+    footer: '非公式の個人集計ページです。数字は推計値で、参考程度にご覧ください。',
+    day: (d) => `${d}日目`, dayLong: (d) => `${d}日目`,
+    gross: (oku, d) => fmt(oku, d), grossUnit: '億円', att: (n) => fmt(n / 1e4, 1), attUnit: '万人',
+    axisGross: (v) => v + '億', tipGross: (oku) => fmt(oku, 2) + ' 億円',
+    axisSales: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipSales: (v) => fmt(v) + ' 枚',
+    estGrossCell: (yen) => fmt(yen / 1e4), cumCell: (oku) => fmt(oku, 2),
+    labelCum: '4作品の公開日数別推定累計興収', labelDaily: '4作品の日別サンプル販売数', loadErr: 'データを読み込めませんでした。'
+  },
+  en: {
+    htmlLang: 'en', locale: 'en-US',
+    title: "HF Trilogy & Witch on the Holy Night Box Office Tracker",
+    films: ['HF I (presage flower)', 'HF II (lost butterfly)', 'HF III (spring song)', 'Witch on the Holy Night'],
+    legend: ['HF I (2017)', 'HF II (2019)', 'HF III (2020)', 'Witch on the Holy Night (2026)', '○ Official figures'],
+    lead: (d, g, lo, hi) => `<i>Witch on the Holy Night</i> (Mahoutsukai no Yoru) is on day <b>${d}</b> of its run with an estimated <b>${g}</b> in total gross. Following the Heaven's Feel trilogy's runs, it would finish at around <b>${lo}</b>–<b>${hi}</b>.`,
+    upd: (date, d) => `Data through ${date} (day ${d}). Updated automatically every day at about 10:41 a.m. Japan time with the previous day's full-day figures.`,
+    kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
+    sOff: (a) => `Admissions ${a}`, sEst: (a) => `About ${a} admissions`, sFc: (m) => `Midpoint ${m}`,
+    kFc: 'Projected final gross (from HF trilogy runs)', kFa: 'Projected final admissions', sFa: 'Recalculated whenever a new official figure is added',
+    hCum: 'Estimated cumulative gross, aligned by day of release', nCum: 'Daily samples are converted to gross using each film\'s official figures; each curve passes through its official figures (circles).',
+    hDaily: 'Daily ticket sales: mimorin2014 combined samples',
+    nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and reads lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends, not size.',
+    range: 'Range', ranges: ['First 14 days', 'First 30 days', 'First 57 days'], log: 'Log scale',
+    hFc: 'Final gross projection using the HF trilogy multipliers',
+    nFc: 'Multiplier = an HF film\'s final admissions ÷ its estimated admissions on the same day of release. Ticket prices are adjusted by how that film\'s average price changed from that day to the end. No final figure was found for HF III, so its latest official figure is used and the result is a lower bound.',
+    thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAtt: 'Projected admissions', thGross: 'Projected gross',
+    basisFinal: 'Final result', basisLatest: 'Latest official figure (lower bound)',
+    hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. total',
+    method: 'Method and caveats',
+    methodList: [
+      'Samples: combined rankings on <a href="https://mimorin2014.com/" rel="noopener">mimorin2014.com</a> (excluding independent theaters). These are ticket counts at the major chains, not revenue. HF II, HF III and Witch on the Holy Night use the full-day "デイリー合算ランキング"; HF I only has the 7 p.m. interim count.',
+      'Conversion: between two official figures, the increase (admissions and gross separately) is split across days in proportion to the daily sample. After the latest official figure, the last segment\'s ratio is carried forward.',
+      'The date of HF I\'s day-18 figure (650,000 admissions, ¥1 billion) was inferred from "HF III passed ¥1 billion 7 days sooner than HF I".',
+      'HF II: missing from the full-day top 25 on Feb 22. It was also missing on Feb 24, which is estimated from that day\'s 7 p.m. count and the average full-day/7 p.m. ratio on February Sundays. It dropped out of the top 25 from Mar 1.',
+      'HF III opened under pandemic seating limits, and the site covered more theaters than for the first two films.',
+      'The projection simply applies the HF trilogy\'s patterns. Witch on the Holy Night is a wide release (347 theaters) and adds premium formats from Nov 27, so its run may differ.',
+      'Raw data: <a href="data/sample.csv">sample.csv</a> (daily samples), <a href="data/milestones.csv">milestones.csv</a> (official figures and sources).'],
+    footer: 'Unofficial personal tracker. Figures are estimates, for reference only.',
+    day: (d) => `Day ${d}`, dayLong: (d) => `Day ${d}`,
+    gross: (oku, d) => '¥' + fmt(oku / 10, d + 1) + 'bn', grossUnit: '', att: (n) => fmt(n / 1e3) + 'k', attUnit: '',
+    axisGross: (v) => '¥' + (v / 10) + 'bn', tipGross: (oku) => '¥' + fmt(oku / 10, 3) + 'bn',
+    axisSales: (v) => (v >= 1000 ? v / 1000 + 'k' : v), tipSales: (v) => fmt(v) + ' tickets',
+    estGrossCell: (yen) => '¥' + fmt(yen / 1e6, 1) + 'M', cumCell: (oku) => '¥' + fmt(oku / 10, 3) + 'bn',
+    labelCum: 'Estimated cumulative gross by day of release for the four films', labelDaily: 'Daily sampled ticket sales for the four films', loadErr: 'The data could not be loaded.'
+  }
+};
+
+const FILMS = [['HF1', '--c0'], ['HF2', '--c1'], ['HF3', '--c2'], ['MAHO', '--c3']];
 const num = (v) => (v === null || v === undefined || v === '' ? null : Number(v));
-const fmt = (v, d = 0) => (v === null || v === undefined || isNaN(v) ? '—' : Number(v).toLocaleString('zh-CN', {minimumFractionDigits: d, maximumFractionDigits: d}));
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const $ = (id) => document.getElementById(id);
-const state = {range: 30, log: false};
+const state = {range: 30, log: false, lang: 'zh'};
+let L = I18N.zh;
+function fmt(v, d = 0) { return v === null || v === undefined || isNaN(v) ? '—' : Number(v).toLocaleString(L.locale, {minimumFractionDigits: d, maximumFractionDigits: d}); }
 
 function estimate(sample, milestones) {
   const out = [];
@@ -150,28 +258,28 @@ function forecast(est, milestones) {
   if (!mm.length) return [];
   const d = num(mm[0].day), A = num(mm[0].attendance), G = num(mm[0].gross);
   const rows = [];
-  for (const [f, name] of FILMS.slice(0, 3)) {
+  FILMS.slice(0, 3).forEach(([f], i) => {
     const fin = milestones.find((m) => m.film === f && m.kind === 'final');
     const pts = milestones.filter((m) => m.film === f && m.kind === 'point' && num(m.gross) !== null).sort((a, b) => num(b.day) - num(a.day));
     const end = fin || pts[0];
     const e = est.find((r) => r.film === f && r.day === d);
-    if (!end || !e || !e.cum_att || !e.cum_gross) continue;
+    if (!end || !e || !e.cum_att || !e.cum_gross) return;
     const mult = num(end.attendance) / e.cum_att;
     const priceRatio = (num(end.gross) / num(end.attendance)) / (e.cum_gross / e.cum_att);
     const projAtt = A * mult;
-    rows.push({name, basis: fin ? '最终成绩' : '最后公布的节点（下限）', day: d, mult, att: projAtt, gross: projAtt * (G / A) * priceRatio});
-  }
+    rows.push({idx: i, final: !!fin, day: d, mult, att: projAtt, gross: projAtt * (G / A) * priceRatio});
+  });
   return rows;
 }
 
 function lineChart(el, series, opts) {
   el.replaceChildren();
-  const W = Math.max(280, el.clientWidth), H = 320, m = {t: 10, r: 34, b: 28, l: 56};
+  const W = Math.max(280, el.clientWidth), H = 320, m = {t: 10, r: 34, b: 28, l: 60};
   const svg = d3.select(el).append('svg').attr('width', W).attr('height', H).attr('role', 'img').attr('aria-label', opts.label);
   const x = d3.scaleLinear().domain([1, opts.maxX]).range([m.l, W - m.r]);
   const vals = series.flatMap((s) => s.pts.map((p) => p.y)).concat((opts.dots || []).map((p) => p.y)).filter((v) => v !== null && v > 0);
   const y = (opts.log ? d3.scaleLog().domain([Math.max(1, d3.min(vals)), d3.max(vals)]) : d3.scaleLinear().domain([0, d3.max(vals) || 1])).nice().range([H - m.b, m.t]);
-  svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(Math.min(8, Math.floor(W / 70))).tickFormat((d) => '第' + d + '天')).call((g) => g.selectAll('.domain,line').style('stroke', css('--axis')));
+  svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(Math.min(8, Math.floor(W / 70))).tickFormat((d) => L.day(d))).call((g) => g.selectAll('.domain,line').style('stroke', css('--axis')));
   svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(opts.yfmt)).call((g) => g.select('.domain').remove()).call((g) => g.selectAll('line').style('stroke', css('--grid')));
   const line = d3.line().defined((p) => p.y !== null && (!opts.log || p.y > 0)).x((p) => x(p.x)).y((p) => y(p.y));
   series.forEach((s) => svg.append('path').attr('d', line(s.pts)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', s.w).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round'));
@@ -183,14 +291,14 @@ function lineChart(el, series, opts) {
     .on('pointermove pointerdown', (ev) => {
       const [px] = d3.pointer(ev); const dx = Math.max(1, Math.min(opts.maxX, Math.round(x.invert(px))));
       guide.attr('x1', x(dx)).attr('x2', x(dx)).style('display', null);
-      tip.selectAll('*').remove(); tip.append('div').style('font-weight', '600').text('第 ' + dx + ' 天');
-      hov.selectAll('*').remove();
+      tip.selectAll('*').remove(); hov.selectAll('*').remove();
+      tip.append('div').style('font-weight', '600').text(L.dayLong(dx));
       series.forEach((s) => {
         const p = s.pts.find((q) => q.x === dx);
         if (!p || p.y === null || (opts.log && p.y <= 0)) return;
         const row = tip.append('div').style('display', 'flex').style('align-items', 'center').style('gap', '6px');
         row.append('span').style('width', '10px').style('height', '10px').style('border-radius', '2px').style('background', s.color).style('flex', 'none');
-        row.append('span').text(s.name + '：' + opts.tipfmt(p.y));
+        row.append('span').text(s.name + (L === I18N.en ? ': ' : '：') + opts.tipfmt(p.y));
         hov.append('circle').attr('cx', x(dx)).attr('cy', y(p.y)).attr('r', 4).attr('fill', s.color).attr('stroke', css('--bg')).attr('stroke-width', 2);
       });
       const tw = tip.node().offsetWidth || 190;
@@ -200,46 +308,80 @@ function lineChart(el, series, opts) {
     .on('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; tip.style('display', 'none'); guide.style('display', 'none'); hov.selectAll('*').remove(); });
 }
 
-let SAMPLE = [], MS = [], EST = [];
-function render() {
-  const series = (key) => FILMS.map(([f, name, c]) => ({name, color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
-  lineChart($('cum'), series((f) => EST.filter((r) => r.film === f).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null}))), {
-    maxX: 57, label: '四部作品按上映天数对齐的估算累计票房曲线', yfmt: (v) => v + '亿', tipfmt: (v) => v.toFixed(2) + ' 亿日元',
-    dots: MS.filter((m) => m.kind === 'point' && num(m.gross) !== null && num(m.day) !== null).map((m) => ({x: num(m.day), y: num(m.gross) / 1e8, color: css(FILMS.find((f) => f[0] === m.film)[2])}))});
-  const R = state.range;
-  lineChart($('daily'), series((f) => SAMPLE.filter((r) => r.film === f && num(r.day) <= R).map((r) => ({x: num(r.day), y: num(r.sales)})).sort((a, b) => a.x - b.x)), {
-    maxX: R, log: state.log, label: '四部作品每日样本售票数', yfmt: (v) => (v >= 10000 ? v / 10000 + '万' : v), tipfmt: (v) => v.toLocaleString('zh-CN') + ' 张'});
+let SAMPLE = null, MS = null, EST = [], FC = [];
+const withUnit = (el, value, unit) => { el.replaceChildren(document.createTextNode(value)); if (unit) { const u = document.createElement('span'); u.className = 'u'; u.textContent = ' ' + unit; el.append(u); } };
+
+function renderText() {
+  document.documentElement.lang = L.htmlLang; document.title = L.title;
+  document.querySelectorAll('[data-i18n]').forEach((el) => { const v = L[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
+  document.querySelectorAll('.langs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
+  [...$('range').options].forEach((o, i) => { o.textContent = L.ranges[i]; });
+  $('legend').replaceChildren(...L.legend.map((t, i) => { const s = document.createElement('span'); if (i < 4) { const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = `var(${FILMS[i][1]})`; s.append(sw); } s.append(t); return s; }));
+  $('method-list').innerHTML = L.methodList.map((h) => `<li>${h}</li>`).join('');
+  const en = L === I18N.en;
+  $('th-att').textContent = L.thAtt; $('th-gross').textContent = L.thGross; $('th-egross').textContent = L.thEGross; $('th-ecum').textContent = L.thECum;
+  if (!SAMPLE) return;
+  const maho = EST.filter((r) => r.film === 'MAHO' && r.sales !== null).sort((a, b) => b.day - a.day)[0];
+  const off = MS.filter((m) => m.film === 'MAHO' && m.kind === 'point').sort((a, b) => num(b.day) - num(a.day))[0];
+  const g = FC.map((r) => r.gross / 1e8), a = FC.map((r) => r.att);
+  const lo = Math.min(...g), hi = Math.max(...g), mid = g.reduce((s, v) => s + v, 0) / (g.length || 1);
+  if (maho) {
+    $('lead').innerHTML = L.lead(maho.day, L.gross(maho.cum_gross / 1e8, 2), FC.length ? L.gross(lo, 1) : '—', FC.length ? L.gross(hi, 1) : '—');
+    $('upd').textContent = L.upd(maho.date, maho.day);
+    $('k-est').textContent = L.kEst(maho.day);
+    withUnit($('v-est'), L.gross(maho.cum_gross / 1e8, 2), L.grossUnit);
+    $('s-est').textContent = L.sEst(L.att(maho.cum_att));
+  }
+  if (off) {
+    $('k-off').textContent = L.kOff(off.day);
+    withUnit($('v-off'), L.gross(num(off.gross) / 1e8, 2), L.grossUnit);
+    $('s-off').textContent = L.sOff(L.att(num(off.attendance)));
+  }
+  if (FC.length) {
+    withUnit($('v-fc'), L.gross(lo, 1) + (en ? '–' : '～') + L.gross(hi, 1), L.grossUnit);
+    $('s-fc').textContent = L.sFc(L.gross(mid, 1));
+    withUnit($('v-fa'), L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
+  }
+  $('ftable').replaceChildren(); FC.forEach((r) => { const tr = $('ftable').insertRow(); [L.films[r.idx], r.final ? L.basisFinal : L.basisLatest, L.dayLong(r.day), '×' + r.mult.toFixed(2), L.att(r.att), L.gross(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
+  $('mtable').replaceChildren(); EST.filter((r) => r.film === 'MAHO').sort((x1, x2) => x2.day - x1.day).forEach((r) => {
+    const tr = $('mtable').insertRow();
+    [r.date, r.day, r.rank === null ? '—' : r.rank, fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : L.estGrossCell(r.est_gross), L.cumCell(r.cum_gross / 1e8)].forEach((v) => (tr.insertCell().textContent = v));
+  });
 }
 
-Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now())]).then(([sample, ms]) => {
-  SAMPLE = sample; MS = ms; EST = estimate(sample, ms);
-  const fc = forecast(EST, ms);
-  const maho = EST.filter((r) => r.film === 'MAHO' && r.sales !== null).sort((a, b) => b.day - a.day);
-  const off = ms.filter((m) => m.film === 'MAHO' && m.kind === 'point').sort((a, b) => num(b.day) - num(a.day))[0];
-  if (maho.length) {
-    const t = maho[0];
-    $('m-day').textContent = t.day; $('t-estday').textContent = t.day; $('upd').textContent = t.date + '（第 ' + t.day + ' 天）';
-    $('m-gross').textContent = fmt(t.cum_gross / 1e8, 2); $('t-estgross').textContent = fmt(t.cum_gross / 1e8, 2); $('t-estatt').textContent = fmt(t.cum_att / 1e4, 1);
-  }
-  if (off) { $('t-offday').textContent = off.day; $('t-offgross').textContent = fmt(num(off.gross) / 1e8, 2); $('t-offatt').textContent = fmt(num(off.attendance) / 1e4, 1); }
-  if (fc.length) {
-    const g = fc.map((r) => r.gross / 1e8), a = fc.map((r) => r.att / 1e4);
-    const lo = Math.min(...g), hi = Math.max(...g), mid = g.reduce((s, v) => s + v, 0) / g.length;
-    ['f-low', 't-flow'].forEach((id) => ($(id).textContent = fmt(lo, 1))); ['f-high', 't-fhigh'].forEach((id) => ($(id).textContent = fmt(hi, 1)));
-    $('t-fmid').textContent = fmt(mid, 1); $('t-falow').textContent = fmt(Math.min(...a), 1); $('t-fahigh').textContent = fmt(Math.max(...a), 1);
-    fc.forEach((r) => { const tr = $('ftable').insertRow(); [r.name, r.basis, '第 ' + r.day + ' 天', '×' + r.mult.toFixed(2), fmt(r.att / 1e4, 1), fmt(r.gross / 1e8, 1)].forEach((v) => (tr.insertCell().textContent = v)); });
-  }
-  EST.filter((r) => r.film === 'MAHO').sort((a, b) => b.day - a.day).forEach((r) => {
-    const tr = $('mtable').insertRow();
-    [r.date, r.day, r.rank === null ? '—' : r.rank, fmt(r.sales), fmt(r.est_att), r.est_gross === null ? '—' : fmt(r.est_gross / 1e4), fmt(r.cum_gross / 1e8, 2)].forEach((v) => (tr.insertCell().textContent = v));
-  });
-  render();
-}).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { el.innerHTML = '<p class="err">数据没有加载成功。</p>'; }); console.error(e); });
+function renderCharts() {
+  if (!SAMPLE) return;
+  const series = (key) => FILMS.map(([f, c], i) => ({name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
+  lineChart($('cum'), series((f) => EST.filter((r) => r.film === f).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null}))), {
+    maxX: 57, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
+    dots: MS.filter((m) => m.kind === 'point' && num(m.gross) !== null && num(m.day) !== null).map((m) => ({x: num(m.day), y: num(m.gross) / 1e8, color: css(FILMS.find((f) => f[0] === m.film)[1])}))});
+  const R = state.range;
+  lineChart($('daily'), series((f) => SAMPLE.filter((r) => r.film === f && num(r.day) <= R).map((r) => ({x: num(r.day), y: num(r.sales)})).sort((a, b) => a.x - b.x)), {
+    maxX: R, log: state.log, label: L.labelDaily, yfmt: L.axisSales, tipfmt: L.tipSales});
+}
 
-$('range').addEventListener('change', (e) => { state.range = Number(e.target.value); render(); });
-$('log').addEventListener('change', (e) => { state.log = e.target.checked; render(); });
-let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 150); });
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+function setLang(lang) {
+  state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang];
+  try { localStorage.setItem('hf-lang', state.lang); } catch (e) {}
+  renderText(); renderCharts();
+}
+
+let initial = 'zh';
+try { initial = localStorage.getItem('hf-lang') || ''; } catch (e) { initial = ''; }
+if (!I18N[initial]) { const nav = (navigator.language || 'zh').toLowerCase(); initial = nav.startsWith('ja') ? 'ja' : nav.startsWith('zh') ? 'zh' : 'en'; }
+const q = new URLSearchParams(location.search).get('lang'); if (I18N[q]) initial = q;
+setLang(initial);
+
+Promise.all([d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now())]).then(([sample, ms]) => {
+  SAMPLE = sample; MS = ms; EST = estimate(sample, ms); FC = forecast(EST, ms);
+  renderText(); renderCharts();
+}).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
+
+document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+$('range').addEventListener('change', (e) => { state.range = Number(e.target.value); renderCharts(); });
+$('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
+let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderCharts, 150); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
 </script>
 </body>
 </html>
