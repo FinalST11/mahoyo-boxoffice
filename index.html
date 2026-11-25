@@ -496,19 +496,20 @@ const median = (x) => { const v = x.slice().sort((a, b) => a - b); return v.leng
 // 每类日子（平日 / 周五型 / 周六型 / 周日型）的比例 = 本类自己的中位数 和 所有日子的整体中位数 的加权平均：
 //   比例 = (本类天数 × 本类中位数 + 2 × 整体中位数) ÷ (本类天数 + 2)
 // 本类数据少时主要靠整体，多了就越来越看本类。首日有首映效应，不计入。
-// 例外：平日 19 时的起点保守设为 84%（代替整体中位数），再按实际平日数据逐步调整。
+// 例外：平日 19 时从保守的 84% 起步（代替整体中位数），只用 11/25 起的实际平日数据逐步调整。
 const OPENING = '2026-11-20';
 function cutShares() {
   const full = new Map(SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales)).map((r) => [r.date, num(r.sales)]));
   const init = {14: 0.47, 19: 0.83};
   const sh = {wk: {}, fri: {}, sat: {}, sun: {}};
   for (const c of ['14', '19']) {
-    const all = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && r.date !== OPENING).map((r) => ({t: dayType(r.date), v: num(r.sales) / full.get(r.date)}));
+    const all = INTERIM.filter((r) => r.cut === c && num(r.sales) && full.has(r.date) && r.date !== OPENING).map((r) => ({t: dayType(r.date), d: r.date, v: num(r.sales) / full.get(r.date)}));
     const pooled = all.length ? median(all.map((x) => x.v)) : init[c];
     for (const t of Object.keys(sh)) {
-      const own = all.filter((x) => x.t === t).map((x) => x.v);
-      // 平日的 19 时比例偏保守：起点设为 84%（比例越高，推算的全天越少），之后随实际平日数据调整
-      const prior = t === 'wk' && c === '19' ? 0.84 : pooled;
+      // 平日的 19 时比例偏保守：从 84% 起步（比例越高，推算的全天越少），只用 11/25 起的实际平日数据逐步调整
+      const wk19 = t === 'wk' && c === '19';
+      const own = all.filter((x) => x.t === t && (!wk19 || x.d >= '2026-11-25')).map((x) => x.v);
+      const prior = wk19 ? 0.84 : pooled;
       sh[t][c] = own.length ? (own.length * median(own) + 2 * prior) / (own.length + 2) : prior;
     }
   }
