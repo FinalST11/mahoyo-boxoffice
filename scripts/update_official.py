@@ -193,6 +193,7 @@ def main():
     status = json.load(open(status_path, encoding='utf-8')) if os.path.exists(status_path) else {}
     status['updated_at'] = dt.datetime.now(dt.timezone(dt.timedelta(hours=9))).replace(microsecond=0).isoformat()
     status['official_added_at'] = status['updated_at']
+    status['last_item'] = {'kind': 'official', 'day': int(added[-1]['day'])}
     with open(status_path, 'w', encoding='utf-8') as f:
         json.dump(status, f, ensure_ascii=False, indent=2)
         f.write('\n')

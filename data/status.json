@@ -1,5 +1,10 @@
 {
   "updated_at": "2026-11-25T15:08:16+09:00",
   "updated_by": "手动（Claude）",
-  "latest_date": "2026-11-24"
+  "latest_date": "2026-11-24",
+  "last_item": {
+    "kind": "interim",
+    "day": 6,
+    "cut": "14"
+  }
 }

@@ -237,6 +237,11 @@ def main():
         with open(STATUS, encoding='utf-8') as f:
             status = json.load(f)
     status.update(updated_at=now.isoformat(), updated_by='GitHub Actions（每小时自动抓取）', latest_date=last.isoformat())
+    if interim_added:
+        d_, c_ = interim_added[-1].split(' ')
+        status['last_item'] = {'kind': 'interim', 'day': (dt.date.fromisoformat(d_) - DAY0).days, 'cut': c_.replace('时', '')}
+    elif added:
+        status['last_item'] = {'kind': 'full', 'day': int(added[-1]['day'])}
     with open(STATUS, 'w', encoding='utf-8') as f:
         json.dump(status, f, ensure_ascii=False, indent=2)
         f.write('\n')
