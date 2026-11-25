@@ -749,12 +749,12 @@ function renderCharts() {
   const maxDay = Math.max(57, ...SAMPLE.map((r) => num(r.day) || 0));
   const series = (key) => FILMS.map(([f, c], i) => ({film: f, name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
   const CR = rangeOf(state.crange, maxDay);
-  const proj = projPath(EST, FC).filter((p) => p.x <= CR);
+  const projAll = projPath(EST, FC), proj = projAll.filter((p) => p.x <= CR);
   const cumSeries = series((f) => EST.filter((r) => r.film === f && r.day <= CR).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null})));
-  if (proj.length > 1) cumSeries.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: proj.slice(1).map((p) => ({x: p.x, y: p.mean / 1e8}))});
+  if (proj.length > 1) cumSeries.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: proj.map((p) => ({x: p.x, y: p.mean / 1e8}))});  // 从实际线的最后一天起画，两条线首尾相接
   lineChart($('cum'), cumSeries, {
     maxX: CR, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
-    endLabel: proj.length > 1 && FC.length ? {x: proj[proj.length - 1].x, y: proj[proj.length - 1].mean / 1e8, color: css('--c3'), text: L.projEnd(L.gross(FC.reduce((t, f) => t + f.gross, 0) / FC.length / 1e8, 1) + (state.lang === 'en' ? ' ' : '') + L.grossUnit)} : null,
+    endLabel: proj.length > 1 && FC.length && proj.length === projAll.length ? {x: proj[proj.length - 1].x, y: proj[proj.length - 1].mean / 1e8, color: css('--c3'), text: L.projEnd(L.gross(FC.reduce((t, f) => t + f.gross, 0) / FC.length / 1e8, 1) + (state.lang === 'en' ? ' ' : '') + L.grossUnit)} : null,
     band: proj.length > 1 ? {color: css('--c3'), pts: proj.map((p) => ({x: p.x, lo: p.lo / 1e8, hi: p.hi / 1e8}))} : null,
     note: (f, d) => {
       const m = MS.find((r) => r.film === f && r.kind === 'point' && num(r.day) === d);
