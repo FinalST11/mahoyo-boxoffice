@@ -208,7 +208,10 @@ def main():
                 if abs(calc - float(wow[:-1])) > 0.1:
                     notes.append(f'先週比不符：原帖{wow}')
         else:
-            notes.append('全天榜未进前25')
+            # 掉出前 25：记下当天第 25 名的张数，网页用它给推算封顶
+            last25 = max(all_rows, key=lambda h: num(h[0]) or 0)
+            cut = num(last25[1])
+            notes.append(f'全天榜未进前25（第25名{cut}张）' if cut else '全天榜未进前25')
         notes.append('自动抓取')
         row['note'] = '；'.join(notes)
         rows.append(row)
