@@ -23,7 +23,6 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SAMPLE = os.path.join(ROOT, 'data', 'sample.csv')
 STATUS = os.path.join(ROOT, 'data', 'status.json')
-LIVE = os.path.join(ROOT, 'data', 'live.json')
 BASE = 'https://mimorin2014.com'
 FILM, FILM_NAME, TITLE = 'MAHO', '魔法使いの夜', '魔法使いの夜'
 DAY0 = dt.date(2026, 11, 19)  # 2026-11-20 是第 1 天
@@ -115,45 +114,55 @@ def parse_entry(eid):
     return rows
 
 
-def find_interim(d):
-    """在 D 当天的日期页上找最新的中间集计帖（先 19 时，再 14 时）。返回 (编号, 时点) 或 None。"""
+INTERIM = os.path.join(ROOT, 'data', 'interim.csv')
+INTERIM_FIELDS = ['date', 'day', 'cut', 'rank', 'sales', 'entry']
+
+
+def find_interims(d):
+    """D 当天日期页上的中间集计帖（14 时、19 时，不含独立系）。返回 {时点: 编号}。"""
     page = get(f'{BASE}/blog-date-{d:%Y%m%d}.html')
     if not page:
-        return None
+        return {}
     entries = {html.unescape(re.sub(r'\s+', '', t)): int(i) for i, t in ENTRY.findall(page)}
-    for cut in ('19', '14'):
+    out = {}
+    for cut in ('14', '19'):
         t = f'デイリー合算ランキング（{cut}時中間集計）：{d:%Y%m%d}({WD_JA[d.weekday()]})'
         if t in entries:
-            return entries[t], cut
-    return None
+            out[cut] = entries[t]
+    return out
 
 
-def update_live(last_full, today):
-    """抓当天（或全天帖还没出的前一天）的最新中间集计，写入 data/live.json。返回是否有变化。"""
-    live = None
-    d = today
-    while d > last_full:
-        found = find_interim(d)
-        if found:
-            eid, cut = found
-            rows = parse_entry(eid) or []
-            hit = [r for r in rows if r[6].strip() == TITLE or r[6].strip().startswith((TITLE + '（', TITLE + '('))]
-            live = {'date': d.isoformat(), 'day': (d - DAY0).days, 'cut': cut, 'entry': eid,
-                    'rank': min(num(h[0]) for h in hit) if hit else None,
-                    'sales': sum(num(h[1]) or 0 for h in hit) if hit else None}
-            print(f'{d}: {cut}时中间集计 entry {eid} → 排名 {live["rank"]} 售票 {live["sales"]}')
-            break
-        d -= dt.timedelta(days=1)
-    old = None
-    if os.path.exists(LIVE):
-        with open(LIVE, encoding='utf-8') as f:
-            old = json.load(f)
-    if (old or {}) == (live or {}):
-        return False
-    with open(LIVE, 'w', encoding='utf-8') as f:
-        json.dump(live or {}, f, ensure_ascii=False, indent=2)
-        f.write('\n')
-    return True
+def update_interim(last_full, today):
+    """把全天帖还没出的日子（今天，以及可能的昨天）的 14/19 时中间集计追加到 data/interim.csv。返回新增的说明。"""
+    rows = []
+    if os.path.exists(INTERIM):
+        with open(INTERIM, encoding='utf-8', newline='') as f:
+            rows = list(csv.DictReader(f))
+    have = {(r['date'], r['cut']) for r in rows}
+    added = []
+    d = last_full + dt.timedelta(days=1)
+    while d <= today:
+        need = [c for c in ('14', '19') if (d.isoformat(), c) not in have]
+        if need:
+            found = find_interims(d)
+            for cut in need:
+                if cut not in found:
+                    continue
+                hit = [r for r in (parse_entry(found[cut]) or []) if r[6].strip() == TITLE or r[6].strip().startswith((TITLE + '（', TITLE + '('))]
+                row = {'date': d.isoformat(), 'day': str((d - DAY0).days), 'cut': cut, 'entry': str(found[cut]),
+                       'rank': str(min(num(h[0]) for h in hit)) if hit else '',
+                       'sales': str(sum(num(h[1]) or 0 for h in hit)) if hit else ''}
+                rows.append(row)
+                added.append(f'{d} {cut}时')
+                print(f'{d}: {cut}时中间集计 entry {found[cut]} → 排名 {row["rank"]} 售票 {row["sales"]}')
+        d += dt.timedelta(days=1)
+    if added:
+        rows.sort(key=lambda r: (r['date'], r['cut']))
+        with open(INTERIM, 'w', encoding='utf-8', newline='') as f:
+            w = csv.DictWriter(f, fieldnames=INTERIM_FIELDS, lineterminator='\n')
+            w.writeheader()
+            w.writerows(rows)
+    return added
 
 
 def main():
@@ -217,8 +226,8 @@ def main():
             f.write(out.getvalue())
         last = dt.date.fromisoformat(added[-1]['date'])
 
-    live_changed = update_live(last, today)
-    if not added and not live_changed:
+    interim_added = update_interim(last, today)
+    if not added and not interim_added:
         print('没有新数据')
         return 0
 
@@ -237,10 +246,8 @@ def main():
             msg = []
             if added:
                 msg.append(f'全天 {added[0]["date"]}~{added[-1]["date"]}')
-            if live_changed:
-                with open(LIVE, encoding='utf-8') as lf:
-                    lv = json.load(lf)
-                msg.append(f'{lv.get("date", "")} {lv.get("cut", "")}时中间集计' if lv else '清除中间集计')
+            if interim_added:
+                msg.append('中间集计 ' + '、'.join(interim_added))
             f.write('added=' + '，'.join(msg) + '\n')
     return 0
 

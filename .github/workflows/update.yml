@@ -28,7 +28,7 @@ jobs:
           if git diff --quiet -- data/; then echo "没有变化"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sample.csv data/status.json data/live.json
+          git add data/sample.csv data/status.json data/interim.csv
           git commit -m "自动更新：${{ steps.scrape.outputs.added }}"
           for i in 1 2 3; do
             git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0
