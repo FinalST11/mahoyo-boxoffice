@@ -5,53 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HF三部曲 & 魔法使いの夜 票房追踪</title>
 <meta name="description" content="Fate/stay night [Heaven's Feel] 三部曲与《魔法使いの夜》票房追踪 / 興行収入トラッカー / Box office tracker, updated daily.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Shippori+Mincho:wght@500;700&family=Noto+Serif+SC:wght@500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fcfcfb;--panel:#fff;--fg:#0b0b0b;--muted:#6b6a65;--line:#e1e0d9;--grid:#ecebe5;--axis:#c3c2b7;--c0:#2a78d6;--c1:#eb6834;--c2:#1baf7a;--c3:#6250d6}
-@media (prefers-color-scheme:dark){:root{--bg:#151515;--panel:#1d1d1c;--fg:#f0efec;--muted:#a3a29b;--line:#2c2c2a;--grid:#262624;--axis:#383835;--c0:#3987e5;--c1:#d95926;--c2:#199e70;--c3:#9085e9}}
+:root{--bg:#0b1020;--bg2:#121a33;--panel:rgba(20,28,54,.72);--fg:#e9ecf5;--muted:#9aa3bd;--line:rgba(196,205,230,.16);--gold:#d9c08a;--grid:rgba(196,205,230,.08);--axis:rgba(196,205,230,.28);--c0:#7aa7ff;--c1:#e98a6b;--c2:#5fd0a8;--c3:#f1d58f;--aoko:#3d6bff;--alice:#c2334a;--serif:"Cormorant Garamond","Shippori Mincho","Noto Serif SC","Songti SC","Yu Mincho",Georgia,serif}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans","Noto Sans CJK SC","Noto Sans CJK JP","Microsoft YaHei","Yu Gothic",sans-serif;line-height:1.6}
-main{max-width:1040px;margin:0 auto;padding:32px 20px 48px;display:flex;flex-direction:column;gap:36px}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-h1{font-family:Georgia,"Songti SC","Noto Serif CJK SC","Yu Mincho",serif;font-weight:400;font-size:30px;margin:0;line-height:1.3}
-h2{font-size:18px;font-weight:500;margin:0 0 4px}
-.langs{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
-.langs button{font:inherit;font-size:13px;background:var(--panel);color:var(--muted);border:0;padding:5px 12px;cursor:pointer}
+html{background:var(--bg)}
+body{margin:0;color:var(--fg);font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans","Noto Sans CJK SC","Noto Sans CJK JP","Microsoft YaHei","Yu Gothic",sans-serif;line-height:1.6;
+  background:radial-gradient(1200px 600px at 80% -10%,#24305e 0%,rgba(36,48,94,0) 60%),radial-gradient(900px 500px at 0% 0%,#1a2347 0%,rgba(26,35,71,0) 55%),linear-gradient(#0b1020,#0d1328 40%,#0b1020);min-height:100vh}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 56px;display:flex;flex-direction:column;gap:40px}
+.hero{position:relative;margin:0 -20px;padding:40px 20px 0;overflow:hidden}
+.hero-art{position:absolute;inset:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)}
+.hero-art svg{position:absolute;right:0;bottom:0;width:100%;height:100%}
+.moon{position:absolute;right:56px;top:96px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 62% 40%,#1a2450 0 47%,transparent 48%),radial-gradient(circle at 50% 50%,#fbf1d2 0 49%,transparent 50%);box-shadow:0 0 60px 18px rgba(241,213,143,.22)}
+.top{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.eyebrow{font-family:var(--serif);letter-spacing:.32em;text-transform:uppercase;font-size:12px;color:var(--gold);margin:0 0 10px}
+h1{font-family:var(--serif);font-weight:500;font-size:34px;margin:0;line-height:1.25;letter-spacing:.04em;text-shadow:0 0 24px rgba(122,167,255,.25)}
+h2{font-family:var(--serif);font-size:21px;font-weight:500;margin:0 0 6px;letter-spacing:.03em}
+h2::after{content:"";display:block;margin-top:8px;height:1px;width:120px;background:linear-gradient(90deg,var(--gold),rgba(217,192,138,0))}
+.langs{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none;backdrop-filter:blur(6px);background:rgba(11,16,32,.4)}
+.langs button{font:inherit;font-size:12px;letter-spacing:.06em;background:transparent;color:var(--muted);border:0;padding:6px 14px;cursor:pointer}
 .langs button+button{border-left:1px solid var(--line)}
-.langs button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
-.lead{font-size:16px;margin:10px 0 0}
-.lead b{font-weight:600;font-variant-numeric:tabular-nums}
-.upd{font-size:13px;color:var(--muted);margin:6px 0 0}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
-.k{font-size:13px;color:var(--muted);margin:0 0 4px}
-.v{font-family:Georgia,"Songti SC",serif;font-size:28px;margin:0;line-height:1.2;font-variant-numeric:tabular-nums}
-.u{font-size:14px;color:var(--muted);font-family:system-ui,sans-serif}
-.s{font-size:13px;color:var(--muted);margin:4px 0 0}
-.note{font-size:13px;color:var(--muted);margin:0 0 10px}
+.langs button[aria-pressed="true"]{background:var(--gold);color:#1a1606}
+.lead{position:relative;font-size:16px;margin:16px 0 0;max-width:720px}
+.lead b{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--gold);font-variant-numeric:lining-nums tabular-nums}
+.upd{position:relative;font-size:12px;color:var(--muted);margin:8px 0 0;padding-bottom:150px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:14px;margin-top:-110px;position:relative}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;min-width:0;backdrop-filter:blur(8px)}
+.card::before{content:"";position:absolute;left:20px;right:20px;top:0;height:1px;background:linear-gradient(90deg,rgba(217,192,138,0),rgba(217,192,138,.7),rgba(217,192,138,0))}
+.k{font-size:12px;color:var(--muted);margin:0 0 6px;letter-spacing:.02em}
+.v{font-family:var(--serif);font-size:clamp(24px,2.6vw,30px);font-weight:600;margin:0;line-height:1.15;font-variant-numeric:lining-nums tabular-nums;color:#fff}
+.u{font-size:14px;color:var(--muted);font-family:system-ui,sans-serif;font-weight:400;white-space:nowrap}
+.s{font-size:12px;color:var(--muted);margin:6px 0 0}
+section{position:relative}
+.note{font-size:13px;color:var(--muted);margin:0 0 12px}
 .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin:0 0 8px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .sw{display:inline-block;width:16px;height:3px;border-radius:2px}
 .ctrl{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 8px;font-size:13px;color:var(--muted)}
-select{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
-.chart{position:relative;min-height:320px;width:100%}
+select{font:inherit;color:var(--fg);background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+input[type=checkbox]{accent-color:var(--gold)}
+.chart{position:relative;min-height:320px;width:100%;background:rgba(14,20,40,.55);border:1px solid var(--line);border-radius:12px;padding:8px 4px 0}
 .chart svg text{fill:var(--muted);font-size:12px}
-.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.12);border-radius:8px;padding:8px 10px;font-size:12px;white-space:nowrap;z-index:2}
-.tw{overflow-x:auto}
+.tip{position:absolute;pointer-events:none;background:rgba(16,22,44,.96);border:1px solid rgba(217,192,138,.45);box-shadow:0 8px 28px rgba(0,0,0,.45);border-radius:10px;padding:8px 12px;font-size:12px;white-space:nowrap;z-index:2;color:var(--fg)}
+.tw{overflow-x:auto;background:rgba(14,20,40,.55);border:1px solid var(--line);border-radius:12px;padding:4px 8px}
 table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
-th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+tr:last-child td{border-bottom:0}
 th:first-child,td:first-child{text-align:left}
-th{color:var(--muted);font-weight:500}
-details summary{cursor:pointer;font-weight:500}
-details li,footer{font-size:13px;color:var(--muted)}
-a{color:var(--c0)}
-.err{color:#d03b3b;font-size:13px}
+th{color:var(--gold);font-weight:500;font-size:12px;letter-spacing:.04em}
+details{background:rgba(14,20,40,.4);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+details summary{cursor:pointer;font-family:var(--serif);font-size:17px}
+details li{font-size:13px;color:var(--muted);margin:6px 0}
+footer{font-size:12px;color:var(--muted);text-align:center;letter-spacing:.04em}
+footer::before{content:"✦";display:block;color:var(--gold);margin-bottom:8px;font-size:12px}
+a{color:#9fc0ff}
+.err{color:#ff8a8a;font-size:13px}
+@media (max-width:900px){.moon,.hero-art .manor{display:none}}
+@media (max-width:600px){h1{font-size:26px}.v{font-size:28px}.upd{padding-bottom:36px}.tiles{margin-top:0}}
 </style>
 </head>
 <body>
+<canvas id="snow" aria-hidden="true"></canvas>
 <main>
-<header>
+<header class="hero"><div class="hero-art" aria-hidden="true"><div class="moon"></div><svg viewBox="0 0 1040 360" preserveAspectRatio="xMaxYMax slice">
+<defs><radialGradient id="mg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6dc" stop-opacity=".9"/><stop offset=".55" stop-color="#f1d58f" stop-opacity=".25"/><stop offset="1" stop-color="#f1d58f" stop-opacity="0"/></radialGradient>
+<linearGradient id="hill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#18213f"/><stop offset="1" stop-color="#0b1020"/></linearGradient></defs>
+<g fill="#fff" opacity=".7"><circle cx="120" cy="40" r="1.2"/><circle cx="260" cy="90" r="1"/><circle cx="410" cy="30" r="1.4"/><circle cx="560" cy="70" r=".9"/><circle cx="700" cy="24" r="1.2"/><circle cx="780" cy="130" r="1"/><circle cx="990" cy="160" r="1.1"/><circle cx="640" cy="140" r=".8"/><circle cx="330" cy="150" r=".9"/><circle cx="470" cy="110" r="1.1"/></g>
+<path d="M0 300 C180 250 320 270 470 240 C600 214 690 180 800 196 C900 210 960 240 1040 228 L1040 360 L0 360 Z" fill="url(#hill)"/>
+<g class="manor" fill="#0a0f1f"><path d="M806 196 v-34 l14-14 l14 14 v-10 h8 v18 l10 0 v-22 l18-18 l18 18 v48 z"/><rect x="826" y="170" width="4" height="6" fill="#f1d58f" opacity=".9"/><rect x="862" y="160" width="4" height="6" fill="#f1d58f" opacity=".8"/><rect x="872" y="176" width="4" height="6" fill="#f1d58f" opacity=".6"/></g>
+<path d="M0 330 C200 300 360 320 560 300 C760 280 900 300 1040 290 L1040 360 L0 360 Z" fill="#0b1020"/>
+</svg></div>
 <div class="top">
-<h1 data-i18n="title">HF三部曲 &amp; 魔法使いの夜 票房追踪</h1>
+<div><p class="eyebrow">Box Office Tracker</p>
+<h1 data-i18n="title">HF三部曲 &amp; 魔法使いの夜 票房追踪</h1></div>
 <div class="langs" role="group" aria-label="Language">
 <button type="button" data-lang="zh">中文</button><button type="button" data-lang="ja">日本語</button><button type="button" data-lang="en">English</button>
 </div>
@@ -355,7 +383,7 @@ function renderText() {
     $('s-off').textContent = L.sOff(L.att(num(off.attendance)));
   }
   if (FC.length) {
-    withUnit($('v-fc'), L.gross(lo, 1) === L.gross(hi, 1) ? L.gross(lo, 1) : L.gross(lo, 1) + (en ? '–' : '～') + L.gross(hi, 1), L.grossUnit);
+    withUnit($('v-fc'), L.gross(lo, 1) === L.gross(hi, 1) ? L.gross(lo, 1) : en ? '¥' + fmt(lo / 10, 2) + '–' + fmt(hi / 10, 2) + 'bn' : L.gross(lo, 1) + '～' + L.gross(hi, 1), L.grossUnit);
     $('s-fc').textContent = L.sFc(L.gross(mid, 1));
     withUnit($('v-fa'), L.att(Math.min(...a)) === L.att(Math.max(...a)) ? L.att(Math.min(...a)) : L.att(Math.min(...a)) + (en ? '–' : '～') + L.att(Math.max(...a)), L.attUnit);
   }
@@ -407,6 +435,22 @@ $('range').addEventListener('change', (e) => { state.range = Number(e.target.val
 $('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
 let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderCharts, 150); });
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderCharts);
+</script>
+<script>
+(() => {
+  const c = document.getElementById('snow'); if (!c || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const x = c.getContext('2d'); let W, H, flakes = [];
+  const size = () => { W = c.width = innerWidth * devicePixelRatio; H = c.height = innerHeight * devicePixelRatio; c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px'; };
+  size(); addEventListener('resize', size);
+  const n = Math.min(70, Math.round(innerWidth / 18));
+  for (let i = 0; i < n; i++) flakes.push({x: Math.random() * W, y: Math.random() * H, r: (Math.random() * 1.6 + .6) * devicePixelRatio, s: Math.random() * .5 + .25, d: Math.random() * Math.PI * 2});
+  const tick = () => {
+    x.clearRect(0, 0, W, H); x.fillStyle = 'rgba(235,240,255,.55)';
+    for (const f of flakes) { f.y += f.s * devicePixelRatio; f.d += .01; f.x += Math.sin(f.d) * .3 * devicePixelRatio; if (f.y > H) { f.y = -5; f.x = Math.random() * W; } x.beginPath(); x.arc(f.x, f.y, f.r, 0, 7); x.fill(); }
+    requestAnimationFrame(tick);
+  };
+  tick();
+})();
 </script>
 </body>
 </html>
