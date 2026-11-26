@@ -190,7 +190,7 @@ const I18N = {
     nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
     range: '范围', nowRange: (d) => `截至今天（第 ${d} 天）`, ranges: ['前 7 天', '前 14 天', '前 21 天', '前 28 天', '全部'], log: '对数刻度',
     hFc: '最终票房预测：套用 HF 三部的倍数',
-    nFc: '基准是魔法使いの夜最新一天的估算累计（每天更新，官方公布时会被拉回官方数字）。倍数 = 1 + HF 从同一天到最终还涨了多少 × 走势校正；票价按 HF 从同一天到最终的平均票价变化折算。走势校正从第 8 天起生效：比较两部最近一到两周的售票占累计比例和周环比，魔法使いの夜跌得比 HF 慢就放大剩余部分，跌得快就缩小；为了不被假日、特别场次带偏，只取四分之一幅度并限制在 0.85～1.15 倍（用 HF 三部互相回测，这样误差最小）。没有动员和票房都齐的最终成绩的作品用最后公布的节点，结果是下限；预测不会低于最新官方数字。',
+    nFc: '基准是魔法使いの夜最新一天的估算累计（每天更新，官方公布时会被拉回官方数字）。倍数 = 1 + HF 从同一天到最终还涨了多少 × 走势校正 × 日历校正；票价按 HF 从同一天到最终的平均票价变化折算。走势校正从第 8 天起生效：比较两部最近一到两周的售票占累计比例和周环比，魔法使いの夜跌得比 HF 慢就放大剩余部分，跌得快就缩小；为了不被假日、特别场次带偏，只取四分之一幅度并限制在 0.85～1.15 倍（用 HF 三部互相回测，这样误差最小）。日历校正：开头几天碰到的周末、假日、优惠日不一样（魔法使いの夜是周五上映又遇上四连休，HF 多是周六上映），第 3 天起把每天票数按 HF 学到的星期比例换算成「普通一天」再比较，免得开头的假日加成被一路乘到最后；取 3/4 幅度（回测误差最小）。没有动员和票房都齐的最终成绩的作品用最后公布的节点，结果是下限；预测不会低于最新官方数字。',
     thRef: '参照作品', thBasis: '参照依据', thDay: '对齐天数', thMult: '倍数', thAdj: '走势校正', thAtt: '预测动员（万人）', thGross: '预测票房（亿日元）',
     basisFinal: '最终成绩', basisFinalGross: '最终票房（动员按均价推算）', basisLatest: '最后公布的节点（下限）', floored: '；已低于最新官方数字，按官方数字计',
     hMaho: '魔法使いの夜 每日明细', thDate: '日期', thN: '第 N 天', thRank: '排名', thSales: '样本售票', thEstAtt: '估算动员', thEGross: '估算票房（万日元）', thECum: '估算累计（亿日元）',
@@ -240,7 +240,7 @@ const I18N = {
     nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数値は低めに出ます。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
     range: '期間', nowRange: (d) => `現在まで（${d}日目）`, ranges: ['公開7日目まで', '公開14日目まで', '公開21日目まで', '公開28日目まで', '全期間'], log: '対数目盛',
     hFc: '最終興収予測：HF三部作の倍率を適用',
-    nFc: '基準は魔法使いの夜の直近日の推定累計（毎日更新、公式発表時に公式値へ補正）。倍率 = 1 + HFの同日から最終までの伸び × 推移補正。単価はHFの同時点から最終までの平均単価の変化で補正。推移補正は8日目から：直近1～2週間の販売数が累計に占める割合と前週比を両作品で比べ、魔法使いの夜の落ち方がHFより緩ければ残りを大きく、速ければ小さくします。祝日や特別上映に振り回されないよう、補正幅は4分の1にとどめ0.85～1.15倍に制限（HF三部作どうしのバックテストで誤差が最小）。動員・興収が揃った最終成績がない作品は最後の公式発表を使うため下限値。予測は最新の公式値を下回りません。',
+    nFc: '基準は魔法使いの夜の直近日の推定累計（毎日更新、公式発表時に公式値へ補正）。倍率 = 1 + HFの同日から最終までの伸び × 推移補正 × 暦補正。単価はHFの同時点から最終までの平均単価の変化で補正。推移補正は8日目から：直近1～2週間の販売数が累計に占める割合と前週比を両作品で比べ、魔法使いの夜の落ち方がHFより緩ければ残りを大きく、速ければ小さくします。祝日や特別上映に振り回されないよう、補正幅は4分の1にとどめ0.85～1.15倍に制限（HF三部作どうしのバックテストで誤差が最小）。暦補正：公開初期の週末・祝日・割引日の巡り合わせの違い（魔法使いの夜は金曜公開で4連休、HFは主に土曜公開）を補正するため、3日目以降の販売数をHFから求めた曜日比率で「普通の1日」に換算して比較。初期の休日効果が最後まで掛け算されないようにします。補正幅は3/4（バックテストで誤差最小）。動員・興収が揃った最終成績がない作品は最後の公式発表を使うため下限値。予測は最新の公式値を下回りません。',
     thRef: '参照作品', thBasis: '根拠', thDay: '基準日', thMult: '倍率', thAdj: '推移補正', thAtt: '予測動員（万人）', thGross: '予測興収（億円）',
     basisFinal: '最終成績', basisFinalGross: '最終興収（動員は平均単価から推計）', basisLatest: '最後の公式発表（下限）', floored: '／最新の公式発表を下回るため公式値を採用',
     hMaho: '魔法使いの夜 日別データ', thDate: '日付', thN: '公開日数', thRank: '順位', thSales: 'サンプル販売数', thEstAtt: '推定動員', thEGross: '推定興収（万円）', thECum: '推定累計（億円）',
@@ -290,7 +290,7 @@ const I18N = {
     nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and runs lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends rather than absolute numbers.',
     range: 'Range', nowRange: (d) => `To date (day ${d})`, ranges: ['First 7 days', 'First 14 days', 'First 21 days', 'First 28 days', 'All'], log: 'Log scale',
     hFc: 'Final gross projection using the HF trilogy multipliers',
-    nFc: 'The base is Witch on the Holy Night\'s estimated total on its latest day (updated daily and pulled back to official figures whenever they are announced). Multiplier = 1 + how much the HF film still grew from that day to the end × trend adjustment; ticket prices are adjusted by how that film\'s average price changed over the same period. From day 8, the trend adjustment compares both films\' last one to two weeks (as a share of the running total, and against the period before): if Witch on the Holy Night is falling more slowly than the HF film the remaining part is scaled up, if faster it is scaled down. To keep holidays and special screenings from swinging it, only a quarter of the adjustment is applied and it is limited to 0.85–1.15× (the setting with the smallest error when the HF films were back-tested against each other). Where a film has no final result with both admissions and gross, its latest official figure is used and the result is a lower bound. The projection never falls below the latest official figure.',
+    nFc: 'The base is Witch on the Holy Night\'s estimated total on its latest day (updated daily and pulled back to official figures whenever they are announced). Multiplier = 1 + how much the HF film still grew from that day to the end × trend adjustment × calendar adjustment; ticket prices are adjusted by how that film\'s average price changed over the same period. From day 8, the trend adjustment compares both films\' last one to two weeks (as a share of the running total, and against the period before): if Witch on the Holy Night is falling more slowly than the HF film the remaining part is scaled up, if faster it is scaled down. To keep holidays and special screenings from swinging it, only a quarter of the adjustment is applied and it is limited to 0.85–1.15× (the setting with the smallest error when the HF films were back-tested against each other). The calendar adjustment corrects for the early days falling on different weekends, holidays and discount days (Witch on the Holy Night opened on a Friday into a four-day weekend, while the HF films mostly opened on Saturdays): from day 3, each day\'s tickets are converted to an ordinary-day level using the HF films\' day-of-week ratios before comparing, so an early holiday boost is not multiplied all the way to the end; three quarters of it is applied (smallest back-test error). Where a film has no final result with both admissions and gross, its latest official figure is used and the result is a lower bound. The projection never falls below the latest official figure.',
     thRef: 'Reference film', thBasis: 'Basis', thDay: 'Aligned day', thMult: 'Multiplier', thAdj: 'Trend adj.', thAtt: 'Projected admissions', thGross: 'Projected gross (million)',
     basisFinal: 'Final result', basisFinalGross: 'Final gross (admissions estimated from average ticket price)', basisLatest: 'Latest official figure (lower bound)', floored: '; below the latest official figure, so that figure is used',
     hMaho: 'Witch on the Holy Night: daily detail', thDate: 'Date', thN: 'Day', thRank: 'Rank', thSales: 'Sampled tickets', thEstAtt: 'Est. admissions', thEGross: 'Est. gross', thECum: 'Est. cumulative',
@@ -370,6 +370,13 @@ function estimate(sample, milestones) {
   return out;
 }
 
+// 日历换算比：第 3～d 天按日子类型换算成「普通一天」后的票数合计 ÷ 原始合计（首两天不调）
+function calRatio(est, f, d) {
+  const P = wdPrior(), ws = ['wk', 'wk', 'wk', 'disc', 'fri', 'sat', 'sun'], norm = ws.reduce((t, c) => t + Math.exp(P.w[c]), 0) / 7;
+  let raw = 0, adj = 0;
+  est.filter((r) => r.film === f && r.sales && r.day <= d).forEach((r) => { raw += r.sales; adj += r.day <= 2 ? r.sales : r.sales * norm / Math.exp(P.w[wdCat(r.date)]); });
+  return raw > 0 ? adj / raw : 1;
+}
 // 最终票房预测
 // 基准：魔法使いの夜最新一天的估算累计（每天更新；每次官方公布都会把估算拉回官方数字）。
 // 剩余部分：HF 从同一天到最终还涨了多少（剩余倍数），再按两部的近期走势校正：
@@ -413,7 +420,11 @@ function forecast(est, milestones) {
         adj = {f: Math.min(1.15, Math.max(0.85, Math.pow(raw, 0.25))), rM, rH};
       }
     }
-    const remM = remH * (adj ? adj.f : 1);
+    // 日历校正：前几天碰到的周末、假日、优惠日比例不同（例如魔夜首周是周五上映加四连休），
+    // 第 3 天起把每天的票数换算成「普通一天」的水平（用 HF 学到的日子类型比例），首两天按首映效应不调；
+    // 剩余倍数按双方换算后与换算前之比校正，免得开头的假日加成被一路乘到最后
+    const cf = window.NO_CAL ? 1 : Math.pow(calRatio(est, 'MAHO', d) / calRatio(est, f, d), 0.75);
+    const remM = remH * (adj ? adj.f : 1) * cf;
     const mult = 1 + remM;
     const priceRatio = (num(end.gross) / endA) / (e.cum_gross / e.cum_att);
     let projAtt = base.cum_att * mult;
@@ -421,7 +432,7 @@ function forecast(est, milestones) {
     let floored = false;
     const top = mm[0];
     if (top && (projGross < num(top.gross) || projAtt < num(top.attendance))) { projGross = Math.max(projGross, num(top.gross)); projAtt = Math.max(projAtt, num(top.attendance)); floored = true; }
-    rows.push({idx: i, final: !!fin, floored, day: d, mult, adj, att: projAtt, gross: projGross, baseG: base.cum_gross, hfBase: e.cum_gross, endG: num(end.gross)});
+    rows.push({idx: i, final: !!fin, floored, day: d, mult, adj, cf, att: projAtt, gross: projGross, baseG: base.cum_gross, hfBase: e.cum_gross, endG: num(end.gross)});
   });
   return rows;
 }
