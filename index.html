@@ -78,7 +78,7 @@ a{color:#9fc0ff}
 .miles li.pending{border-style:dashed}
 #cel{position:fixed;inset:0;z-index:60;pointer-events:none}
 #cel canvas{position:absolute;inset:0;width:100%;height:100%}
-#cel .msg{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%) scale(.9);text-align:center;opacity:0;transition:opacity .6s,transform .6s;padding:18px 34px;border-radius:16px;background:rgba(11,16,32,.72);border:1px solid rgba(241,213,143,.5);box-shadow:0 0 40px rgba(241,213,143,.25);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer}
+#cel .msg{position:absolute;left:50%;top:38%;width:max-content;max-width:min(88vw,560px);box-sizing:border-box;transform:translate(-50%,-50%) scale(.9);text-align:center;opacity:0;transition:opacity .6s,transform .6s;padding:18px 34px;border-radius:16px;background:rgba(11,16,32,.72);border:1px solid rgba(241,213,143,.5);box-shadow:0 0 40px rgba(241,213,143,.25);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer}
 #cel .msg.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
 #cel .msg p{margin:0}
 #cel .msg .big{font-family:var(--serif);font-size:clamp(28px,6vw,46px);font-weight:600;color:var(--gold);letter-spacing:.02em}
@@ -492,15 +492,25 @@ function projPath(est, fc) {
 }
 // 回测误差：把 HF 三部轮流当作「魔法使いの夜」、只给它前 k 天的数据，用另外两部预测它的最终动员；
 // 取 k-1～k+1 天、三部的平均绝对误差（最少 2%）。上映越久误差越小，色带自然收窄
+// 实际使用：只看第 30 天以内（HF 第三章的「最终」只有第 46 天的官方数字，太晚的回测会失真），
+// 取「从 k 天到第 30 天」里最大的那个，保证色带只会随天数收窄、不会忽宽忽窄
 const BANDERR = new Map();
 function bandErr(k) {
+  const kk = Math.min(Math.max(2, k), 30);
+  let e = 0;
+  for (let j = kk; j <= 30; j++) e = Math.max(e, bandErrRaw(j));
+  return e;
+}
+function bandErrRaw(k) {
   const key = k + '|' + SAMPLE.length + '|' + MS.length;
   if (BANDERR.has(key)) return BANDERR.get(key);
   const errs = [];
   for (const [tgt] of FILMS.slice(0, 3)) {
     const fin = MS.filter((m) => m.film === tgt && num(m.attendance) !== null && num(m.gross) !== null).sort((a, b) => (a.kind === 'final') - (b.kind === 'final') || num(a.day) - num(b.day)).pop();
     if (!fin) continue;
-    for (const kk of [k - 1, k, k + 1]) {
+    const maxT = Math.max(0, ...EST.filter((r) => r.film === tgt && r.cum_att).map((r) => r.day));
+    for (const k0 of [k - 1, k, k + 1]) {
+      const kk = Math.min(k0, maxT - 1);  // 超过该部资料的天数时，用它最后能回测的那天
       if (kk < 2 || !EST.some((r) => r.film === tgt && r.day === kk && r.cum_att)) continue;
       const E = EST.filter((r) => r.film !== tgt && r.film !== 'MAHO').concat(EST.filter((r) => r.film === tgt && r.day <= kk).map((r) => ({...r, film: 'MAHO'})));
       const F = forecast(E, MS.filter((m) => m.film !== tgt && m.film !== 'MAHO'));
@@ -698,9 +708,10 @@ function wdPredict(d, date, rows = wdRows(SAMPLE), cal = wdCalib(rows.filter((r)
 
 function nowcast() {
   const ms = EST.filter((r) => r.film === 'MAHO').sort((a, b) => a.day - b.day);
-  const maho = ms[ms.length - 1];
-  if (!maho || !maho.sales) return null;
-  const rg0 = maho.est_gross / maho.sales / priceFactor(maho.date), ra = maho.est_att / maho.sales;
+  // 累计从最新一天接着算；单价、每张折合人数取最近一个有售票数的日子（最新一天掉出前 25 时也能继续推算）
+  const maho = ms[ms.length - 1], rr = ms.filter((r) => r.sales && r.est_gross).pop();
+  if (!maho || !rr) return null;
+  const rg0 = rr.est_gross / rr.sales / priceFactor(rr.date), ra = rr.est_att / rr.sales;
   if (!isFinite(rg0) || !isFinite(ra)) return null;
   const sh = cutShares(), now = jstNow();
   const byDate = new Map(SAMPLE.filter((r) => r.film === 'MAHO').map((r) => [r.date, num(r.sales)]));
@@ -713,7 +724,7 @@ function nowcast() {
     if (im) { full = num(im.sales) / sh[type][im.cut]; basis = im.cut; }
     else {
       full = wdPredict(day, d); basis = 'same';
-      if (!full) { full = maho.sales; basis = 'last'; }
+      if (!full) { full = rr.sales; basis = 'last'; }
     }
     const frac = d < now.date ? 1 : shareAt(type, now.min, sh);
     if (d === now.date && frac === 0 && !im) continue;  // 今天还没开场：不显示一行 0
@@ -822,8 +833,9 @@ function renderMiles(nc) {
   if (!list.length) return;
   let seen = CEL_SEEN;
   if (seen === null) { try { seen = +(localStorage.getItem('mahoyo-cel') || 0); } catch (e) { seen = 0; } }
-  const last = list[list.length - 1];
-  if (last.n > seen) {
+  // 第一次来访（没有记录）时，只为今天或昨天才越过的整亿放烟花，免得给新访客放几天前的
+  const last = list[list.length - 1], curDay = nc ? nc.today.day : rows[rows.length - 1].day;
+  if (last.n > seen && (seen > 0 || last.day >= curDay - 1)) {
     CEL_SEEN = last.n;
     try { localStorage.setItem('mahoyo-cel', String(last.n)); } catch (e) {}
     celebrate(L.celBig(last.n), L.celSub(last.day));
