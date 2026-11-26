@@ -71,6 +71,18 @@ a{color:#9fc0ff}
 .err{color:#ff8a8a;font-size:13px}
 @media (max-width:900px){.moon,.hero-art .manor{display:none}}
 @media (max-width:600px){h1{font-size:26px}.v{font-size:28px}.upd{padding-bottom:36px}.tiles{margin-top:0}}
+.miles{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.miles li{border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:var(--panel);font-size:14px;color:var(--muted);backdrop-filter:blur(6px)}
+.miles li b{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--gold);margin-right:6px;font-variant-numeric:lining-nums tabular-nums}
+.miles li.latest{border-color:rgba(241,213,143,.6);box-shadow:0 0 14px rgba(241,213,143,.25)}
+.miles li.pending{border-style:dashed}
+#cel{position:fixed;inset:0;z-index:60;pointer-events:none}
+#cel canvas{position:absolute;inset:0;width:100%;height:100%}
+#cel .msg{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%) scale(.9);text-align:center;opacity:0;transition:opacity .6s,transform .6s;padding:18px 34px;border-radius:16px;background:rgba(11,16,32,.72);border:1px solid rgba(241,213,143,.5);box-shadow:0 0 40px rgba(241,213,143,.25);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer}
+#cel .msg.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#cel .msg p{margin:0}
+#cel .msg .big{font-family:var(--serif);font-size:clamp(28px,6vw,46px);font-weight:600;color:var(--gold);letter-spacing:.02em}
+#cel .msg .sub{margin-top:4px;color:var(--fg);font-size:15px}
 </style>
 </head>
 <body>
@@ -101,6 +113,11 @@ a{color:#9fc0ff}
 <div class="card"><p class="k" id="k-off">—</p><p class="v" id="v-off">—</p><p class="s" id="s-off">—</p></div>
 <div class="card"><p class="k" data-i18n="kFc">—</p><p class="v" id="v-fc">—</p><p class="s" id="s-fc">—</p></div>
 <div class="card"><p class="k" data-i18n="kFa">—</p><p class="v" id="v-fa">—</p><p class="s" data-i18n="sFa">—</p></div>
+</section>
+
+<section>
+<h2 data-i18n="hMile">—</h2>
+<ul class="miles" id="miles"></ul>
 </section>
 
 <section>
@@ -185,6 +202,7 @@ const I18N = {
     kOff: (d) => `魔法使いの夜 · 最新官方节点（第 ${d} 天）`, kEst: (d) => `估算累计（至第 ${d} 天）`,
     sOff: (a) => `动员 ${a} 万人`, sEst: (a) => `动员约 ${a} 万人`, sFc: (m) => `平均 ${m} 亿日元`,
     kFc: '预测最终票房（按 HF 三部走势）', kFa: '预测最终动员', sFa: '每次加入新的官方节点后自动重算',
+    hMile: '破亿纪录（估算）', mileChip: (n, d, md) => `${n} 亿`, mileWhen: (d, md) => `第 ${d} 天 · ${md}`, milePending: '今天（进行中）', celBig: (n) => `突破 ${n} 亿日元！`, celSub: (d) => `上映第 ${d} 天 · 估算累计票房`,
     hCum: '估算累计票房：四部按上映天数对齐', nCum: '每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。',
     hDaily: '每日售票：mimorin2014 合算样本',
     nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
@@ -235,6 +253,7 @@ const I18N = {
     kOff: (d) => `魔法使いの夜 · 最新の公式発表（${d}日目）`, kEst: (d) => `推定累計（${d}日目まで）`,
     sOff: (a) => `動員 ${a} 万人`, sEst: (a) => `動員 約 ${a} 万人`, sFc: (m) => `平均 ${m} 億円`,
     kFc: '最終興収予測（HF三部作の推移から）', kFa: '最終動員予測', sFa: '新しい公式発表が加わるたびに自動で再計算',
+    hMile: '億円突破の記録（推定）', mileChip: (n) => `${n}億`, mileWhen: (d, md) => `${d}日目 · ${md}`, milePending: '本日（集計中）', celBig: (n) => `${n}億円突破！`, celSub: (d) => `公開${d}日目 · 推定累計興収`,
     hCum: '推定累計興収：4作品を公開日数で比較', nCum: '日別サンプルを各作品の公式発表に合わせて興収に換算。曲線は各公式発表（丸印）を通ります。',
     hDaily: '日別販売数：mimorin2014 合算サンプル',
     nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数値は低めに出ます。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
@@ -285,6 +304,7 @@ const I18N = {
     kOff: (d) => `Witch on the Holy Night · latest official figure (day ${d})`, kEst: (d) => `Estimated total (through day ${d})`,
     sOff: (a) => `${a} admissions`, sEst: (a) => `About ${a} admissions`, sFc: (m) => `Average ${m} million`,
     kFc: 'Projected final gross (from HF trilogy runs)', kFa: 'Projected final admissions', sFa: 'Recalculated whenever a new official figure is added',
+    hMile: 'Every ¥100 million (estimated)', mileChip: (n) => `¥${n * 100}M`, mileWhen: (d, md) => `Day ${d} · ${md}`, milePending: 'today (in progress)', celBig: (n) => `Past ¥${n * 100} million!`, celSub: (d) => `Day ${d} of release · estimated cumulative gross`,
     hCum: 'Estimated cumulative gross, aligned by day of release', nCum: 'Daily samples are converted to gross using each film\'s official figures; each curve passes through its official figures (circles).',
     hDaily: 'Daily ticket sales: mimorin2014 combined samples',
     nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and runs lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends rather than absolute numbers.',
@@ -777,6 +797,72 @@ function renderText() {
   $('mpage-info').textContent = L.pageInfo(state.mpage + 1, pages);
   $('mprev').disabled = state.mpage === 0; $('mnext').disabled = state.mpage >= pages - 1;
   $('mprev').textContent = L.prevPage; $('mnext').textContent = L.nextPage;
+  renderMiles(ncT);
+}
+
+// 破亿纪录：按估算累计，每过一个整亿记下第几天；今天按推算已经越过的标「进行中」。新越过一个整亿时放一次烟花（每个浏览器每个整亿只放一次）
+let CEL_SEEN = null;
+function renderMiles(nc) {
+  const rows = EST.filter((r) => r.film === 'MAHO' && r.cum_gross).sort((a, b) => a.day - b.day);
+  if (!rows.length) return;
+  const md = (iso) => (state.lang === 'en' ? new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', {month: 'short', day: 'numeric', timeZone: 'UTC'}) : `${+iso.slice(5, 7)}/${+iso.slice(8)}`);
+  const cur = nc ? nc.cum_gross : rows[rows.length - 1].cum_gross, top = Math.floor(cur / 1e8), list = [];
+  for (let n = 1; n <= top; n++) {
+    const r = rows.find((x) => x.cum_gross >= n * 1e8);
+    if (r) list.push({n, day: r.day, date: r.date});
+    else if (nc) { let c = nc.base.cum_gross; const x = nc.days.find((d) => (c += d.est_gross) >= n * 1e8) || nc.today; list.push({n, day: x.day, date: x.date, pending: x.partial}); }
+  }
+  $('miles').replaceChildren(...list.map((m, i) => {
+    const li = document.createElement('li'); if (i === list.length - 1) li.className = 'latest'; if (m.pending) li.classList.add('pending');
+    const b = document.createElement('b'); b.textContent = L.mileChip(m.n);
+    li.append(b, m.pending ? L.milePending : L.mileWhen(m.day, md(m.date)));
+    return li;
+  }));
+  // 烟花
+  if (!list.length) return;
+  let seen = CEL_SEEN;
+  if (seen === null) { try { seen = +(localStorage.getItem('mahoyo-cel') || 0); } catch (e) { seen = 0; } }
+  const last = list[list.length - 1];
+  if (last.n > seen) {
+    CEL_SEEN = last.n;
+    try { localStorage.setItem('mahoyo-cel', String(last.n)); } catch (e) {}
+    celebrate(L.celBig(last.n), L.celSub(last.day));
+  } else CEL_SEEN = seen;
+}
+function celebrate(big, sub) {
+  if (document.getElementById('cel')) return;
+  const box = document.createElement('div'); box.id = 'cel'; box.setAttribute('role', 'status');
+  const msg = document.createElement('div'); msg.className = 'msg';
+  const p1 = document.createElement('p'); p1.className = 'big'; p1.textContent = big;
+  const p2 = document.createElement('p'); p2.className = 'sub'; p2.textContent = sub;
+  msg.append(p1, p2);
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv = document.createElement('canvas'); if (!still) box.append(cv);
+  box.append(msg); document.body.append(box);
+  requestAnimationFrame(() => msg.classList.add('on'));
+  let done = false;
+  const end = () => { if (done) return; done = true; msg.classList.remove('on'); setTimeout(() => box.remove(), 700); };
+  msg.addEventListener('click', end); setTimeout(end, 5200);
+  if (still) return;
+  const dpr = Math.min(2, devicePixelRatio || 1), W = innerWidth, H = innerHeight, ctx = cv.getContext('2d');
+  cv.width = W * dpr; cv.height = H * dpr; ctx.scale(dpr, dpr);
+  const cols = ['#f1d58f', '#fff6dc', '#d9c08a', '#7aa7ff', '#3d6bff', '#e9ecf5'], ps = [];
+  const burst = (x, y) => { const n = 70 + Math.random() * 40, c = cols[Math.floor(Math.random() * cols.length)];
+    for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, v = 1.5 + Math.random() * 4.5; ps.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: 0.008 + Math.random() * 0.01, c: Math.random() < 0.3 ? '#fff6dc' : c, r: 1 + Math.random() * 1.8}); } };
+  const times = [0, 350, 700, 1150, 1600, 2100, 2700];
+  times.forEach((t) => setTimeout(() => burst(W * (0.15 + Math.random() * 0.7), H * (0.15 + Math.random() * 0.35)), t));
+  const t0 = performance.now();
+  (function tick() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = ps.length - 1; i >= 0; i--) {
+      const q = ps[i]; q.x += q.vx; q.y += q.vy; q.vx *= 0.985; q.vy = q.vy * 0.985 + 0.045; q.life -= q.decay;
+      if (q.life <= 0) { ps.splice(i, 1); continue; }
+      ctx.globalAlpha = Math.max(0, q.life); ctx.fillStyle = q.c; ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 7); ctx.fill();
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    if (performance.now() - t0 < 6000 && !done) requestAnimationFrame(tick); else ctx.clearRect(0, 0, W, H);
+  })();
 }
 
 const mahoDay = () => (SAMPLE ? Math.max(0, ...SAMPLE.filter((r) => r.film === 'MAHO').map((r) => num(r.day) || 0)) : 0);
