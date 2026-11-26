@@ -427,18 +427,30 @@ function forecast(est, milestones) {
 }
 
 // 预计曲线：从最新一天起，按 HF 各部之后的累计走势，把魔法使いの夜推到各自的预测终点；取三部的平均和最低/最高
+// 预计曲线：横轴仍按上映天数；每天涨多少按真实日期推（HF 的星期/优惠日/假日比例和衰减，再用魔夜自己的数据校正，同 14 点前的估算），
+// 逐天累加成形状；到每部 HF 资料最后一天时的累计水平和原来一样取 HF 那一天已完成的比例，再缩放到该部参照的预测；取三部的平均和最低/最高
 function projPath(est, fc) {
-  const per = fc.map((row) => {
+  if (!fc.length) return [];
+  const rows = wdRows(est.filter((r) => r.film === 'MAHO')), base = fc[0].day;
+  const baseDate = (est.find((r) => r.film === 'MAHO' && r.day === base) || {}).date;
+  if (!baseDate) return [];
+  const cal = wdCalib(rows), hfMax = fc.map((row) => Math.max(...est.filter((r) => r.film === FILMS[row.idx][0] && r.cum_gross).map((r) => r.day)));
+  const last = Math.min(...hfMax), cum = new Map([[base, 0]]);
+  let c = 0;
+  for (let t = base + 1; t <= Math.max(...hfMax); t++) {
+    const date = addDays(baseDate, t - base), v = wdPredict(t, date, rows, cal);
+    c += (v || 0) * priceFactor(date); cum.set(t, c);
+  }
+  const per = fc.map((row, i) => {
     const hf = new Map(est.filter((r) => r.film === FILMS[row.idx][0] && r.cum_gross).map((r) => [r.day, r.cum_gross]));
-    const span = row.endG - row.hfBase;
+    const span = row.endG - row.hfBase, H = hfMax[i];
+    const phi = span > 0 ? Math.min(1, Math.max(0, ((hf.get(H) || row.endG) - row.hfBase) / span)) : 1;
     const pts = new Map();
-    for (const [t, g] of hf) if (t >= row.day) pts.set(t, row.baseG + (row.gross - row.baseG) * (span > 0 ? Math.min(1, Math.max(0, (g - row.hfBase) / span)) : 1));
+    for (let t = base; t <= H; t++) pts.set(t, row.baseG + (row.gross - row.baseG) * phi * (cum.get(H) > 0 ? cum.get(t) / cum.get(H) : 1));
     return pts;
   });
-  if (!per.length) return [];
-  const last = Math.min(...per.map((m) => Math.max(...m.keys())));
   const out = [];
-  for (let t = fc[0].day; t <= last; t++) {
+  for (let t = base; t <= last; t++) {
     const v = per.map((m) => m.get(t)).filter((x) => x !== undefined);
     if (v.length === per.length) out.push({x: t, mean: v.reduce((a, b) => a + b, 0) / v.length, lo: Math.min(...v), hi: Math.max(...v)});
   }
@@ -611,18 +623,22 @@ function wdPrior() {
   return (WD = {src: SAMPLE, w, D});
 }
 function wdRaw(rows, d, date) {
-  const P = wdPrior(), refs = rows.filter((r) => r.day < d && r.day >= 3 && r.day >= d - 7);
+  const P = wdPrior(), refs = rows.filter((r) => r.day < d && r.day >= 3).slice(-7);
   if (!refs.length) return null;
   return refs.reduce((t, r) => t + Math.log(r.s) + P.w[wdCat(date)] - P.w[wdCat(r.date)] + P.D(r.day, d), 0) / refs.length;
 }
-function wdPredict(d, date) {
-  const rows = SAMPLE.filter((r) => r.film === 'MAHO' && num(r.sales) > 0).map((r) => ({day: num(r.day), date: r.date, s: num(r.sales)})).sort((a, b) => a.day - b.day);
-  const raw = wdRaw(rows, d, date);
-  if (raw === null) return null;
-  const past = rows.filter((r) => r.day < d && r.day >= 4).map((r) => { const p = wdRaw(rows.filter((x) => x.day < r.day), r.day, r.date); return p === null ? null : [wdCat(r.date), Math.log(r.s) - p]; }).filter(Boolean).slice(-14);
+const wdRows = (src) => src.filter((r) => r.film === 'MAHO' && num(r.sales) > 0).map((r) => ({day: num(r.day), date: r.date, s: num(r.sales)})).sort((a, b) => a.day - b.day);
+// 校正量：魔夜过去 14 天「这样推」的误差（整体 n/(n+2)，同类日 n/(n+3)）
+function wdCalib(rows) {
+  const past = rows.filter((r) => r.day >= 4).map((r) => { const p = wdRaw(rows.filter((x) => x.day < r.day), r.day, r.date); return p === null ? null : [wdCat(r.date), Math.log(r.s) - p]; }).filter(Boolean).slice(-14);
   const g = past.reduce((t, x) => t + x[1], 0) / (past.length + 2);
-  const pc = past.filter((x) => x[0] === wdCat(date)), c = pc.reduce((t, x) => t + x[1] - g, 0) / (pc.length + 3);
-  return Math.exp(raw + g + c);
+  const c = {};
+  ['wk', 'disc', 'fri', 'sat', 'sun'].forEach((k) => { const pc = past.filter((x) => x[0] === k); c[k] = pc.reduce((t, x) => t + x[1] - g, 0) / (pc.length + 3); });
+  return {g, c};
+}
+function wdPredict(d, date, rows = wdRows(SAMPLE), cal = wdCalib(rows.filter((r) => r.day < d))) {
+  const raw = wdRaw(rows.filter((r) => r.day < d), d, date);
+  return raw === null ? null : Math.exp(raw + cal.g + cal.c[wdCat(date)]);
 }
 
 function nowcast() {
