@@ -611,7 +611,7 @@ function lineChart(el, series, opts) {
       tip.append('div').style('font-weight', '600').text(L.dayLong(dx));
       series.forEach((s) => {
         const p = s.pts.find((q) => q.x === dx);
-        if (!p || p.y === null || (opts.log && p.y <= 0)) return;
+        if (!p || p.y === null || p.noTip || (opts.log && p.y <= 0)) return;  // noTip：预计线的起点（和实际最后一天重合，只为接上线）
         const row = tip.append('div').style('display', 'flex').style('align-items', 'center').style('gap', '6px');
         row.append('span').style('width', '10px').style('height', '10px').style('border-radius', '2px').style('background', s.color).style('flex', 'none');
         row.append('span').text(s.name + (L === I18N.en ? ': ' : '：') + opts.tipfmt(p.y));
@@ -952,12 +952,12 @@ function renderCharts() {
     const last = EST.filter((r) => r.film === 'MAHO' && r.est_gross).pop();
     const pd = proj.slice(1).map((p, i) => ({x: p.x, mean: (p.mean - proj[i].mean) / 1e8, lo: (p.lo - proj[i].lo) / 1e8, hi: (p.hi - proj[i].hi) / 1e8}));
     if (pd.length && last && last.day === proj[0].x) pd.unshift({x: last.day, mean: last.est_gross / 1e8, lo: last.est_gross / 1e8, hi: last.est_gross / 1e8});
-    if (pd.length > 1) ds.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: pd.map((p) => ({x: p.x, y: p.mean}))});
+    if (pd.length > 1) ds.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: pd.map((p, i) => ({x: p.x, y: p.mean, noTip: i === 0}))});
     lineChart($('cum'), ds, {maxX: CR, label: L.hCumD, yfmt: L.axisGross, tipfmt: L.tipGross,
       band: pd.length > 1 ? {color: css('--c3'), pts: pd.map((p) => ({x: p.x, lo: Math.min(p.lo, p.hi), hi: Math.max(p.lo, p.hi)}))} : null});
   } else {
   const cumSeries = series((f) => EST.filter((r) => r.film === f && r.day <= CR).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null})));
-  if (proj.length > 1) cumSeries.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: proj.map((p) => ({x: p.x, y: p.mean / 1e8}))});  // 从实际线的最后一天起画，两条线首尾相接
+  if (proj.length > 1) cumSeries.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: proj.map((p, i) => ({x: p.x, y: p.mean / 1e8, noTip: i === 0}))});  // 从实际线的最后一天起画，两条线首尾相接
   lineChart($('cum'), cumSeries, {
     maxX: CR, label: L.labelCum, yfmt: L.axisGross, tipfmt: L.tipGross,
     endLabel: proj.length > 1 && FC.length && proj.length === projAll.length ? {x: proj[proj.length - 1].x, y: proj[proj.length - 1].mean / 1e8, color: css('--c3'), text: L.projEnd(L.gross(FC.reduce((t, f) => t + f.gross, 0) / FC.length / 1e8, 1) + (state.lang === 'en' ? ' ' : '') + L.grossUnit)} : null,
