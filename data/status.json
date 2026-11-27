@@ -1,9 +1,10 @@
 {
-  "updated_at": "2026-11-27T00:56:37+09:00",
+  "updated_at": "2026-11-27T14:51:25+09:00",
   "updated_by": "GitHub Actions（每小时自动抓取）",
   "latest_date": "2026-11-26",
   "last_item": {
-    "kind": "full",
-    "day": 7
+    "kind": "interim",
+    "day": 8,
+    "cut": "14"
   }
 }
