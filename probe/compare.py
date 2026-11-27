@@ -2,10 +2,10 @@
 import sys, os, csv, datetime as dt
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'scripts'))
 import update_sample as U
-FILMS = [('MADOKA', dt.date(2026, 8, 28), ('ワルプルギス',)), ('UMA', dt.date(2024, 5, 24), ('新時代の扉',))]
+FILMS = [('MADOKA', dt.date(2026, 8, 28), ('ワルプルギス',), 46), ('UMA', dt.date(2024, 5, 24), ('新時代の扉',), 53)]
 out = []
-for film, d0, keys in FILMS:
-    for k in range(21):
+for film, d0, keys, ndays in FILMS:
+    for k in range(ndays):
         d = d0 + dt.timedelta(days=k)
         try:
             eid = U.find_entry(d)
