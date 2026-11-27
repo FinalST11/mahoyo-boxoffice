@@ -84,6 +84,7 @@ a{color:#9fc0ff}
 #cel .msg .big{font-family:var(--serif);font-size:clamp(28px,6vw,46px);font-weight:600;color:var(--gold);letter-spacing:.02em}
 #cel .msg .sub{margin-top:4px;color:var(--fg);font-size:15px}
 .cmplink{position:relative;display:inline-block;margin-top:12px;font-size:14px;color:var(--gold);text-decoration:none}.cmplink:hover{text-decoration:underline}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.seg button{font:inherit;font-size:13px;color:var(--muted);background:transparent;border:0;padding:4px 12px;cursor:pointer}.seg button[aria-pressed="true"]{background:rgba(217,192,138,.18);color:var(--fg)}
 </style>
 </head>
 <body>
@@ -123,9 +124,10 @@ a{color:#9fc0ff}
 </section>
 
 <section>
-<h2 data-i18n="hCum">—</h2>
-<p class="note" data-i18n="nCum">—</p>
+<h2 id="hCum">—</h2>
+<p class="note" id="nCum">—</p>
 <div class="ctrl">
+<span class="seg" role="group" id="cview"><button type="button" data-v="cum"></button><button type="button" data-v="daily"></button></span>
 <label><span data-i18n="range">—</span> <select id="crange"><option value="-1"></option><option value="7"></option><option value="14"></option><option value="21"></option><option value="28"></option><option value="0" selected></option></select></label>
 </div>
 <div class="legend" id="legend"></div>
@@ -206,6 +208,7 @@ const I18N = {
     kFc: '预测最终票房（按 HF 三部走势）', kFa: '预测最终动员', sFa: '每次加入新的官方节点后自动重算',
     hMile: '破亿纪录（估算）', mileChip: (n, d, md) => `${n} 亿`, mileWhen: (d, md) => `第 ${d} 天 · ${md}`, milePending: '今天（进行中）', celBig: (n) => `突破 ${n} 亿日元！`, celSub: (d) => `上映第 ${d} 天 · 估算累计票房`,
     hCum: '估算累计票房：四部按上映天数对齐', nCum: '每日样本按各自的官方节点换算成票房，曲线经过每个官方节点（圆点）。',
+    hCumD: '估算每日票房：四部按上映天数对齐', nCumD: '每天的估算票房（同一套换算）。虚线是魔法使いの夜往后每天的预计票房。', vCum: '累计', vDaily: '每日',
     hDaily: '每日售票：mimorin2014 合算样本',
     nDaily: 'HF 第二章、第三章和魔法使いの夜是全天合算；HF 第一章（2017 年）没有全天合算，用的是 19 时中间集计，数字会偏低。各年份统计的影院数也不同（约 105～250 家），张数只适合看走势，不宜直接比大小。',
     range: '范围', nowRange: (d) => `截至今天（第 ${d} 天）`, ranges: ['前 7 天', '前 14 天', '前 21 天', '前 28 天', '全部'], log: '对数刻度',
@@ -257,6 +260,7 @@ const I18N = {
     kFc: '最終興収予測（HF三部作の推移から）', kFa: '最終動員予測', sFa: '新しい公式発表が加わるたびに自動で再計算',
     hMile: '億円突破の記録（推定）', mileChip: (n) => `${n}億`, mileWhen: (d, md) => `${d}日目 · ${md}`, milePending: '本日（集計中）', celBig: (n) => `${n}億円突破！`, celSub: (d) => `公開${d}日目 · 推定累計興収`,
     hCum: '推定累計興収：4作品を公開日数で比較', nCum: '日別サンプルを各作品の公式発表に合わせて興収に換算。曲線は各公式発表（丸印）を通ります。',
+    hCumD: '推定日別興収：4作品を公開日数で比較', nCumD: '日ごとの推定興収（同じ換算方法）。破線は魔法使いの夜の今後の日別予測です。', vCum: '累計', vDaily: '日別',
     hDaily: '日別販売数：mimorin2014 合算サンプル',
     nDaily: 'HF第二章・第三章と魔法使いの夜は全日合算。HF第一章（2017年）には全日合算がないため19時中間集計を使用しており、数値は低めに出ます。年ごとに集計対象の劇場数も異なる（約105～250館）ため、枚数は推移を見るためのもので、規模の直接比較には向きません。',
     range: '期間', nowRange: (d) => `現在まで（${d}日目）`, ranges: ['公開7日目まで', '公開14日目まで', '公開21日目まで', '公開28日目まで', '全期間'], log: '対数目盛',
@@ -308,6 +312,7 @@ const I18N = {
     kFc: 'Projected final gross (from HF trilogy runs)', kFa: 'Projected final admissions', sFa: 'Recalculated whenever a new official figure is added',
     hMile: 'Every ¥100 million (estimated)', mileChip: (n) => `¥${n * 100}M`, mileWhen: (d, md) => `Day ${d} · ${md}`, milePending: 'today (in progress)', celBig: (n) => `Past ¥${n * 100} million!`, celSub: (d) => `Day ${d} of release · estimated cumulative gross`,
     hCum: 'Estimated cumulative gross, aligned by day of release', nCum: 'Daily samples are converted to gross using each film\'s official figures; each curve passes through its official figures (circles).',
+    hCumD: 'Estimated daily gross, aligned by day of release', nCumD: 'Estimated gross for each day (same conversion). The dashed line is the projected daily gross for Witch on the Holy Night.', vCum: 'Cumulative', vDaily: 'Daily',
     hDaily: 'Daily ticket sales: mimorin2014 combined samples',
     nDaily: 'HF II, HF III and Witch on the Holy Night use full-day totals. HF I (2017) has no full-day totals, so it uses the 7 p.m. interim count and runs lower. The number of theaters covered also differs by year (about 105–250), so use these counts to compare trends rather than absolute numbers.',
     range: 'Range', nowRange: (d) => `To date (day ${d})`, ranges: ['First 7 days', 'First 14 days', 'First 21 days', 'First 28 days', 'All'], log: 'Log scale',
@@ -347,7 +352,7 @@ const FILMS = [['HF1', '--c0'], ['HF2', '--c1'], ['HF3', '--c2'], ['MAHO', '--c3
 const num = (v) => (v === null || v === undefined || v === '' ? null : Number(v));
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const $ = (id) => document.getElementById(id);
-const state = {crange: 0, range: 28, log: false, lang: 'zh'};
+const state = {crange: 0, range: 28, log: false, lang: 'zh', cview: 'cum'};
 let L = I18N.zh;
 function fmt(v, d = 0) { return v === null || v === undefined || isNaN(v) ? '—' : Number(v).toLocaleString(L.locale, {minimumFractionDigits: d, maximumFractionDigits: d}); }
 
@@ -932,6 +937,20 @@ function renderCharts() {
   const series = (key) => FILMS.map(([f, c], i) => ({film: f, name: L.films[i], color: css(c), w: f === 'MAHO' ? 3 : 2, pts: key(f)}));
   const CR = rangeOf(state.crange, maxDay);
   const projAll = projPath(EST, FC), proj = projAll.filter((p) => p.x <= CR);
+  const daily = state.cview === 'daily';
+  $('hCum').textContent = daily ? L.hCumD : L.hCum; $('nCum').textContent = daily ? L.nCumD : L.nCum;
+  const lg = $('legend').children; if (lg[4]) lg[4].style.display = daily ? 'none' : '';  // 每日视图没有官方节点圆点
+  document.querySelectorAll('#cview button').forEach((b) => { b.textContent = b.dataset.v === 'daily' ? L.vDaily : L.vCum; b.setAttribute('aria-pressed', String(state.cview === b.dataset.v)); });
+  if (daily) {
+    // 每日：实际估算 + 预计每天（虚线、色带都取相邻两天的差），虚线从实际最后一天接上
+    const ds = series((f) => EST.filter((r) => r.film === f && r.day <= CR).map((r) => ({x: r.day, y: r.est_gross !== null && r.est_gross !== undefined ? r.est_gross / 1e8 : null})));
+    const last = EST.filter((r) => r.film === 'MAHO' && r.est_gross).pop();
+    const pd = proj.slice(1).map((p, i) => ({x: p.x, mean: (p.mean - proj[i].mean) / 1e8, lo: (p.lo - proj[i].lo) / 1e8, hi: (p.hi - proj[i].hi) / 1e8}));
+    if (pd.length && last && last.day === proj[0].x) pd.unshift({x: last.day, mean: last.est_gross / 1e8, lo: last.est_gross / 1e8, hi: last.est_gross / 1e8});
+    if (pd.length > 1) ds.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: pd.map((p) => ({x: p.x, y: p.mean}))});
+    lineChart($('cum'), ds, {maxX: CR, label: L.hCumD, yfmt: L.axisGross, tipfmt: L.tipGross,
+      band: pd.length > 1 ? {color: css('--c3'), pts: pd.map((p) => ({x: p.x, lo: Math.min(p.lo, p.hi), hi: Math.max(p.lo, p.hi)}))} : null});
+  } else {
   const cumSeries = series((f) => EST.filter((r) => r.film === f && r.day <= CR).map((r) => ({x: r.day, y: r.cum_gross ? r.cum_gross / 1e8 : null})));
   if (proj.length > 1) cumSeries.push({film: 'PROJ', name: L.projName, color: css('--c3'), w: 2, dash: true, pts: proj.map((p) => ({x: p.x, y: p.mean / 1e8}))});  // 从实际线的最后一天起画，两条线首尾相接
   lineChart($('cum'), cumSeries, {
@@ -946,6 +965,7 @@ function renderCharts() {
       return t;
     },
     dots: MS.filter((m) => m.kind === 'point' && num(m.gross) !== null && num(m.day) !== null && num(m.day) <= CR).map((m) => ({x: num(m.day), y: num(m.gross) / 1e8, color: css(FILMS.find((f) => f[0] === m.film)[1])}))});
+  }
   const R = rangeOf(state.range, maxDay);
   lineChart($('daily'), series((f) => SAMPLE.filter((r) => r.film === f && num(r.day) <= R).map((r) => ({x: num(r.day), y: num(r.sales)})).sort((a, b) => a.x - b.x)), {
     maxX: R, log: state.log, label: L.labelDaily, yfmt: L.axisSales, tipfmt: L.tipSales});
@@ -986,6 +1006,7 @@ loadRun();
 
 document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
 $('crange').addEventListener('change', (e) => { state.crange = Number(e.target.value); renderCharts(); });
+document.querySelectorAll('#cview button').forEach((b) => b.addEventListener('click', () => { state.cview = b.dataset.v; renderCharts(); }));
 $('range').addEventListener('change', (e) => { state.range = Number(e.target.value); renderCharts(); });
 $('log').addEventListener('change', (e) => { state.log = e.target.checked; renderCharts(); });
 $('mprev').addEventListener('click', () => { state.mpage--; renderText(); });
