@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: '23,53 * * * *'   # 每小时 :23、:53 各一次（避开整点、整刻钟这些 GitHub 最挤、最容易被延后的时间）
     - cron: '9,17,29,41 5,10 * * *'   # 日本时间 14 点、19 点中途数据常晚几分钟发布：这两个小时再加跑 :09 :17 :29 :41（UTC 5 点、10 点 = 日本时间 14 点、19 点）
-  workflow_dispatch:
+  workflow_dispatch:   # 也可以手动运行；改动脚本或本文件并推送时也会立刻跑一次
   push:
     branches: [main]
     paths: ['scripts/update_sample.py', 'scripts/update_official.py', '.github/workflows/update.yml']
