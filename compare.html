@@ -176,7 +176,7 @@ const I18N = {
     method: '方法与出处',
     methodList: [
       '每部片先固定官方公布的「到第 N 天为止」的动员和票房，节点之间按 mimorin2014 每日全国合算样本（不含独立系）的张数分配到每一天；票房按优惠日折算（周三 ×0.9、每月 1 号 ×0.88、12 月 1 日 ×0.8）。最后一个节点之后按最后一段的比例外推。',
-      'まどマギ有第 3、4、10、17、27 天五个精确节点；第 27 天以后为外推（第 46 天前后官方「25 亿、150 万突破」，外推约低 2～3%）。',
+      'まどマギ有第 3、4、10、17、27、50 天六个精确节点，第 50 天以前全部是在官方数字之间分配，没有外推。',
       'ウマ娘只有第 3 天和第 53 天两个精确节点，中间按样本分配，可能有 ±5% 左右的误差；官方第 10 天「43 万人、6 亿突破」、第 24 天「66 万人、10 亿突破」用作核对。',
       '魔法使いの夜和主页使用同一份数据，掉出全天前 25 名的日子不计入。'],
     srcHead: '官方节点出处：',
@@ -204,7 +204,7 @@ const I18N = {
     method: '方法と出典',
     methodList: [
       '各作品とも公式発表の「N日目までの動員・興収」を固定し、その間をmimorin2014氏の日別全国合算サンプル（独立系除く）の枚数で各日に按分。興収は割引日を考慮（水曜×0.9、毎月1日×0.88、12月1日×0.8）。最後の節目以降は直前区間の比率で延長。',
-      'まどマギは3・4・10・17・27日目の5つの確定値あり。27日目以降は延長推計（46日目前後の公式「25億円・150万人突破」に対し約2～3%低め）。',
+      'まどマギは3・4・10・17・27・50日目の6つの確定値があり、50日目までは公式値の間の按分のみ（延長推計なし）。',
       'ウマ娘の確定値は3日目と53日目のみ。その間はサンプル按分のため±5%程度の誤差がありえます。公式の10日目「43万人・6億円突破」、24日目「66万人・10億円突破」で確認。',
       '魔法使いの夜はトップページと同じデータ。全日トップ25圏外の日は計上していません。'],
     srcHead: '公式発表の出典：',
@@ -232,7 +232,7 @@ const I18N = {
     method: 'Method and sources',
     methodList: [
       'For each film, the official "through day N" admissions and gross figures are fixed, and the amounts in between are spread across days in proportion to mimorin2014\'s nationwide daily ticket samples (independent cinemas excluded). Gross is adjusted for discount days (Wednesdays ×0.9, the 1st of each month ×0.88, Dec 1 ×0.8). After the last official figure, the last segment\'s ratios are carried forward.',
-      'Madoka has exact official figures for days 3, 4, 10, 17 and 27; after day 27 it is extrapolated (about 2–3% below the official "over ¥2.5 billion and 1.5 million admissions" around day 46).',
+      'Madoka has exact official figures for days 3, 4, 10, 17, 27 and 50, so everything through day 50 is spread between official figures with no extrapolation.',
       'Uma Musume has exact figures only for days 3 and 53, so days in between may be off by around ±5%; the official "over 430,000 and ¥600 million" at day 10 and "over 660,000 and ¥1 billion" at day 24 were used as checks.',
       'Witch on the Holy Night uses the same data as the main page; days outside the full-day top 25 are not counted.'],
     srcHead: 'Sources for the official figures: ',
@@ -252,13 +252,14 @@ const EXT = {
     [4, 583638, 1018375620, 'https://limo.media/articles/-/136816'],
     [10, 904721, 1537959580, 'https://hashout.jp/anime/11296/'],
     [17, 1093178, 1838113160, 'https://hashout.jp/anime/11296/'],
-    [27, 1262137, 2102605880, 'https://animeanime.jp/article/2026/09/24/103197.html']]},
+    [27, 1262137, 2102605880, 'https://animeanime.jp/article/2026/09/24/103197.html'],
+    [50, 1515141, 2536114720, 'https://www.animatetimes.com/news/details.php?id=1792220650']]},
   UMA: {open: '2024-05-24', anchors: [
     [3, 226600, 354000000, 'https://www.oricon.co.jp/news/2328677/'],
     [53, 827502, 1338351990, 'https://x.com/moviewalker_bce/status/1813386100590924183']]}
 };
 const ORDER = [['MAHO', '--c3'], ['MADOKA', '--m1'], ['UMA', '--m2']];
-const TABLE_DAYS = [3, 7, 10, 14, 17, 24, 27, 46, 53];
+const TABLE_DAYS = [3, 7, 10, 14, 17, 24, 27, 50, 53];
 const num = (v) => (v === null || v === undefined || v === '' ? null : Number(v));
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const $ = (id) => document.getElementById(id);
