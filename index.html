@@ -83,6 +83,7 @@ a{color:#9fc0ff}
 #cel .msg p{margin:0}
 #cel .msg .big{font-family:var(--serif);font-size:clamp(28px,6vw,46px);font-weight:600;color:var(--gold);letter-spacing:.02em}
 #cel .msg .sub{margin-top:4px;color:var(--fg);font-size:15px}
+.cmplink{position:relative;display:inline-block;margin-top:12px;font-size:14px;color:var(--gold);text-decoration:none}.cmplink:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -104,6 +105,7 @@ a{color:#9fc0ff}
 </div>
 </div>
 <p class="lead" id="lead">—</p>
+<a class="cmplink" href="compare.html" data-i18n="cmpLink">—</a>
 <p class="upd" id="upd">—</p>
 </header>
 
@@ -188,7 +190,7 @@ a{color:#9fc0ff}
 const I18N = {
   zh: {
     htmlLang: 'zh-CN', locale: 'zh-CN',
-    title: '《魔法使いの夜》票房追踪',
+    title: '《魔法使いの夜》票房追踪', cmpLink: '→ 和まどマギ、ウマ娘的票房走势比较',
     films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
     legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 官方节点'],
     lead: (d, g, lo, hi) => `《魔法使いの夜》上映第 <b>${d}</b> 天，估算累计票房 <b>${g}</b> 亿日元；按 HF 三部的走势推算，最终约 <b>${lo}</b>～<b>${hi}</b> 亿日元。`,
@@ -239,7 +241,7 @@ const I18N = {
   },
   ja: {
     htmlLang: 'ja', locale: 'ja-JP',
-    title: '『魔法使いの夜』興行収入トラッカー',
+    title: '『魔法使いの夜』興行収入トラッカー', cmpLink: '→ まどマギ・ウマ娘との興行推移比較',
     films: ['HF 第一章', 'HF 第二章', 'HF 第三章', '魔法使いの夜'],
     legend: ['HF 第一章（2017）', 'HF 第二章（2019）', 'HF 第三章（2020）', '魔法使いの夜（2026）', '○ 公式発表'],
     lead: (d, g, lo, hi) => `『魔法使いの夜』公開 <b>${d}</b> 日目、推定累計興収 <b>${g}</b> 億円。HF三部作の推移から推計すると、最終は約 <b>${lo}</b>～<b>${hi}</b> 億円。`,
@@ -290,7 +292,7 @@ const I18N = {
   },
   en: {
     htmlLang: 'en', locale: 'en-US',
-    title: "Witch on the Holy Night Box Office Tracker",
+    title: "Witch on the Holy Night Box Office Tracker", cmpLink: '→ Compare with Madoka and Uma Musume',
     films: ['HF I (presage flower)', 'HF II (lost butterfly)', 'HF III (spring song)', 'Witch on the Holy Night'],
     legend: ['HF I (2017)', 'HF II (2019)', 'HF III (2020)', 'Witch on the Holy Night (2026)', '○ Official figures'],
     lead: (d, g, lo, hi) => `<i>Witch on the Holy Night</i> (Mahoutsukai no Yoru) is on day <b>${d}</b> of its run, with an estimated cumulative gross of <b>${g} million</b>. Based on how the Heaven's Feel trilogy performed, it is projected to finish at around <b>${lo}</b>–<b>${hi.replace('¥', '')}</b> million.`,

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>魔法使いの夜 × まどマギ × ウマ娘：票房走势比较</title>
+<meta name="description" content="《魔法使いの夜》与《まどマギ〈ワルプルギスの廻天〉》《ウマ娘 新時代の扉》的累计与每日票房走势比较 / 興行推移の比較 / Box office trend comparison.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Shippori+Mincho:wght@500;700&family=Noto+Serif+SC:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1020;--bg2:#121a33;--panel:rgba(20,28,54,.72);--fg:#e9ecf5;--muted:#9aa3bd;--line:rgba(196,205,230,.16);--gold:#d9c08a;--grid:rgba(196,205,230,.08);--axis:rgba(196,205,230,.28);--c0:#7aa7ff;--c1:#e98a6b;--c2:#5fd0a8;--c3:#f1d58f;--aoko:#3d6bff;--alice:#c2334a;--serif:"Cormorant Garamond","Shippori Mincho","Noto Serif SC","Songti SC","Yu Mincho",Georgia,serif}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;color:var(--fg);font-family:system-ui,-apple-system,"PingFang SC","Hiragino Sans","Noto Sans CJK SC","Noto Sans CJK JP","Microsoft YaHei","Yu Gothic",sans-serif;line-height:1.6;
+  background:radial-gradient(1200px 600px at 80% -10%,#24305e 0%,rgba(36,48,94,0) 60%),radial-gradient(900px 500px at 0% 0%,#1a2347 0%,rgba(26,35,71,0) 55%),linear-gradient(#0b1020,#0d1328 40%,#0b1020);min-height:100vh}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 20px 56px;display:flex;flex-direction:column;gap:40px}
+.hero{position:relative;margin:0 -20px;padding:40px 20px 0;overflow:hidden}
+.hero-art{position:absolute;inset:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)}
+.hero-art svg{position:absolute;right:0;bottom:0;width:100%;height:100%}
+.moon{position:absolute;right:56px;top:96px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 62% 40%,#1a2450 0 47%,transparent 48%),radial-gradient(circle at 50% 50%,#fbf1d2 0 49%,transparent 50%);box-shadow:0 0 60px 18px rgba(241,213,143,.22)}
+.top{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.eyebrow{font-family:var(--serif);letter-spacing:.32em;text-transform:uppercase;font-size:12px;color:var(--gold);margin:0 0 10px}
+h1{font-family:var(--serif);font-weight:500;font-size:34px;margin:0;line-height:1.25;letter-spacing:.04em;text-shadow:0 0 24px rgba(122,167,255,.25)}
+h2{font-family:var(--serif);font-size:21px;font-weight:500;margin:0 0 6px;letter-spacing:.03em}
+.srcfilm{font-family:var(--serif);font-size:17px;font-weight:500;margin:22px 0 8px;display:flex;align-items:center;gap:8px}.srcfilm i{width:12px;height:3px;border-radius:2px;display:inline-block}
+#sources table{table-layout:fixed;min-width:600px}#sources th:nth-child(1){width:14%}#sources th:nth-child(2){width:18%}#sources th:nth-child(3){width:18%}#sources th:nth-child(4){width:20%}
+tr.live td{color:var(--gold);font-style:italic}
+.pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px;font-size:13px;color:var(--muted)}.pager button{background:transparent;color:var(--gold);border:1px solid rgba(217,192,138,.45);border-radius:6px;padding:5px 14px;font:inherit;cursor:pointer}.pager button:disabled{opacity:.35;cursor:default}.pager button:not(:disabled):hover{background:rgba(217,192,138,.12)}.pager[hidden]{display:none}
+.card.now{border-color:rgba(217,192,138,.55);box-shadow:0 0 0 1px rgba(217,192,138,.15) inset}
+.card.now .v{color:var(--gold)}
+h2::after{content:"";display:block;margin-top:8px;height:1px;width:120px;background:linear-gradient(90deg,var(--gold),rgba(217,192,138,0))}
+.langs{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none;backdrop-filter:blur(6px);background:rgba(11,16,32,.4)}
+.langs button{font:inherit;font-size:12px;letter-spacing:.06em;background:transparent;color:var(--muted);border:0;padding:6px 14px;cursor:pointer}
+.langs button+button{border-left:1px solid var(--line)}
+.langs button[aria-pressed="true"]{background:var(--gold);color:#1a1606}
+.lead{position:relative;font-size:16px;margin:16px 0 0;max-width:720px}
+.lead b{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--gold);font-variant-numeric:lining-nums tabular-nums}
+.upd{position:relative;font-size:12px;color:var(--muted);margin:8px 0 0;padding-bottom:150px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,176px),1fr));gap:14px;margin-top:-110px;position:relative}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;min-width:0;backdrop-filter:blur(8px)}
+.card::before{content:"";position:absolute;left:20px;right:20px;top:0;height:1px;background:linear-gradient(90deg,rgba(217,192,138,0),rgba(217,192,138,.7),rgba(217,192,138,0))}
+.k{font-size:12px;color:var(--muted);margin:0 0 6px;letter-spacing:.02em}
+.v{font-family:var(--serif);font-size:clamp(24px,2.6vw,30px);font-weight:600;margin:0;line-height:1.15;font-variant-numeric:lining-nums tabular-nums;color:#fff}
+.u{font-size:14px;color:var(--muted);font-family:system-ui,sans-serif;font-weight:400;white-space:nowrap}
+.s{font-size:12px;color:var(--muted);margin:6px 0 0}
+section{position:relative}
+.note{font-size:13px;color:var(--muted);margin:0 0 12px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin:0 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:16px;height:3px;border-radius:2px}
+.ctrl{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:0 0 8px;font-size:13px;color:var(--muted)}
+select{font:inherit;color:var(--fg);background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+input[type=checkbox]{accent-color:var(--gold)}
+.chart{position:relative;min-height:320px;width:100%;background:rgba(14,20,40,.55);border:1px solid var(--line);border-radius:12px;padding:8px 4px 0}
+.chart svg text{fill:var(--muted);font-size:12px}
+.tip{position:absolute;pointer-events:none;background:rgba(16,22,44,.96);border:1px solid rgba(217,192,138,.45);box-shadow:0 8px 28px rgba(0,0,0,.45);border-radius:10px;padding:8px 12px;font-size:12px;white-space:nowrap;z-index:2;color:var(--fg)}
+.tw{overflow-x:auto;background:rgba(14,20,40,.55);border:1px solid var(--line);border-radius:12px;padding:4px 8px}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--gold);font-weight:500;font-size:12px;letter-spacing:.04em}
+details{background:rgba(14,20,40,.4);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+details summary{cursor:pointer;font-family:var(--serif);font-size:17px}
+details li{font-size:13px;color:var(--muted);margin:6px 0}
+footer{font-size:12px;color:var(--muted);text-align:center;letter-spacing:.04em}
+.visits{margin-top:6px;color:var(--gold);opacity:.85}.visits b{font-weight:600}
+footer::before{content:"✦";display:block;color:var(--gold);margin-bottom:8px;font-size:12px}
+a{color:#9fc0ff}
+.err{color:#ff8a8a;font-size:13px}
+@media (max-width:900px){.moon,.hero-art .manor{display:none}}
+@media (max-width:600px){h1{font-size:26px}.v{font-size:28px}.upd{padding-bottom:36px}.tiles{margin-top:0}}
+.miles{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.miles li{border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:var(--panel);font-size:14px;color:var(--muted);backdrop-filter:blur(6px)}
+.miles li b{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--gold);margin-right:6px;font-variant-numeric:lining-nums tabular-nums}
+.miles li.latest{border-color:rgba(241,213,143,.6);box-shadow:0 0 14px rgba(241,213,143,.25)}
+.miles li.pending{border-style:dashed}
+#cel{position:fixed;inset:0;z-index:60;pointer-events:none}
+#cel canvas{position:absolute;inset:0;width:100%;height:100%}
+#cel .msg{position:absolute;left:50%;top:38%;width:max-content;max-width:min(88vw,560px);box-sizing:border-box;transform:translate(-50%,-50%) scale(.9);text-align:center;opacity:0;transition:opacity .6s,transform .6s;padding:18px 34px;border-radius:16px;background:rgba(11,16,32,.72);border:1px solid rgba(241,213,143,.5);box-shadow:0 0 40px rgba(241,213,143,.25);backdrop-filter:blur(6px);pointer-events:auto;cursor:pointer}
+#cel .msg.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#cel .msg p{margin:0}
+#cel .msg .big{font-family:var(--serif);font-size:clamp(28px,6vw,46px);font-weight:600;color:var(--gold);letter-spacing:.02em}
+#cel .msg .sub{margin-top:4px;color:var(--fg);font-size:15px}
+</style>
+<style>
+:root{--m1:#f08cc0;--m2:#6fd3a3}
+.back{position:relative;display:inline-block;margin-top:14px;font-size:14px;color:var(--gold);text-decoration:none}
+.back:hover{text-decoration:underline}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:inherit;font-size:13px;color:var(--muted);background:transparent;border:0;padding:4px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:rgba(217,192,138,.18);color:var(--fg)}
+.legend i.sw{display:inline-block;width:14px;height:3px;border-radius:2px}
+#ktable td:first-child,#ktable th:first-child{text-align:left}
+#ktable .r{display:block;font-size:11px;color:var(--muted)}
+.tblwrap{overflow-x:auto}
+#srcs li{margin:4px 0;font-size:13px;color:var(--muted)}
+#srcs a{color:var(--gold)}
+</style>
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+<main>
+<header class="hero"><div class="hero-art" aria-hidden="true"><div class="moon"></div><svg viewBox="0 0 1040 360" preserveAspectRatio="xMaxYMax slice">
+<defs><radialGradient id="mg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6dc" stop-opacity=".9"/><stop offset=".55" stop-color="#f1d58f" stop-opacity=".25"/><stop offset="1" stop-color="#f1d58f" stop-opacity="0"/></radialGradient>
+<linearGradient id="hill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#18213f"/><stop offset="1" stop-color="#0b1020"/></linearGradient></defs>
+<g fill="#fff" opacity=".7"><circle cx="120" cy="40" r="1.2"/><circle cx="260" cy="90" r="1"/><circle cx="410" cy="30" r="1.4"/><circle cx="560" cy="70" r=".9"/><circle cx="700" cy="24" r="1.2"/><circle cx="780" cy="130" r="1"/><circle cx="990" cy="160" r="1.1"/><circle cx="640" cy="140" r=".8"/><circle cx="330" cy="150" r=".9"/><circle cx="470" cy="110" r="1.1"/></g>
+<path d="M0 300 C180 250 320 270 470 240 C600 214 690 180 800 196 C900 210 960 240 1040 228 L1040 360 L0 360 Z" fill="url(#hill)"/>
+<g class="manor" fill="#0a0f1f"><path d="M806 196 v-34 l14-14 l14 14 v-10 h8 v18 l10 0 v-22 l18-18 l18 18 v48 z"/><rect x="826" y="170" width="4" height="6" fill="#f1d58f" opacity=".9"/><rect x="862" y="160" width="4" height="6" fill="#f1d58f" opacity=".8"/><rect x="872" y="176" width="4" height="6" fill="#f1d58f" opacity=".6"/></g>
+<path d="M0 330 C200 300 360 320 560 300 C760 280 900 300 1040 290 L1040 360 L0 360 Z" fill="#0b1020"/>
+</svg></div>
+<div class="top">
+<div><p class="eyebrow">Box Office Comparison</p>
+<h1 data-i18n="title">—</h1></div>
+<div class="langs" role="group" aria-label="Language">
+<button type="button" data-lang="zh">中文</button><button type="button" data-lang="ja">日本語</button><button type="button" data-lang="en">English</button>
+</div>
+</div>
+<p class="lead" id="lead">—</p>
+<a class="back" href="./" id="back">—</a>
+<p class="upd" id="upd">—</p>
+</header>
+
+<section>
+<div class="ctrl">
+<span class="seg" role="group" id="metric"><button type="button" data-v="gross"></button><button type="button" data-v="att"></button></span>
+<span class="seg" role="group" id="mode"><button type="button" data-v="abs"></button><button type="button" data-v="rel"></button></span>
+<label><span data-i18n="range">—</span> <select id="range"><option value="14"></option><option value="28"></option><option value="0" selected></option></select></label>
+</div>
+<div class="legend" id="legend"></div>
+</section>
+
+<section>
+<h2 data-i18n="hCum">—</h2>
+<p class="note" id="nCum">—</p>
+<div class="chart" id="cum"></div>
+</section>
+
+<section>
+<h2 data-i18n="hDaily">—</h2>
+<p class="note" id="nDaily">—</p>
+<div class="chart" id="daily"></div>
+</section>
+
+<section>
+<h2 data-i18n="hTable">—</h2>
+<p class="note" data-i18n="nTable">—</p>
+<div class="tblwrap"><table id="ktable"></table></div>
+</section>
+
+<details>
+<summary data-i18n="method">—</summary>
+<ul id="method-list"></ul>
+<ul id="srcs"></ul>
+</details>
+<footer><div data-i18n="footer">—</div></footer>
+</main>
+<script src="d3.min.js"></script>
+<script>
+const I18N = {
+  zh: {
+    htmlLang: 'zh-CN', locale: 'zh-CN',
+    title: '票房走势比较：魔法使いの夜 × まどマギ × ウマ娘',
+    names: {MAHO: '魔法使いの夜', MADOKA: 'まどマギ〈ワルプルギスの廻天〉', UMA: 'ウマ娘 新時代の扉'},
+    lead: '三部都是<b>周五上映</b>，按上映第几天对齐，可以直接比较。每天的数字是用官方公布的节点，按 mimorin 每日样本张数分配估算的，和主页的算法相同。',
+    back: '← 返回《魔法使いの夜》票房追踪',
+    upd: (d) => `魔法使いの夜的全天数据至第 ${d} 天，每晚自动更新；另外两部的数据是固定的。`,
+    mGross: '票房', mAtt: '动员', vAbs: '实际数字', vRel: '相对首 3 天',
+    range: '显示范围', ranges: {14: '前 2 周', 28: '前 4 周', 0: '全部'},
+    hCum: '累计', hDaily: '每日',
+    nCum: (rel) => rel ? '以首 3 天累计 = 1.0。看「之后又涨了几倍」，排除规模差异。空心圆点是官方公布的数字。' : '空心圆点是官方公布的数字（实心线是估算）。',
+    nDaily: (rel) => rel ? '以首 3 天的日均 = 1.0。周末、优惠日的起伏和衰减速度可以直接比较。' : '每天的估算数字。魔法使いの夜的第 4 天是勤劳感谢日（另外两部是普通周一）。',
+    hTable: '关键天数对照', nTable: '累计票房（亿日元）；小字为首 3 天累计的倍数。「—」为尚无数据。',
+    colDay: '截至', dayN: (d) => `第 ${d} 天`,
+    method: '方法与出处',
+    methodList: [
+      '每部片先固定官方公布的「到第 N 天为止」的动员和票房，节点之间按 mimorin2014 每日全国合算样本（不含独立系）的张数分配到每一天；票房按优惠日折算（周三 ×0.9、每月 1 号 ×0.88、12 月 1 日 ×0.8）。最后一个节点之后按最后一段的比例外推。',
+      'まどマギ有第 3、4、10、17、27 天五个精确节点；第 27 天以后为外推（第 46 天前后官方「25 亿、150 万突破」，外推约低 2～3%）。',
+      'ウマ娘只有第 3 天和第 53 天两个精确节点，中间按样本分配，可能有 ±5% 左右的误差；官方第 10 天「43 万人、6 亿突破」、第 24 天「66 万人、10 亿突破」用作核对。',
+      '魔法使いの夜和主页使用同一份数据，掉出全天前 25 名的日子不计入。'],
+    srcHead: '官方节点出处：',
+    footer: '非官方的个人统计页面，数字为估算，仅供参考。',
+    day: (d) => `第${d}天`, dayLong: (d) => `第 ${d} 天`,
+    yGross: (v) => fmt(v, v < 10 && v % 1 ? 1 : 0) + ' 亿', tipGross: (v) => fmt(v, 2) + ' 亿日元',
+    yAtt: (v) => fmt(v) + ' 万', tipAtt: (v) => fmt(v, 1) + ' 万人',
+    yRel: (v) => fmt(v, v < 1 ? 2 : 1) + '×', tipRel: (v) => fmt(v, 2) + ' 倍',
+    oku: (v) => fmt(v, 2), times: (r) => fmt(r, 2) + ' 倍', loadErr: '数据读取失败。'
+  },
+  ja: {
+    htmlLang: 'ja', locale: 'ja-JP',
+    title: '興行推移の比較：魔法使いの夜 × まどマギ × ウマ娘',
+    names: {MAHO: '魔法使いの夜', MADOKA: 'まどマギ〈ワルプルギスの廻天〉', UMA: 'ウマ娘 新時代の扉'},
+    lead: '3作品とも<b>金曜公開</b>のため、公開日数でそのまま比較できます。日別の数字は公式発表の節目をmimorin氏の日別サンプル枚数で按分した推計で、トップページと同じ方法です。',
+    back: '← 『魔法使いの夜』興行トラッカーに戻る',
+    upd: (d) => `魔法使いの夜の全日データは${d}日目まで（毎晩自動更新）。他の2作品は固定データです。`,
+    mGross: '興収', mAtt: '動員', vAbs: '実数', vRel: '初動3日比',
+    range: '表示範囲', ranges: {14: '最初の2週', 28: '最初の4週', 0: 'すべて'},
+    hCum: '累計', hDaily: '日別',
+    nCum: (rel) => rel ? '初動3日間の累計を1.0とした倍率。規模の差を除いて「その後どれだけ伸びたか」を比べます。白抜きの点は公式発表値です。' : '白抜きの点は公式発表値（線は推計）。',
+    nDaily: (rel) => rel ? '初動3日間の1日平均を1.0とした値。週末・割引日の山や落ち方をそのまま比べられます。' : '日別の推計値。魔法使いの夜の4日目は勤労感謝の日（他の2作品は平日の月曜）。',
+    hTable: '主な日数での比較', nTable: '累計興収（億円）。小さな数字は初動3日間の累計に対する倍率。「—」はデータなし。',
+    colDay: '時点', dayN: (d) => `${d}日目`,
+    method: '方法と出典',
+    methodList: [
+      '各作品とも公式発表の「N日目までの動員・興収」を固定し、その間をmimorin2014氏の日別全国合算サンプル（独立系除く）の枚数で各日に按分。興収は割引日を考慮（水曜×0.9、毎月1日×0.88、12月1日×0.8）。最後の節目以降は直前区間の比率で延長。',
+      'まどマギは3・4・10・17・27日目の5つの確定値あり。27日目以降は延長推計（46日目前後の公式「25億円・150万人突破」に対し約2～3%低め）。',
+      'ウマ娘の確定値は3日目と53日目のみ。その間はサンプル按分のため±5%程度の誤差がありえます。公式の10日目「43万人・6億円突破」、24日目「66万人・10億円突破」で確認。',
+      '魔法使いの夜はトップページと同じデータ。全日トップ25圏外の日は計上していません。'],
+    srcHead: '公式発表の出典：',
+    footer: '非公式の個人集計ページです。数字は推計値で、参考程度にご覧ください。',
+    day: (d) => `${d}日目`, dayLong: (d) => `${d}日目`,
+    yGross: (v) => fmt(v, v < 10 && v % 1 ? 1 : 0) + '億', tipGross: (v) => fmt(v, 2) + '億円',
+    yAtt: (v) => fmt(v) + '万', tipAtt: (v) => fmt(v, 1) + '万人',
+    yRel: (v) => fmt(v, v < 1 ? 2 : 1) + '×', tipRel: (v) => fmt(v, 2) + '倍',
+    oku: (v) => fmt(v, 2), times: (r) => fmt(r, 2) + '倍', loadErr: 'データを読み込めませんでした。'
+  },
+  en: {
+    htmlLang: 'en', locale: 'en-US',
+    title: 'Box office trends: Witch on the Holy Night vs. Madoka vs. Uma Musume',
+    names: {MAHO: 'Witch on the Holy Night', MADOKA: 'Madoka Magica: Walpurgisnacht', UMA: 'Uma Musume: Beginning of a New Era'},
+    lead: 'All three films <b>opened on a Friday</b>, so they line up directly by day of release. Daily figures are estimates: the official totals are spread across days in proportion to mimorin\'s daily ticket samples, the same method as the main page.',
+    back: '← Back to the Witch on the Holy Night tracker',
+    upd: (d) => `Witch on the Holy Night full-day data through day ${d}, updated nightly; the other two films are fixed.`,
+    mGross: 'Gross', mAtt: 'Admissions', vAbs: 'Actual', vRel: 'vs. first 3 days',
+    range: 'Range', ranges: {14: 'First 2 weeks', 28: 'First 4 weeks', 0: 'All'},
+    hCum: 'Cumulative', hDaily: 'Daily',
+    nCum: (rel) => rel ? 'First-three-day total = 1.0, to compare how much each film grew afterwards regardless of size. Hollow dots are official figures.' : 'Hollow dots are official figures (lines are estimates).',
+    nDaily: (rel) => rel ? 'First-three-day daily average = 1.0, to compare weekend peaks, discount days and the rate of decline.' : 'Estimated daily figures. Day 4 of Witch on the Holy Night was a public holiday (for the other two it was an ordinary Monday).',
+    hTable: 'Key days side by side', nTable: 'Cumulative gross in ¥ million; the small figure is the multiple of the first-three-day total. "—" means no data yet.',
+    colDay: 'Through', dayN: (d) => `Day ${d}`,
+    method: 'Method and sources',
+    methodList: [
+      'For each film, the official "through day N" admissions and gross figures are fixed, and the amounts in between are spread across days in proportion to mimorin2014\'s nationwide daily ticket samples (independent cinemas excluded). Gross is adjusted for discount days (Wednesdays ×0.9, the 1st of each month ×0.88, Dec 1 ×0.8). After the last official figure, the last segment\'s ratios are carried forward.',
+      'Madoka has exact official figures for days 3, 4, 10, 17 and 27; after day 27 it is extrapolated (about 2–3% below the official "over ¥2.5 billion and 1.5 million admissions" around day 46).',
+      'Uma Musume has exact figures only for days 3 and 53, so days in between may be off by around ±5%; the official "over 430,000 and ¥600 million" at day 10 and "over 660,000 and ¥1 billion" at day 24 were used as checks.',
+      'Witch on the Holy Night uses the same data as the main page; days outside the full-day top 25 are not counted.'],
+    srcHead: 'Sources for the official figures: ',
+    footer: 'Unofficial personal tracker. Figures are estimates, for reference only.',
+    day: (d) => `Day ${d}`, dayLong: (d) => `Day ${d}`,
+    yGross: (v) => '¥' + fmt(v * 100) + 'M', tipGross: (v) => '¥' + fmt(v * 100, 1) + ' million',
+    yAtt: (v) => fmt(v * 10) + 'k', tipAtt: (v) => fmt(v * 10, 1) + 'k',
+    yRel: (v) => fmt(v, v < 1 ? 2 : 1) + '×', tipRel: (v) => fmt(v, 2) + '×',
+    oku: (v) => fmt(v * 100, 0), times: (r) => fmt(r, 2) + '×', loadErr: 'The data could not be loaded.'
+  }
+};
+
+// 官方节点：[第几天, 动员, 票房, 出处]（「突破」约数只用来核对，不参与分配）
+const EXT = {
+  MADOKA: {open: '2026-08-28', anchors: [
+    [3, 534722, 939647100, 'https://dengekionline.com/article/202608/86144'],
+    [4, 583638, 1018375620, 'https://limo.media/articles/-/136816'],
+    [10, 904721, 1537959580, 'https://hashout.jp/anime/11296/'],
+    [17, 1093178, 1838113160, 'https://hashout.jp/anime/11296/'],
+    [27, 1262137, 2102605880, 'https://animeanime.jp/article/2026/09/24/103197.html']]},
+  UMA: {open: '2024-05-24', anchors: [
+    [3, 226600, 354000000, 'https://www.oricon.co.jp/news/2328677/'],
+    [53, 827502, 1338351990, 'https://x.com/moviewalker_bce/status/1813386100590924183']]}
+};
+const ORDER = [['MAHO', '--c3'], ['MADOKA', '--m1'], ['UMA', '--m2']];
+const TABLE_DAYS = [3, 7, 10, 14, 17, 24, 27, 46, 53];
+const num = (v) => (v === null || v === undefined || v === '' ? null : Number(v));
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = (id) => document.getElementById(id);
+const state = {metric: 'gross', mode: 'abs', range: 0, lang: 'zh'};
+let L = I18N.zh, DATA = null;
+function fmt(v, d = 0) { return v === null || v === undefined || isNaN(v) ? '—' : Number(v).toLocaleString(L.locale, {minimumFractionDigits: d, maximumFractionDigits: d}); }
+const priceFactor = (iso) => { if (!iso) return 1; if (iso.slice(5) === '12-01') return 0.8; if (iso.slice(8) === '01') return 0.88; return new Date(iso + 'T00:00:00Z').getUTCDay() === 3 ? 0.9 : 1; };
+
+// 按官方节点 + 每日样本张数分配（和主页 estimate() 相同；三部都按优惠日折算票房）
+function allocate(rows, anchors) {
+  const out = rows.map((r) => ({day: r.day, date: r.date, sales: r.sales, a: null, g: null}));
+  for (const [key, idx] of [['a', 1], ['g', 2]]) {
+    const pts = anchors.filter((x) => x[idx] !== null).sort((p, q) => p[0] - q[0]);
+    const w = (r) => r.sales * (key === 'g' ? priceFactor(r.date) : 1);
+    let prevDay = 0, prevVal = 0, ratio = null;
+    for (const p of pts) {
+      const seg = out.filter((r) => r.day > prevDay && r.day <= p[0] && r.sales);
+      const tot = seg.reduce((s, r) => s + w(r), 0);
+      if (tot > 0) { ratio = (p[idx] - prevVal) / tot; seg.forEach((r) => (r[key] = w(r) * ratio)); }
+      prevDay = p[0]; prevVal = p[idx];
+    }
+    out.filter((r) => r.day > prevDay && r.sales).forEach((r) => (r[key] = ratio === null ? null : w(r) * ratio));
+  }
+  let ca = 0, cg = 0;
+  out.forEach((r) => { if (r.a !== null) ca += r.a; if (r.g !== null) cg += r.g; r.ca = ca; r.cg = cg; });
+  return out.filter((r) => r.sales);
+}
+
+function lineChart(el, series, opts) {
+  el.replaceChildren();
+  const W = Math.max(280, el.clientWidth), H = 320, m = {t: 10, r: 24, b: 28, l: 60};
+  const svg = d3.select(el).append('svg').attr('width', W).attr('height', H).attr('role', 'img').attr('aria-label', opts.label);
+  const x = d3.scaleLinear().domain([1, opts.maxX]).range([m.l, W - m.r]);
+  const vals = series.flatMap((s) => s.pts.map((p) => p.y)).concat((opts.dots || []).map((p) => p.y)).filter((v) => v !== null && v > 0);
+  const y = d3.scaleLinear().domain([0, (d3.max(vals) || 1) * 1.04]).nice().range([H - m.b, m.t]);
+  svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickValues(x.ticks(Math.min(10, Math.floor(W / 64), opts.maxX - 1)).filter(Number.isInteger)).tickFormat((d) => L.day(d))).call((g) => g.selectAll('.domain,line').style('stroke', css('--axis')));
+  svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(opts.yfmt)).call((g) => g.select('.domain').remove()).call((g) => g.selectAll('line').style('stroke', css('--grid')));
+  if (opts.refY) svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(opts.refY)).attr('y2', y(opts.refY)).attr('stroke', css('--axis')).attr('stroke-dasharray', '3 4');
+  const line = d3.line().defined((p) => p.y !== null).x((p) => x(p.x)).y((p) => y(p.y));
+  series.forEach((s) => svg.append('path').attr('d', line(s.pts)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', s.w).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round'));
+  (opts.dots || []).forEach((p) => svg.append('circle').attr('cx', x(p.x)).attr('cy', y(p.y)).attr('r', 4).attr('fill', css('--bg')).attr('stroke', p.color).attr('stroke-width', 2));
+  const tip = d3.select(el).append('div').attr('class', 'tip').style('display', 'none');
+  const guide = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).attr('stroke', css('--axis')).style('display', 'none');
+  const hov = svg.append('g').style('pointer-events', 'none');
+  svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+    .on('pointermove pointerdown', (ev) => {
+      const [px] = d3.pointer(ev); const dx = Math.max(1, Math.min(opts.maxX, Math.round(x.invert(px))));
+      guide.attr('x1', x(dx)).attr('x2', x(dx)).style('display', null);
+      tip.selectAll('*').remove(); hov.selectAll('*').remove();
+      tip.append('div').style('font-weight', '600').text(L.dayLong(dx));
+      series.forEach((s) => {
+        const p = s.pts.find((q) => q.x === dx);
+        if (!p || p.y === null) return;
+        const row = tip.append('div').style('display', 'flex').style('align-items', 'center').style('gap', '6px');
+        row.append('span').style('width', '10px').style('height', '10px').style('border-radius', '2px').style('background', s.color).style('flex', 'none');
+        row.append('span').text(s.name + (L === I18N.en ? ': ' : '：') + opts.tipfmt(p.y) + (p.wd ? ' (' + p.wd + ')' : ''));
+        hov.append('circle').attr('cx', x(dx)).attr('cy', y(p.y)).attr('r', 4).attr('fill', s.color).attr('stroke', css('--bg')).attr('stroke-width', 2);
+      });
+      const tw = tip.node().offsetWidth || 190;
+      const left = x(dx) + 12 + tw > W ? x(dx) - 12 - tw : x(dx) + 12;
+      tip.style('display', null).style('left', left + 'px').style('top', m.t + 'px');
+    })
+    .on('pointerleave', (ev) => { if (ev.pointerType === 'touch') return; tip.style('display', 'none'); guide.style('display', 'none'); hov.selectAll('*').remove(); });
+}
+
+const WD = {zh: '日一二三四五六', ja: '日月火水木金土', en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']};
+const wdOf = (iso) => { const i = new Date(iso + 'T00:00:00Z').getUTCDay(); return state.lang === 'en' ? WD.en[i] : (state.lang === 'zh' ? '周' : '') + WD[state.lang][i]; };
+
+function render() {
+  document.documentElement.lang = L.htmlLang;
+  document.querySelectorAll('[data-i18n]').forEach((el) => { const v = L[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
+  document.title = L.title;
+  $('lead').innerHTML = L.lead; $('back').textContent = L.back;
+  document.querySelectorAll('.langs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
+  [['metric', {gross: L.mGross, att: L.mAtt}, 'metric'], ['mode', {abs: L.vAbs, rel: L.vRel}, 'mode']].forEach(([id, txt, k]) => document.querySelectorAll(`#${id} button`).forEach((b) => { b.textContent = txt[b.dataset.v]; b.setAttribute('aria-pressed', String(state[k] === b.dataset.v)); }));
+  [...$('range').options].forEach((o) => (o.textContent = L.ranges[o.value]));
+  const rel = state.mode === 'rel';
+  $('nCum').textContent = L.nCum(rel); $('nDaily').textContent = L.nDaily(rel);
+  $('method-list').replaceChildren(...L.methodList.map((t) => { const li = document.createElement('li'); li.textContent = t; return li; }));
+  const srcs = $('srcs'); srcs.replaceChildren();
+  [['MADOKA'], ['UMA']].forEach(([f]) => { const li = document.createElement('li'); li.append(L.srcHead + L.names[f] + ' — '); EXT[f].anchors.forEach((a, i) => { if (i) li.append(' · '); const ln = document.createElement('a'); ln.href = a[3]; ln.target = '_blank'; ln.rel = 'noopener'; ln.textContent = L.dayN(a[0]); li.append(ln); }); srcs.append(li); });
+  $('legend').replaceChildren(...ORDER.map(([f, c]) => { const s = document.createElement('span'); const i = document.createElement('i'); i.className = 'sw'; i.style.background = css(c); s.append(i, L.names[f]); return s; }));
+  if (!DATA) return;
+  const maho = DATA.MAHO; $('upd').textContent = maho.length ? L.upd(maho[maho.length - 1].day) : '';
+  renderCharts(); renderTable();
+}
+
+function renderCharts() {
+  const g = state.metric === 'gross', rel = state.mode === 'rel';
+  const maxAll = Math.max(...ORDER.map(([f]) => (DATA[f].length ? DATA[f][DATA[f].length - 1].day : 0)));
+  const maxX = state.range ? state.range : maxAll;
+  const unit = g ? 1e8 : 1e4;
+  const base = (rows, key) => { const r3 = rows.find((r) => r.day === 3); return r3 ? r3[key] : null; };
+  const cum = [], daily = [], dots = [];
+  ORDER.forEach(([f, c]) => {
+    const rows = DATA[f].filter((r) => r.day <= maxX), color = css(c), w = f === 'MAHO' ? 3 : 2;
+    const b = base(DATA[f], g ? 'cg' : 'ca');
+    const k = rel ? (b ? 1 / b : null) : 1 / unit, kd = rel ? (b ? 3 / b : null) : 1 / unit;
+    if (k === null) return;
+    cum.push({name: L.names[f], color, w, pts: rows.map((r) => ({x: r.day, y: (g ? r.cg : r.ca) * k, wd: wdOf(r.date)}))});
+    daily.push({name: L.names[f], color, w, pts: rows.map((r) => ({x: r.day, y: (g ? r.g : r.a) === null ? null : (g ? r.g : r.a) * kd, wd: wdOf(r.date)}))});
+    (DATA.anchors[f] || []).filter((a) => a[0] <= maxX && (g ? a[2] : a[1]) !== null).forEach((a) => dots.push({x: a[0], y: (g ? a[2] : a[1]) * k, color}));
+  });
+  const yfmt = rel ? L.yRel : g ? L.yGross : L.yAtt, tipfmt = rel ? L.tipRel : g ? L.tipGross : L.tipAtt;
+  lineChart($('cum'), cum, {maxX, yfmt, tipfmt, dots, label: L.hCum, refY: rel ? 1 : null});
+  lineChart($('daily'), daily, {maxX, yfmt, tipfmt, label: L.hDaily, refY: rel ? 1 : null});
+}
+
+function renderTable() {
+  const t = $('ktable'); t.replaceChildren();
+  const thead = t.createTHead().insertRow(); const th0 = document.createElement('th'); th0.textContent = L.colDay; thead.append(th0);
+  ORDER.forEach(([f]) => { const th = document.createElement('th'); th.textContent = L.names[f]; thead.append(th); });
+  const tb = t.createTBody();
+  TABLE_DAYS.forEach((d) => {
+    const tr = tb.insertRow(); const c0 = tr.insertCell(); c0.textContent = L.dayN(d);
+    ORDER.forEach(([f]) => {
+      const rows = DATA[f], r = rows.find((x) => x.day === d), r3 = rows.find((x) => x.day === 3), td = tr.insertCell();
+      if (!r || !r3) { td.textContent = '—'; return; }
+      td.append(L.oku(r.cg / 1e8)); const s = document.createElement('span'); s.className = 'r'; s.textContent = L.times(r.cg / r3.cg); td.append(s);
+    });
+  });
+}
+
+function setLang(lang) { state.lang = I18N[lang] ? lang : 'zh'; L = I18N[state.lang]; try { localStorage.setItem('hf-lang', state.lang); } catch (e) {} render(); }
+
+Promise.all([d3.csv('data/compare_films.csv?v=' + Date.now()), d3.csv('data/sample.csv?v=' + Date.now()), d3.csv('data/milestones.csv?v=' + Date.now())]).then(([cmp, sample, ms]) => {
+  const rowsOf = (src, f) => src.filter((r) => r.film === f).map((r) => ({day: num(r.day), date: r.date, sales: num(r.sales)})).sort((a, b) => a.day - b.day);
+  const mahoAnch = ms.filter((m) => m.film === 'MAHO' && m.kind === 'point' && num(m.day) !== null).map((m) => [num(m.day), num(m.attendance), num(m.gross)]);
+  DATA = {MAHO: allocate(rowsOf(sample, 'MAHO'), mahoAnch), MADOKA: allocate(rowsOf(cmp, 'MADOKA'), EXT.MADOKA.anchors), UMA: allocate(rowsOf(cmp, 'UMA'), EXT.UMA.anchors),
+    anchors: {MAHO: mahoAnch, MADOKA: EXT.MADOKA.anchors, UMA: EXT.UMA.anchors}};
+  render();
+}).catch((e) => { document.querySelectorAll('.chart').forEach((el) => { const p = document.createElement('p'); p.className = 'err'; p.textContent = L.loadErr; el.replaceChildren(p); }); console.error(e); });
+
+document.querySelectorAll('.langs button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+document.querySelectorAll('#metric button').forEach((b) => b.addEventListener('click', () => { state.metric = b.dataset.v; render(); }));
+document.querySelectorAll('#mode button').forEach((b) => b.addEventListener('click', () => { state.mode = b.dataset.v; render(); }));
+$('range').addEventListener('change', (e) => { state.range = Number(e.target.value); render(); });
+let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => DATA && renderCharts(), 150); });
+let initial = 'zh';
+try { initial = localStorage.getItem('hf-lang') || ''; } catch (e) { initial = ''; }
+if (!I18N[initial]) { const nav = (navigator.language || 'zh').toLowerCase(); initial = nav.startsWith('ja') ? 'ja' : nav.startsWith('zh') ? 'zh' : 'en'; }
+const q = new URLSearchParams(location.search).get('lang'); if (I18N[q]) initial = q;
+setLang(initial);
+</script>
+<script>
+(() => {
+  const c = document.getElementById('snow'); if (!c || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const x = c.getContext('2d'); let W, H, flakes = [];
+  const size = () => { W = c.width = innerWidth * devicePixelRatio; H = c.height = innerHeight * devicePixelRatio; c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px'; };
+  size(); addEventListener('resize', size);
+  const n = Math.min(70, Math.round(innerWidth / 18));
+  for (let i = 0; i < n; i++) flakes.push({x: Math.random() * W, y: Math.random() * H, r: (Math.random() * 1.6 + .6) * devicePixelRatio, s: Math.random() * .5 + .25, d: Math.random() * Math.PI * 2});
+  const tick = () => {
+    x.clearRect(0, 0, W, H); x.fillStyle = 'rgba(235,240,255,.55)';
+    for (const f of flakes) { f.y += f.s * devicePixelRatio; f.d += .01; f.x += Math.sin(f.d) * .3 * devicePixelRatio; if (f.y > H) { f.y = -5; f.x = Math.random() * W; } x.beginPath(); x.arc(f.x, f.y, f.r, 0, 7); x.fill(); }
+    requestAnimationFrame(tick);
+  };
+  tick();
+})();
+</script>
+<script data-goatcounter="https://mahoyo-boxoffice.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
